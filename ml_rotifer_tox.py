@@ -2,7 +2,7 @@
 """
 Created on Fri March 14 17:41:37 2024
 
-@author: Gerardo Casanola
+@author: Gerardo Casanola & Karel Dieguez-Santana
 """
 
 
@@ -44,7 +44,7 @@ import tqdm
 #---------------------------------#
 # Page layout
 ## Page expands to full width
-st.set_page_config(page_title='ml H2O permeability coefficient predictor', page_icon=":computer:", layout='wide')
+st.set_page_config(page_title='ML predictor for Aquatic Ecotoxicology prediction of Rotifer species', page_icon=":computer:", layout='wide')
 
 ######
 # Function to put a picture as header   
@@ -68,14 +68,15 @@ st.title(':computer: ml H2O permeability coefficient predictor')
 
 st.write("""
 
-**It is a free web-application for H2O permeability Coefficient Prediction**
+**It is a free web-application for Aquatic Ecotoxicology prediction in Rotifer species**
 
-In the food packaging industry, the permeability of packaging materials to water vapor plays a pivotal role in determining the shelf-life and quality of packaged products. 
-The water vapor permeability of packaging materials directly influences the transfer of moisture between the packaged food and the surrounding environment, 
-impacting factors such as freshness, crispness, and dehydration prevention. It is essential for food packaging films to have low water vapor permeability to minimize moisture transfer, 
-thereby preserving the quality, extending the shelf-life of the food products, and helping in the development of sustainable packaging materials.
+Among the organisms used to assess water quality and environmental toxicity are rotifers. These invertebrate species are abundant and widely distributed
+in aquatic ecosystems and can therefore play an essential role in the ecological processes of aquatic ecosystems. Due to their rapid population turnover rate, 
+rotifers contribute significantly to nutrient recycling in aquatic habitats. Therefore, if rotifer populations are negatively affected by a toxin, 
+the function of aquatic ecosystems could be altered. Rotifers have been used as model organisms to evaluate the toxicity 
+of many environmental chemicals, including heavy metals, organic compounds, and nano-sized materials .
 
-The ML H2O perm predictor is a Web App that use a MLR regression model to predict the water permeability coefficient of polymers. 
+The ML Aquatic Ecotox Rotifer sp predictor is a Web App that use Machine Learning to predict the aquatic ecotoxicology risk assesment of organic compounds. 
 
 The tool uses the following packages [RDKIT](https://www.rdkit.org/docs/index.html), [Mordred](https://github.com/mordred-descriptor/mordred), [MOLVS](https://molvs.readthedocs.io/), [Openbabel](https://github.com/openbabel/openbabel),
 [Scikit-learn](https://scikit-learn.org/stable/)
