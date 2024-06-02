@@ -1,6 +1,6 @@
-# Ensemble Quantitative Read-Across Structure-Activity Relationship Algorithm for Predicting Skin Cytotoxicity
+# Transfer Learning Models for Predicting the Aquatic Ecotoxicology Risk Assesment
 
-Author: Gerardo M Casanola
+Author: Gerardo M Casanola-Martin & Karel Dieguez-Santana
 
 ![TOC](toc.png)
 
