@@ -1,4 +1,8 @@
-# rotifer_ml_predictor
+# Ensemble Quantitative Read-Across Structure-Activity Relationship Algorithm for Predicting Skin Cytotoxicity
+
+Author: Gerardo M Casanola
+
+![TOC](toc.png)
 
 📌About Us
 
