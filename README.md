@@ -1,6 +1,7 @@
 # Transfer Learning Models for Predicting the Aquatic Ecotoxicology Risk Assesment
 
 Author: Gerardo M Casanola-Martin & Karel Dieguez-Santana
+Rasulev Group
 
 ![TOC](toc.png)
 
