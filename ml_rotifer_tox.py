@@ -312,7 +312,7 @@ def check_oo_distance(descriptors):
         # Find all pairs of oxygen atoms in the molecule
         oxygen_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'O']
         
-        # Check for paths of length 7 between oxygen atoms
+        # Check for paths of length 4 between oxygen atoms
         for source in oxygen_atoms:
             for target in oxygen_atoms:
                 if source != target:
@@ -325,10 +325,59 @@ def check_oo_distance(descriptors):
                 break
         
         # Append the result to the list
-        distance7.append(presence_flag)
+        distance4.append(presence_flag)
     
     # Add the results as a new column in the DataFrame
     descriptors['B04[O-O]'] = distance4
+    
+    return descriptors
+
+#%% B74[Cl-Cl] descriptor calculation
+
+def check_clcl_distance(descriptors):
+    # Initialize a list to store the results
+    smiles_list = descriptors["Smiles_OK"]
+    distance7 = []
+    
+    # Iterate over the SMILES in the specified column of the DataFrame
+    for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+            distance7.append(float('nan'))
+            continue
+        
+        # Generate the molecular graph representation
+        mol_graph = Chem.RWMol(mol)
+        Chem.SanitizeMol(mol_graph)
+        mol_graph = Chem.RemoveHs(mol_graph)
+        mol_graph = Chem.GetAdjacencyMatrix(mol_graph)
+        G = nx.Graph(mol_graph)
+        
+        # Initialize the presence/absence flag
+        presence_flag = 0
+        
+        # Find all pairs of oxygen atoms in the molecule
+        chloride_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'Cl']
+        
+        # Check for paths of length 7 between chloride atoms
+        for source in chloride_atoms:
+            for target in chloride_atoms:
+                if source != target:
+                    # Use networkx shortest_path_length to check the shortest path length
+                    shortest_path_length = nx.shortest_path_length(G, source=source, target=target)
+                    if shortest_path_length == 7:
+                        presence_flag = 1
+                        break
+            if presence_flag == 1:
+                break
+        
+        # Append the result to the list
+        distance7.append(presence_flag)
+    
+    # Add the results as a new column in the DataFrame
+    descriptors['B07[Cl-Cl]'] = distance7
     
     return descriptors
 
@@ -409,38 +458,6 @@ def reading_reorder(data):
 
     return test_data, id
 
-
-#%% mixture descriptors calculation
-### ----------------------- ###
-
-def mixture_descriptors(data1, data2):
-    # Extract component fractions
-    component1 = data['Component1']
-    component2 = data['Component2']
-
-    # Multiply corresponding rows in data1 and data2 for all columns
-    df_mixture_left = component1.values[:, None] * test_data1.values
-    df_mixture_right = component2.values[:, None] * test_data2.values
-
-    # Create a new DataFrame using the result and set column names from data1 and data2
-    df_mixture_left = pd.DataFrame(df_mixture_left, columns=test_data1.columns)
-    df_mixture_right = pd.DataFrame(df_mixture_right, columns=test_data2.columns)
-
-    # Initialize DataFrame for the final result
-    df_sum_mixture = pd.DataFrame(index=test_data1.index)
-
-    # Check if Component2 is 0, if so, only use the result from df_mixture_left
-    for value in data['Component2']:
-        if value == 0:
-            df_sum_mixture = df_mixture_left
-        else:
-            # Sum the DataFrames row-wise by column name
-            df_sum_mixture = df_mixture_left.add(df_mixture_right)
-            # Set the index of df1 to match the index of df2
-            df_sum_mixture.set_index(test_data1.index, inplace=True)
-
-    return df_sum_mixture
-    
 
 #%% normalizing data
 ### ----------------------- ###
@@ -637,8 +654,8 @@ def filedownload5(df):
 
 #%% RUN
 
-data_train = pd.read_csv("data/" + "data_56c_8var_logP_train_mix.csv")
-mean_value = data_train['logP'].mean()
+data_train = pd.read_csv("data/" + "data_126c_15var_pLC50_train_sw.csv")
+mean_value = data_train['pLC50_sw'].mean()
 
 
 loaded_model = pickle.load(open("models/" + "mlr_model.pickle", 'rb'))
