@@ -283,12 +283,12 @@ def formal_charge_calculation(descriptors):
 
 
 
-#%% B07[O-O] descriptor calculation
+#%% B04[O-O] descriptor calculation
 
 def check_oo_distance(descriptors):
     # Initialize a list to store the results
     smiles_list = descriptors["Smiles_OK"]
-    distance7 = []
+    distance4 = []
     
     # Iterate over the SMILES in the specified column of the DataFrame
     for smiles in smiles_list:
@@ -296,7 +296,7 @@ def check_oo_distance(descriptors):
         mol = Chem.MolFromSmiles(smiles)
         if mol is None:
             # Append NaN if SMILES cannot be converted to a molecule
-            distance7.append(float('nan'))
+            distance4.append(float('nan'))
             continue
         
         # Generate the molecular graph representation
@@ -318,7 +318,7 @@ def check_oo_distance(descriptors):
                 if source != target:
                     # Use networkx shortest_path_length to check the shortest path length
                     shortest_path_length = nx.shortest_path_length(G, source=source, target=target)
-                    if shortest_path_length == 7:
+                    if shortest_path_length == 4:
                         presence_flag = 1
                         break
             if presence_flag == 1:
@@ -328,7 +328,7 @@ def check_oo_distance(descriptors):
         distance7.append(presence_flag)
     
     # Add the results as a new column in the DataFrame
-    descriptors['B07[O-O]'] = distance7
+    descriptors['B04[O-O]'] = distance4
     
     return descriptors
 
