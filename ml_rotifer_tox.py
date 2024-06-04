@@ -332,7 +332,7 @@ def check_oo_distance(descriptors):
     
     return descriptors
 
-#%% B74[Cl-Cl] descriptor calculation
+#%% B07[Cl-Cl] descriptor calculation
 
 def check_clcl_distance(descriptors):
     # Initialize a list to store the results
