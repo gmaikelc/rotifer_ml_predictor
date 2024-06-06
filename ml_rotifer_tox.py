@@ -381,6 +381,128 @@ def check_clcl_distance(descriptors):
     
     return descriptors
 
+def check_clc_distance(descriptors):
+    # Initialize a list to store the results
+    smiles_list = descriptors["Smiles_OK"]
+    distance2 = []
+    
+    # Iterate over the SMILES in the specified column of the DataFrame
+    for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+            distance2.append(float('nan'))
+            continue
+        
+        # Generate the molecular graph representation
+        mol_graph = Chem.RWMol(mol)
+        Chem.SanitizeMol(mol_graph)
+        mol_graph = Chem.RemoveHs(mol_graph)
+        mol_graph = Chem.GetAdjacencyMatrix(mol_graph)
+        G = nx.Graph(mol_graph)
+        
+        # Initialize the presence/absence flag
+        presence_flag = 0
+        
+        # Find all pairs of carbon and chloride atoms in the molecule
+        carbon_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'C']
+        chloride_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'Cl']
+        
+        # Check for paths of length 2 between carbon and chloride atoms
+        for carbon in carbon_atoms:
+            for chloride in chloride_atoms:
+                if carbon != chloride:
+                    # Use networkx shortest_path_length to check the shortest path length
+                    shortest_path_length = nx.shortest_path_length(G, source=carbon, target=chloride)
+                    if shortest_path_length == 2:
+                        presence_flag = 1
+                        break
+            if presence_flag == 1:
+                break
+        
+        # Append the result to the list
+        distance2.append(presence_flag)
+    
+    # Add the results as a new column in the DataFrame
+    descriptors['B02[C-Cl]'] = distance2
+    
+    return descriptors
+
+def check_ns_distance(descriptors):
+    # Initialize a list to store the results
+    smiles_list = descriptors["Smiles_OK"]
+    frequency_ns = []
+    
+    # Iterate over the SMILES in the specified column of the DataFrame
+    for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+            frequency_ns.append(float('nan'))
+            continue
+        
+        # Generate the molecular graph representation
+        mol_graph = Chem.RWMol(mol)
+        Chem.SanitizeMol(mol_graph)
+        mol_graph = Chem.RemoveHs(mol_graph)
+        mol_graph = Chem.GetAdjacencyMatrix(mol_graph)
+        G = nx.Graph(mol_graph)
+        
+        # Initialize the frequency counter
+        ns_frequency = 0
+        
+        # Find all pairs of nitrogen and sulfur atoms in the molecule
+        nitrogen_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'N']
+        sulfur_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'S']
+        
+        # Check for paths of length 2 between nitrogen and sulfur atoms
+        for nitrogen in nitrogen_atoms:
+            for sulfur in sulfur_atoms:
+                if nitrogen != sulfur:
+                    # Use networkx shortest_path_length to check the shortest path length
+                    shortest_path_length = nx.shortest_path_length(G, source=nitrogen, target=sulfur)
+                    if shortest_path_length == 2:
+                        ns_frequency += 1
+        
+        # Append the result to the list
+        frequency_ns.append(ns_frequency)
+    
+    # Add the results as a new column in the DataFrame
+    descriptors['F02[N-S]'] = frequency_ns
+    
+    return descriptors
+
+def count_rcx(descriptors):
+  # Initialize a list to store the results
+    smiles_list = descriptors["Smiles_OK"]
+    count_rchx = []
+
+     # Iterate over the SMILES in the specified column of the DataFrame
+    for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+            frequency_ns.append(float('nan'))
+            continue
+            
+        rcx_count = 0
+        for atom in mol.GetAtoms():
+            if atom.GetSymbol() == 'C' and atom.GetIsAromatic():
+                neighbors = atom.GetNeighbors()
+                if len(neighbors) == 2:
+                    symbols = [neighbor.GetSymbol() for neighbor in neighbors]
+                    if any(x in symbols for x in ['O', 'N', 'S', 'P', 'Se', 'F', 'Cl', 'Br', 'I']):
+                        rcx_count += 1
+    
+        # Append the result to the list
+        count_rchx.append(rcx_count)
+    
+    # Add the results as a new column in the DataFrame
+    descriptors['C-033'] =  count_rchx
+    return 
 
 #%% Calculating molecular descriptors
 ### ----------------------- ###
