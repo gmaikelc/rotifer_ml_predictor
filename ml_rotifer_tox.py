@@ -595,6 +595,47 @@ def count_amidine_groups(descriptors):
     
     return descriptors
 
+def sum_all_cl_cl_distances(descriptors):
+    # Initialize a list to store the results
+    smiles_list = descriptors["Smiles_OK"]
+    all_cl_cl_distances = []
+    
+    # Iterate over the SMILES in the specified column of the DataFrame
+    for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+            all_cl_cl_distances.append(float('nan'))
+            continue
+        
+        # Generate the molecular graph representation
+        mol_graph = Chem.RWMol(mol)
+        Chem.SanitizeMol(mol_graph)
+        mol_graph = Chem.RemoveHs(mol_graph)
+        mol_graph = Chem.GetAdjacencyMatrix(mol_graph)
+        G = nx.Graph(mol_graph)
+        
+        # Initialize the sum of topological distances between all pairs of chlorine atoms
+        all_cl_cl_distance_sum = 0
+        
+        # Find all pairs of chlorine atoms in the molecule
+        chlorine_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'Cl']
+        chlorine_pairs = [(i, j) for i in range(len(chlorine_atoms)) for j in range(i + 1, len(chlorine_atoms))]
+        
+        # Check for shortest paths between pairs of chlorine atoms and sum their distances
+        for source, target in chlorine_pairs:
+            shortest_path_length = nx.shortest_path_length(G, source=chlorine_atoms[source], target=chlorine_atoms[target])
+            all_cl_cl_distance_sum += shortest_path_length
+        
+        # Append the result to the list
+        all_cl_cl_distances.append(all_cl_cl_distance_sum)
+    
+    # Add the results as a new column in the DataFrame
+    descriptors['T(Cl..Cl)'] = all_cl_cl_distances
+    
+    return descriptors
+
 
 #%% Calculating molecular descriptors
 ### ----------------------- ###
@@ -639,8 +680,14 @@ def calc_descriptors(data, smiles_col_pos):
     # Perform formal charge calculation
     descriptors_total = formal_charge_calculation(descriptors_total)
 
-    # Perform B07[O-O] descriptor calculation
+    # Perform B04[O-O] descriptor calculation
     descriptors_total = check_oo_distance(descriptors_total)
+
+     # Perform nN=C-N< descriptor calculation
+    descriptors_total = count_amidine_groups(descriptors_total)
+
+    #Perform B07[Cl-Cl] descriptor calculation
+    descriptors_total = check_clcl_distance(descriptors_total)
 
     return descriptors_total, smiles_list
 
