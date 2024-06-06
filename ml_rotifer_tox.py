@@ -935,7 +935,7 @@ data_train = pd.read_csv("data/" + "data_126c_15var_pLC50_train_sw.csv")
 mean_value = data_train['pLC50_sw'].mean()
 
 
-loaded_model = pickle.load(open("models/" + "mlr_model_rotifer_sw.pickle", 'rb'))
+loaded_model = pickle.load(open("models/" + "ml_model_rotifer_sw.pickle", 'rb'))
 loaded_desc = pickle.load(open("models/" + "ml_descriptor_rotifer_sw.pickle", 'rb'))
 
 #Uploaded file calculation
