@@ -502,7 +502,99 @@ def count_rcx(descriptors):
     
     # Add the results as a new column in the DataFrame
     descriptors['C-033'] =  count_rchx
-    return 
+    return
+
+def count_imide_groups(descriptors):
+    # Initialize a list to store the results
+    smiles_list = descriptors["Smiles_OK"]
+    imide_counts = []
+    
+    # Iterate over the SMILES in the specified column of the DataFrame
+    for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+            imide_counts.append(float('nan'))
+            continue
+        
+        # Initialize the count of imide groups
+        imide_count = 0
+        
+        # Find all nitrogen atoms in the molecule
+        nitrogen_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'N']
+        
+        # Iterate over each nitrogen atom
+        for nitrogen in nitrogen_atoms:
+            # Get the neighboring atoms of the nitrogen atom
+            neighbors = mol.GetAtomWithIdx(nitrogen).GetNeighbors()
+            
+            # Check if the nitrogen atom is connected to two carbonyl carbon atoms
+            carbonyl_count = 0
+            for neighbor in neighbors:
+                if neighbor.GetSymbol() == 'C':
+                    # Check if the carbon atom is part of a carbonyl group (double bond to oxygen)
+                    for bond in neighbor.GetBonds():
+                        if bond.GetBondType() == Chem.BondType.DOUBLE and bond.GetOtherAtom(neighbor).GetSymbol() == 'O':
+                            carbonyl_count += 1
+            if carbonyl_count >= 2:
+                imide_count += 1
+        
+        # Append the result to the list
+        imide_counts.append(imide_count)
+    
+    # Add the results as a new column in the DataFrame
+    descriptors['nN(CO)2'] = imide_counts
+    
+    return descriptors
+
+def count_amidine_groups(descriptors):
+    # Initialize a list to store the results
+    smiles_list = descriptors["Smiles_OK"]
+    amidine_counts = []
+    
+    # Iterate over the SMILES in the specified column of the DataFrame
+    for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+            amidine_counts.append(float('nan'))
+            continue
+        
+        # Initialize the count of amidine groups
+        amidine_count = 0
+        
+        # Find all nitrogen atoms in the molecule
+        nitrogen_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'N']
+        
+        # Iterate over each nitrogen atom
+        for nitrogen in nitrogen_atoms:
+            # Get the neighboring atoms of the nitrogen atom
+            neighbors = mol.GetAtomWithIdx(nitrogen).GetNeighbors()
+            
+            # Check if the nitrogen atom is connected to two carbon atoms with a double bond between them
+            for neighbor in neighbors:
+                if neighbor.GetSymbol() == 'C':
+                    # Check if there is a double bond between the carbon atoms
+                    for bond in neighbor.GetBonds():
+                        if bond.GetBondType() == Chem.BondType.DOUBLE:
+                            # Check if the neighboring carbon atom has another nitrogen neighbor
+                            carbon_neighbors = neighbor.GetNeighbors()
+                            nitrogen_neighbor_count = sum(1 for atom in carbon_neighbors if atom.GetSymbol() == 'N')
+                            if nitrogen_neighbor_count >= 2:
+                                amidine_count += 1
+                                break  # No need to continue checking for more amidine groups
+                        break  # No need to continue checking for more double bonds
+        
+        # Append the result to the list
+        amidine_counts.append(amidine_count)
+    
+    # Add the results as a new column in the DataFrame
+    descriptors['nN=C-N<'] = amidine_counts
+    
+    return descriptors
+
 
 #%% Calculating molecular descriptors
 ### ----------------------- ###
