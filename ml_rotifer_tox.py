@@ -997,7 +997,7 @@ if uploaded_file_1 is not None:
 # Example file
 else:
     st.info('👈🏼👈🏼👈🏼   Awaiting for CSV file to be uploaded.')
-    if st.button('Press to use Example CSV Dataset with fractions and smiles'):
+    if st.button('Press to use Example CSV Dataset with smiles'):
         data = pd.read_csv("example_file1.csv")
         train_data = data_train[loaded_desc]
         # Calculate descriptors and SMILES for the first column
