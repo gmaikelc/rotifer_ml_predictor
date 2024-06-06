@@ -64,7 +64,7 @@ st.markdown("The group of Prof. Rasulev is focused on development of artificial 
 # Introduction
 #---------------------------------#
 
-st.title(':computer: ml H2O permeability coefficient predictor')
+st.title(':computer: ml rotifer sp toxicity in water')
 
 st.write("""
 
@@ -84,8 +84,8 @@ The tool uses the following packages [RDKIT](https://www.rdkit.org/docs/index.ht
 """)
 
 
-image = Image.open('workflow_ml_H2O_perm.png')
-st.image(image, caption='ML H2O permeability coefficient workflow')
+image = Image.open('toc.png')
+st.image(image, caption='ML Rotifer Aquatic Toxicity workflow')
 
 
 #---------------------------------#
