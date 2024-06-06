@@ -689,6 +689,22 @@ def calc_descriptors(data, smiles_col_pos):
     #Perform B07[Cl-Cl] descriptor calculation
     descriptors_total = check_clcl_distance(descriptors_total)
 
+    #Perform T(Cl..Cl) descriptor calculation
+    descriptors_total = sum_all_cl_cl_distances(descriptors_total)
+
+    #Perform nN(CO)2 descriptor calculation
+    descriptors_total = count_imide_groups(descriptors_total)
+
+    #Perform C-033 molecular descriptor calculation
+    descriptors_total = count_rcx(descriptors_total)
+
+    #Perform F02[N-S] molecular descriptor calculation
+    descriptors_total = check_ns_distance(descriptors_total)
+
+    #Perform B02[C-Cl] molecular descriptor calculation
+    descriptors_total = check_clc_distance(descriptors_total)
+    
+
     return descriptors_total, smiles_list
 
 
