@@ -722,16 +722,16 @@ def reading_reorder(data):
 
     # Cleaning from invalid string values
     #Converting the columns to strings
-    test_data['GATS7se'] = test_data['GATS7se'].astype(str)
-    test_data['GATS4i'] = test_data['GATS4i'].astype(str)
+    #test_data['GATS7se'] = test_data['GATS7se'].astype(str)
+    #test_data['GATS4i'] = test_data['GATS4i'].astype(str)
 
     #Replacing the invalid string with 0
-    mapping = {'invalid value encountered in double_scalars (GATS7se)': 0.0,'invalid value encountered in double_scalars (GATS4i)': 0.0,}
-    test_data=test_data.replace({'GATS7se': mapping, 'GATS4i': mapping})
+    #mapping = {'invalid value encountered in double_scalars (GATS7se)': 0.0,'invalid value encountered in double_scalars (GATS4i)': 0.0,}
+    #test_data=test_data.replace({'GATS7se': mapping, 'GATS4i': mapping})
 
     # Converting back to numbers
-    test_data['GATS7se']= pd.to_numeric(test_data['GATS7se'], errors='coerce')
-    test_data['GATS4i'] = pd.to_numeric(test_data['GATS4i'], errors='coerce')
+    #test_data['GATS7se']= pd.to_numeric(test_data['GATS7se'], errors='coerce')
+    #test_data['GATS4i'] = pd.to_numeric(test_data['GATS4i'], errors='coerce')
 
     return test_data, id
 
@@ -798,9 +798,9 @@ def get_color(confidence):
     """
     # Define your color logic here based on confidence
     if confidence == "HIGH" or confidence == "Inside AD":
-        return 'cornflowerblue'
+        return 'green'
     elif confidence == "MEDIUM":
-        return 'lightblue'
+        return 'yellow'
     else:
         confidence ==  "LOW"
         return 'red'
@@ -822,7 +822,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
         
     # y_true and y_pred are the actual and predicted values, respectively
     
-    # Create y_true array with all elements set to 2.56 and the same length as y_pred
+    # Create y_true array with all elements set to mean value and the same length as y_pred
     y_pred_test = predictions
     y_test = np.full_like(y_pred_test, mean_value)
     residuals_test = y_test -y_pred_test
@@ -902,7 +902,7 @@ def final_plot(final_file):
 def filedownload1(df):
     csv = df.to_csv(index=True,header=True)
     b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
-    href = f'<a href="data:file/csv;base64,{b64}" download="ml_H2O_permeability_coefficient_logP_results.csv">Download CSV File with results</a>'
+    href = f'<a href="data:file/csv;base64,{b64}" download="ml_toxicity_rotifer_pLC50_results.csv">Download CSV File with results</a>'
     return href
 
 def filedownload2(df):
@@ -935,8 +935,8 @@ data_train = pd.read_csv("data/" + "data_126c_15var_pLC50_train_sw.csv")
 mean_value = data_train['pLC50_sw'].mean()
 
 
-loaded_model = pickle.load(open("models/" + "mlr_model.pickle", 'rb'))
-loaded_desc = pickle.load(open("models/" + "ml_H2O_perm_descriptor.pickle", 'rb'))
+loaded_model = pickle.load(open("models/" + "mlr_model_rotifer_sw.pickle", 'rb'))
+loaded_desc = pickle.load(open("models/" + "ml_descriptor_rotifer_sw.pickle", 'rb'))
 
 #Uploaded file calculation
 if uploaded_file_1 is not None:
@@ -947,36 +947,36 @@ if uploaded_file_1 is not None:
         # Calculate descriptors and SMILES for the first column
         descriptors_total_1, smiles_list_1 = calc_descriptors(data, 3)
         # Calculate descriptors and SMILES for the second column
-        descriptors_total_2, smiles_list_2 = calc_descriptors(data, 4)
+        #descriptors_total_2, smiles_list_2 = calc_descriptors(data, 4)
 
         # Calculate descriptors and SMILES for the first column with progress bar
         #descriptors_total_1, smiles_list_1 = calc_descriptors_with_progress(data, 3, "Component1")
         # Calculate descriptors and SMILES for the second column with progress bar
         #descriptors_total_2, smiles_list_2 = calc_descriptors_with_progress(data, 4, "Component2")
         
-        joint_dummy = descriptors_total_1[['Formal_charge']]
+        #joint_dummy = descriptors_total_1[['Formal_charge']]
         # Left join
-        descriptors_total_2n = joint_dummy.join(descriptors_total_2, how='left', lsuffix='_df1', rsuffix='_df2')
+        #descriptors_total_2n = joint_dummy.join(descriptors_total_2, how='left', lsuffix='_df1', rsuffix='_df2')
         #drop the first column
-        descriptor_total_2na = descriptors_total_2n.iloc[:,1:]
+        #descriptor_total_2na = descriptors_total_2n.iloc[:,1:]
         # Fill NaN values with 0
-        descriptors_total_2m = descriptor_total_2na.fillna(0)
+        #descriptors_total_2m = descriptor_total_2na.fillna(0)
                 
         #Selecting the descriptors based on model for first component
         test_data1, id_list_1 =  reading_reorder(descriptors_total_1)
         #Selecting the descriptors based on model for first component
-        test_data2, id_list_1 =  reading_reorder(descriptors_total_2m)
+        #test_data2, id_list_1 =  reading_reorder(descriptors_total_2m)
  
         #st.markdown(filedownload2(test_data1), unsafe_allow_html=True)
         #st.markdown(filedownload3(test_data2), unsafe_allow_html=True)
         
         #Calculating mixture descriptors    
-        test_data_mix= mixture_descriptors(test_data1,test_data2)
-        test_data_mix.fillna(0,inplace=True)
-        st.markdown(filedownload4(test_data_mix), unsafe_allow_html=True)
+        #test_data_mix= mixture_descriptors(test_data1,test_data2)
+        #test_data_mix.fillna(0,inplace=True)
+        #st.markdown(filedownload4(test_data_mix), unsafe_allow_html=True)
                 
         #X_final1, id = all_correct_model(test_data_mix,loaded_desc, id_list)
-        X_final2= test_data_mix
+        X_final2= test_data1
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
@@ -985,7 +985,7 @@ if uploaded_file_1 is not None:
 
         with col1:
             st.header("Predictions",divider='blue')
-            st.subheader(r'log (P ( ${x 10^{13}}))$ [cm$^3$] [cm] / [cm$^2$] [s] [Pa]')
+            st.subheader(r'pLC50 salt water')
             st.write(styled_df)
         with col2:
             st.header("Pie Chart % Confidence")
@@ -1003,36 +1003,36 @@ else:
         # Calculate descriptors and SMILES for the first column
         descriptors_total_1, smiles_list_1 = calc_descriptors(data, 3)
         # Calculate descriptors and SMILES for the second column
-        descriptors_total_2, smiles_list_2 = calc_descriptors(data, 4)
+        #descriptors_total_2, smiles_list_2 = calc_descriptors(data, 4)
 
         # Calculate descriptors and SMILES for the first column with progress bar
         #descriptors_total_1, smiles_list_1 = calc_descriptors_with_progress(data, 3, "Component1")
         # Calculate descriptors and SMILES for the second column with progress bar
         #descriptors_total_2, smiles_list_2 = calc_descriptors_with_progress(data, 4, "Component2")
 
-        joint_dummy = descriptors_total_1[['Formal_charge']]
+        #joint_dummy = descriptors_total_1[['Formal_charge']]
         # Left join
-        descriptors_total_2n = joint_dummy.join(descriptors_total_2, how='left', lsuffix='_df1', rsuffix='_df2')
+        #descriptors_total_2n = joint_dummy.join(descriptors_total_2, how='left', lsuffix='_df1', rsuffix='_df2')
         #drop the first column
-        descriptor_total_2na = descriptors_total_2n.iloc[:,1:]
+        #descriptor_total_2na = descriptors_total_2n.iloc[:,1:]
         # Fill NaN values with 0
-        descriptors_total_2m = descriptor_total_2na.fillna(0)
+        #descriptors_total_2m = descriptor_total_2na.fillna(0)
                 
         #Selecting the descriptors based on model for first component
         test_data1, id_list_1 =  reading_reorder(descriptors_total_1)
         #Selecting the descriptors based on model for first component
-        test_data2, id_list_1 =  reading_reorder(descriptors_total_2m)
+        #test_data2, id_list_1 =  reading_reorder(descriptors_total_2m)
  
         #st.markdown(filedownload2(test_data1), unsafe_allow_html=True)
         #st.markdown(filedownload3(test_data2), unsafe_allow_html=True)
         
         #Calculating mixture descriptors    
-        test_data_mix= mixture_descriptors(test_data1,test_data2)
-        test_data_mix.fillna(0,inplace=True)
+        #test_data_mix= mixture_descriptors(test_data1,test_data2)
+        #test_data_mix.fillna(0,inplace=True)
         #st.markdown(filedownload4(test_data_mix), unsafe_allow_html=True)
                 
         #X_final1, id = all_correct_model(test_data_mix,loaded_desc, id_list)
-        X_final2= test_data_mix
+        X_final2= test_data1
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
@@ -1041,7 +1041,7 @@ else:
 
         with col1:
             st.header("Predictions",divider='blue')
-            st.subheader(r'log (P ( ${x 10^{13}}))$ [cm$^3$] [cm] / [cm$^2$] [s] [Pa]')
+            st.subheader(r'pLC50 salt water')
             st.write(styled_df)
         with col2:
             st.header("Pie Chart % Confidence")
