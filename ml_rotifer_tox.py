@@ -84,7 +84,7 @@ with st.expander("More information",):
     **Workflow:**
     """)
 
-with st.expander("workflow"):
+with st.expander("Workflow"):
     image = Image.open('toc.png')
     st.image(image, caption='ML Rotifer Aquatic Toxicity workflow')
 
