@@ -64,7 +64,7 @@ st.image(image)
 # Introduction
 #---------------------------------#
 
-st.title(':computer: ml rotifer sp toxicity in water')
+#st.title(':computer: ml rotifer sp toxicity in water')
 
 st.write("""
 
@@ -83,9 +83,9 @@ The tool uses the following packages [RDKIT](https://www.rdkit.org/docs/index.ht
 **Workflow:**
 """)
 
-
-image = Image.open('toc.png')
-st.image(image, caption='ML Rotifer Aquatic Toxicity workflow')
+with st.expander("More information")
+    image = Image.open('toc.png')
+    st.image(image, caption='ML Rotifer Aquatic Toxicity workflow')
 
 
 #---------------------------------#
