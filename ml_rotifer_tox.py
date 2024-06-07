@@ -985,7 +985,7 @@ if uploaded_file_1 is not None:
         col1, col2 = st.columns(2)
 
         with col1:
-            st.header("Predictions",divider='blue')
+            st.header("",divider='blue')
             st.subheader(r'pLC50 salt water')
             st.write(styled_df)
         with col2:
@@ -1002,10 +1002,12 @@ else:
         data = pd.read_csv("example_file1.csv")
         train_data = data_train[loaded_desc]
         # Calculate descriptors and SMILES for the first column
-        descriptors_total_1, smiles_list_1 = calc_descriptors(data, 1)
+        with st.spinner('CALCULATING DESCRIPTORS (STEP 1 OF 4)...'):
+            descriptors_total_1, smiles_list_1 = calc_descriptors(data, 1)
         # Calculate descriptors and SMILES for the second column
         #descriptors_total_2, smiles_list_2 = calc_descriptors(data, 4)
 
+        
         # Calculate descriptors and SMILES for the first column with progress bar
         #descriptors_total_1, smiles_list_1 = calc_descriptors_with_progress(data, 3, "Component1")
         # Calculate descriptors and SMILES for the second column with progress bar
@@ -1019,7 +1021,7 @@ else:
         # Fill NaN values with 0
         #descriptors_total_2m = descriptor_total_2na.fillna(0)
                 
-        #Selecting the descriptors based on model for first component
+        #Selecting the descriptors based on model for salt water component
         test_data1, id_list_1 =  reading_reorder(descriptors_total_1)
         #Selecting the descriptors based on model for first component
         #test_data2, id_list_1 =  reading_reorder(descriptors_total_2m)
@@ -1027,16 +1029,14 @@ else:
         #st.markdown(filedownload2(test_data1), unsafe_allow_html=True)
         #st.markdown(filedownload3(test_data2), unsafe_allow_html=True)
         
-        #Calculating mixture descriptors    
-        #test_data_mix= mixture_descriptors(test_data1,test_data2)
-        #test_data_mix.fillna(0,inplace=True)
-        #st.markdown(filedownload4(test_data_mix), unsafe_allow_html=True)
+
                 
         #X_final1, id = all_correct_model(test_data_mix,loaded_desc, id_list)
         X_final2= test_data1
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
-        final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
+        with st.spinner('CALCULATING PREDICTIONS (STEP 2 OF 3)...'):
+            final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
         figure  = final_plot(final_file)  
         col1, col2 = st.columns(2)
 
