@@ -21,6 +21,10 @@ from rdkit.Chem import AllChem
 import plotly.graph_objects as go
 import networkx as nx
 
+import matplotlib.pyplot as plt
+import seaborn as sns
+import matplotlib.patches as patches
+
 #Import Libraries
 import math 
 from sklearn.model_selection import GridSearchCV
@@ -792,6 +796,19 @@ def applicability_domain(x_test_normalized, x_train_normalized):
     hat_matrix_test = X_test @ np.linalg.inv(X_train.T @ X_train) @ X_test.T
     leverage_test = np.diagonal(hat_matrix_test)
     leverage_test=leverage_test.ravel()
+
+
+    from sklearn.linear_model import LinearRegression
+    from sklearn.metrics import mean_squared_error
+
+    # Train a linear regression model
+    lr = LinearRegression()
+    lr.fit(X_train, y_train)
+    y_pred_train = lr.predict(X_train)
+    
+    std_dev_train = np.sqrt(mean_squared_error(y_train, y_pred_train))
+    std_residual_train = (y_train - y_pred_train) / std_dev_train
+    std_residual_train = std_residual_train.ravel()
     
     # threshold for the applicability domain
     
@@ -804,7 +821,7 @@ def applicability_domain(x_test_normalized, x_train_normalized):
             h_results.append(True)
         else:
             h_results.append(False)         
-    return h_results
+    return h_results, std_residual_train, leverage_test, leverage_train 
 
 
 
@@ -897,28 +914,152 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
     
     return final_file, styled_df
 
+#Calculating the William's plot limits
+def calculate_wp_plot_limits(leverage_data, x_std_max=4, x_std_min=-4):
+    # Getting maximum std value
+    if std_residual_train.max() < 4:
+        x_lim_max_std = x_std_max
+    elif std_residual_train.max() > 4:
+        x_lim_max_std = round(std_residual_train.max()) + 1
+
+    # Getting minimum std value
+    if std_residual_train.min() > -4:
+        x_lim_min_std = x_std_min
+    elif std_residual_train.min() < 4:
+        x_lim_min_std = round(std_residual_train.min()) - 1
+
+    print('x_lim_max_std:', x_lim_max_std)
+    print('x_lim_min_std:', x_lim_min_std)
+
+    # Calculation H critical
+    n = len(leverage_train)
+    p = df_train_normalized.shape[1]
+    h_value = 3 * (p + 1) / n
+    h_critical = round(h_value, 4)
+    st.write('Number of cases training:', n)
+    st.write('Number of variables:', p)
+    st.write('h_critical:', h_critical)
+
+    # Getting maximum leverage value
+    if leverage_train.max() < h_critical:
+        x_lim_max_lev = h_critical + h_critical * 0.5
+    elif leverage_train.max() > h_critical:
+        x_lim_max_lev = leverage_train.max() + (leverage_train.max()) * 0.1
+
+    # Getting minimum leverage value
+    if leverage_train.min() < 0:
+        x_lim_min_lev = x_lev_min - x_lev_min * 0.05
+    elif leverage_train.min() > 0:
+        x_lim_min_lev = 0
+
+    print('x_lim_max_lev:', x_lim_max_lev)
+
+    return x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev
+
+
+def williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test,
+                  plot_color='cornflowerblue', show_plot=True, save_plot=False, filename=None, add_title=False, title=None):
+    sns.set(color_codes=True)
+    sns.set_style('white')
+    sns.despine(left=True, right=True)
+    
+    fig, ax = plt.subplots()
+    fig.set_size_inches(8.5, 8.5)
+
+     
+    ax1 = sns.regplot(x=leverage, y=resid, ax=ax, fit_reg=False, color=plot_color,
+                      marker='o', scatter_kws={'s': 120, 'linewidths': 0.5, 'edgecolor': 'k'})
+
+    ax2=sns.regplot(x=leverage2, y=resid2,ax=ax, fit_reg=False,color='orange',
+                marker='o',scatter_kws={'s':120,
+                                       'linewidths':0.5,
+                             'edgecolor':'k',})
+
+    ax1.text(h_critical, x_lim_min_std + 0.45, f'h*={h_critical}', verticalalignment='top', horizontalalignment='right',
+             color='black', fontsize=15, fontweight='normal')
+
+    ax1.text((h_critical + x_lim_min_lev) / 2, -3.50, 'Outlier zone', verticalalignment='center',
+             horizontalalignment='center',
+             color='black', fontsize=15, fontweight='normal')
+    ax1.text((h_critical + x_lim_min_lev) / 2, 3.50, 'Outlier zone', verticalalignment='center',
+             horizontalalignment='center',
+             color='black', fontsize=15, fontweight='normal')
+
+    ax1.text((h_critical + x_lim_max_lev) / 2, -3.50, 'Outlier zone', verticalalignment='center',
+             horizontalalignment='center',
+             color='black', fontsize=15, fontweight='normal')
+    ax1.text((h_critical + x_lim_max_lev) / 2, 3.50, 'Outlier zone', verticalalignment='center',
+             horizontalalignment='center',
+             color='black', fontsize=15, fontweight='normal')
+
+    plt.ylim(x_lim_min_std, x_lim_max_std)
+    plt.xlim(x_lim_min_lev, x_lim_max_lev)
+
+    plt.legend(['training', ], bbox_to_anchor=(0.99, 0.24), loc='upper right',
+               fontsize=14, edgecolor='black')
+    plt.plot([h_critical, h_critical], [x_lim_min_std, x_lim_max_std], lw=1, ls='dashed', color='black')
+    plt.plot([x_lim_min_lev, x_lim_max_lev], [3, 3], lw=1, ls='dashed', color='black')
+    plt.plot([x_lim_min_lev, x_lim_max_lev], [-3, -3], lw=1, ls='dashed', color='black')
+
+    ax1.add_patch(
+        patches.Rectangle(
+            xy=(x_lim_min_lev, x_lim_min_std),  # point of origin.
+            width=7, height=abs(x_lim_min_std) - 3, linewidth=1,
+            color='lightgray', fill=True, alpha=0.4))
+
+    ax1.add_patch(
+        patches.Rectangle(
+            xy=(x_lim_min_lev, 3),  # point of origin.
+            width=3, height=x_lim_max_std - 3, linewidth=1,
+            color='lightgray', fill=True, alpha=0.4))
+
+    ax1.yaxis.set_ticks_position('left')
+    ax1.xaxis.set_ticks_position('bottom')
+
+    plt.yticks(fontsize=15)
+    plt.xticks(fontsize=15)
+
+    plt.ylabel('Std Residuals', fontsize=20)
+    plt.xlabel('Leverage', fontsize=20)
+    x_axis_text = (x_lim_min_lev + h_critical) / 2
+    plt.text(x_axis_text, 2.2, 'Chemical Space \nPredictions Reliable',
+             horizontalalignment='center', fontsize=20, fontweight='bold')
+    
+    if add_title and title:
+        plt.title(title, fontsize=20)
+
+    plt.tight_layout()
+
+    if save_plot and filename:
+        plt.savefig(filename, dpi=600, transparent=True)
+    
+    if show_plot:
+        plt.show()
+
+     return fig
+
 
 #%% Create plot:
 
-def final_plot(final_file):
+#def final_plot(final_file):
     
-    confident_tg = len(final_file[(final_file['Confidence'] == "HIGH")])
-    medium_confident_tg = len(final_file[(final_file['Confidence'] == "MEDIUM")])
-    non_confident_tg = len(final_file[(final_file['Confidence'] == "LOW")])
+ #   confident_tg = len(final_file[(final_file['Confidence'] == "HIGH")])
+  #  medium_confident_tg = len(final_file[(final_file['Confidence'] == "MEDIUM")])
+  #  non_confident_tg = len(final_file[(final_file['Confidence'] == "LOW")])
     
-    keys = ["High confidence", "Medium confidence", "Low confidence",]
-    colors = ['cornflowerblue', 'lightblue', 'red']  # Define custom colors for each slice
-    fig = go.Figure(go.Pie(labels=keys, values=[confident_tg, medium_confident_tg, non_confident_tg], marker=dict(colors=colors)))
+   # keys = ["High confidence", "Medium confidence", "Low confidence",]
+   # colors = ['cornflowerblue', 'lightblue', 'red']  # Define custom colors for each slice
+   # fig = go.Figure(go.Pie(labels=keys, values=[confident_tg, medium_confident_tg, non_confident_tg], marker=dict(colors=colors)))
     
-    fig.update_layout(plot_bgcolor = 'rgb(256,256,256)', title_text="Global Emissions 1990-2011",
-                            title_font = dict(size=25, family='Calibri', color='black'),
-                            font =dict(size=20, family='Calibri'),
-                            legend_title_font = dict(size=18, family='Calibri', color='black'),
-                            legend_font = dict(size=15, family='Calibri', color='black'))
+   # fig.update_layout(plot_bgcolor = 'rgb(256,256,256)', title_text="Global Emissions 1990-2011",
+    #                        title_font = dict(size=25, family='Calibri', color='black'),
+     #                       font =dict(size=20, family='Calibri'),
+      #                      legend_title_font = dict(size=18, family='Calibri', color='black'),
+       #                     legend_font = dict(size=15, family='Calibri', color='black'))
     
-    fig.update_layout(title_text='Percentage confidence')
+    #fig.update_layout(title_text='Percentage confidence')
     
-    return fig
+    #return fig
 
 
 #%%
@@ -1003,7 +1144,7 @@ if uploaded_file_1 is not None:
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
-        figure  = final_plot(final_file)  
+        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)   
         col1, col2 = st.columns(2)
 
         with col1:
@@ -1057,7 +1198,7 @@ else:
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
-        figure  = final_plot(final_file)  
+        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)   
         col1, col2 = st.columns(2)
 
         with col1:
@@ -1120,7 +1261,7 @@ if on2:
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
-        figure  = final_plot(final_file)  
+        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)  
         col1, col2 = st.columns(2)
 
         with col1:
@@ -1128,7 +1269,7 @@ if on2:
             st.subheader(r'pLC50 salt water')
             st.write(styled_df)
         with col2:
-            st.header("Pie Chart % Confidence")
+            st.header("William's plot")
             st.plotly_chart(figure,use_container_width=True)
         st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
         st.markdown(filedownload1(final_file), unsafe_allow_html=True)
