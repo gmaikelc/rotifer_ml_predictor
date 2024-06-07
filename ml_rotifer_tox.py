@@ -803,8 +803,8 @@ def applicability_domain(x_test_normalized, x_train_normalized):
 
     # Train a linear regression model
     lr = LinearRegression()
-    lr.fit(X_train, y_train)
-    y_pred_train = lr.predict(X_train)
+    lr.fit(df_train_normalized, y_train)
+    y_pred_train = lr.predict(df_train_normalized)
     
     std_dev_train = np.sqrt(mean_squared_error(y_train, y_pred_train))
     std_residual_train = (y_train - y_pred_train) / std_dev_train
