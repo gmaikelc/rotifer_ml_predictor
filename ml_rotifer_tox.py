@@ -1052,12 +1052,13 @@ else:
         st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         
 
-on2 = st.toggle('Use drawn structure',key="15")    
+on = st.toggle('Use drawn structure',key="13")
 with st.expander("SMILES editor"):
-    drawer2 = st_ketcher(key="14")
-    st.caption("Click on Apply to save the drawn structure as input.")  
+    drawer = st_ketcher(key="12")
+    st.caption("Click on Apply to save the drawn structure as input.")
+     
 if on2:
-    smile_list=drawer2
+    smile_list=drawer
     ID='1'
     data = pd.DataFrame({'Name': [ID], 'Smiles_OK': [smiles_list]})
         
