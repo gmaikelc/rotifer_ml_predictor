@@ -1078,7 +1078,7 @@ with st.expander("SMILES editor"):
     st.caption("Click on Apply to save the drawn structure as input.")
      
 if on2:
-    smile_list=drawer
+    smiles_list=drawer
         
     run = st.button("Click to make prediction for the drawn structure")
     if run == True:  
