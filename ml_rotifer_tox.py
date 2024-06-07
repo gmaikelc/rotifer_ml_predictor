@@ -66,7 +66,7 @@ st.image(image)
 
 #st.title(':computer: ml rotifer sp toxicity in water')
 #with st.expander("<span style='color: blue;'>More information</span>", expanded=True):
-with st.expander("More information",color='blue'):
+with st.expander("More information",):
     st.write("""
 
     **It is a free web-application for Aquatic Ecotoxicology prediction in Rotifer species**
