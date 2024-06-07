@@ -1036,7 +1036,7 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
     if show_plot:
         plt.show()
 
-     return fig
+return fig
 
 
 #%% Create plot:
