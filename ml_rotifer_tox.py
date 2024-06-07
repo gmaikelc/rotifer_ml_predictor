@@ -1079,10 +1079,12 @@ with st.expander("SMILES editor"):
      
 if on2:
     smile_list=drawer
-    ID='1'
-    data = pd.DataFrame({'Name': [ID], 'Smiles_1': smiles_list})
+        
     run = st.button("Click to make prediction for the drawn structure")
-    if run == True:    
+    if run == True:  
+        
+        ID='1'
+        data = pd.DataFrame({'Name': [ID], 'Smiles_1': smiles_list})
 
         train_data = data_train[loaded_desc]
         # Calculate descriptors and SMILES for the first column
