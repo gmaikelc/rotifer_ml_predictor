@@ -502,7 +502,8 @@ def count_rcx(descriptors):
     
     # Add the results as a new column in the DataFrame
     descriptors['C-033'] =  count_rchx
-    return
+    
+    return descriptors
 
 def count_imide_groups(descriptors):
     # Initialize a list to store the results
