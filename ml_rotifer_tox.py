@@ -1224,7 +1224,7 @@ if on2:
     if run == True:  
         
         ID='1'
-        data = pd.DataFrame({'Name': [ID], 'Smiles_1': [smiles_list]})
+        data = pd.DataFrame({'ID': [ID], 'Smiles_1': [smiles_list]})
 
         train_data = data_train[loaded_desc]
         # Calculate descriptors and SMILES for the first column
