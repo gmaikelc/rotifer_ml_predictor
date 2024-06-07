@@ -65,25 +65,26 @@ st.image(image)
 #---------------------------------#
 
 #st.title(':computer: ml rotifer sp toxicity in water')
+with st.expander("<span style='color: blue;'>More information</span>", expanded=True):
+#with st.expander("More information"):
+    st.write("""
 
-st.write("""
+    **It is a free web-application for Aquatic Ecotoxicology prediction in Rotifer species**
 
-**It is a free web-application for Aquatic Ecotoxicology prediction in Rotifer species**
+    Among the organisms used to assess water quality and environmental toxicity are rotifers. These invertebrate species are abundant and widely distributed
+    in aquatic ecosystems and can therefore play an essential role in the ecological processes of aquatic ecosystems. Due to their rapid population turnover rate, 
+    rotifers contribute significantly to nutrient recycling in aquatic habitats. Therefore, if rotifer populations are negatively affected by a toxin, 
+    the function of aquatic ecosystems could be altered. Rotifers have been used as model organisms to evaluate the toxicity 
+    of many environmental chemicals, including heavy metals, organic compounds, and nano-sized materials .
 
-Among the organisms used to assess water quality and environmental toxicity are rotifers. These invertebrate species are abundant and widely distributed
-in aquatic ecosystems and can therefore play an essential role in the ecological processes of aquatic ecosystems. Due to their rapid population turnover rate, 
-rotifers contribute significantly to nutrient recycling in aquatic habitats. Therefore, if rotifer populations are negatively affected by a toxin, 
-the function of aquatic ecosystems could be altered. Rotifers have been used as model organisms to evaluate the toxicity 
-of many environmental chemicals, including heavy metals, organic compounds, and nano-sized materials .
+    The ML Aquatic Ecotox Rotifer sp predictor is a Web App that use Machine Learning to predict the aquatic ecotoxicology risk assesment of organic compounds. 
 
-The ML Aquatic Ecotox Rotifer sp predictor is a Web App that use Machine Learning to predict the aquatic ecotoxicology risk assesment of organic compounds. 
+    The tool uses the following packages [RDKIT](https://www.rdkit.org/docs/index.html), [Mordred](https://github.com/mordred-descriptor/mordred), [MOLVS](https://molvs.readthedocs.io/), [Openbabel](https://github.com/openbabel/openbabel),
+    [Scikit-learn](https://scikit-learn.org/stable/)
+    **Workflow:**
+    """)
 
-The tool uses the following packages [RDKIT](https://www.rdkit.org/docs/index.html), [Mordred](https://github.com/mordred-descriptor/mordred), [MOLVS](https://molvs.readthedocs.io/), [Openbabel](https://github.com/openbabel/openbabel),
-[Scikit-learn](https://scikit-learn.org/stable/)
-**Workflow:**
-""")
-
-with st.expander("More information"):
+with st.expander("workflow"):
     image = Image.open('toc.png')
     st.image(image, caption='ML Rotifer Aquatic Toxicity workflow')
 
