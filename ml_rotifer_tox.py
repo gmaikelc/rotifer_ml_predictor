@@ -1051,7 +1051,7 @@ elif:
         st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
         st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         
-elif:
+else:
     on2 = st.toggle('Use drawn structure',key="15")    
     with st.expander("SMILES editor"):
         drawer2 = st_ketcher(key="14")
