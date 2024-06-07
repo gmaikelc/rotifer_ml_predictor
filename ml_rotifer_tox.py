@@ -1056,8 +1056,7 @@ else:
         X_final2= test_data1
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
-        with st.spinner('CALCULATING PREDICTIONS (STEP 2 OF 3)...'):
-            final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
+        final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
         figure  = final_plot(final_file)  
         col1, col2 = st.columns(2)
 
@@ -1120,8 +1119,7 @@ if on2:
         X_final2= test_data1
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
-        with st.spinner('CALCULATING PREDICTIONS (STEP 2 OF 3)...'):
-            final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
+        final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
         figure  = final_plot(final_file)  
         col1, col2 = st.columns(2)
 
