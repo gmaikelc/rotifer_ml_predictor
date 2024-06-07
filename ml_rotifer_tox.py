@@ -669,6 +669,7 @@ def calc_descriptors(data, smiles_col_pos):
             descriptors_dict.update(descriptor_values)
                 
             descriptors_total_list.append(descriptors_dict)
+            st.spinner('CALCULATING DESCRIPTORS (STEP 1 OF 4)...'):
             t.markdown("Calculating descriptors for molecule: " + str(pos +1) +"/" + str(len(data.iloc[:,0])))
     
     # Convert the list of dictionaries to a DataFrame
@@ -1002,8 +1003,7 @@ else:
         data = pd.read_csv("example_file1.csv")
         train_data = data_train[loaded_desc]
         # Calculate descriptors and SMILES for the first column
-        with st.spinner('CALCULATING DESCRIPTORS (STEP 1 OF 4)...'):
-            descriptors_total_1, smiles_list_1 = calc_descriptors(data, 1)
+        descriptors_total_1, smiles_list_1 = calc_descriptors(data, 1)
         # Calculate descriptors and SMILES for the second column
         #descriptors_total_2, smiles_list_2 = calc_descriptors(data, 4)
 
