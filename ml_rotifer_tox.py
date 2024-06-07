@@ -840,7 +840,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
 
     dataframe_pred = pd.DataFrame(scores).T
     dataframe_pred.index = idx
-    dataframe_pred.rename(columns={0: "logP"},inplace=True)
+    dataframe_pred.rename(columns={0: "pLC50"},inplace=True)
     
     dataframe_std = pd.DataFrame(std_resd).T
     dataframe_std.index = idx
