@@ -669,7 +669,7 @@ def calc_descriptors(data, smiles_col_pos):
             descriptors_dict.update(descriptor_values)
                 
             descriptors_total_list.append(descriptors_dict)
-            st.spinner('CALCULATING DESCRIPTORS (STEP 1 OF 4)...'):
+            st.spinner('CALCULATING DESCRIPTORS (STEP 1 OF 4)...')
             t.markdown("Calculating descriptors for molecule: " + str(pos +1) +"/" + str(len(data.iloc[:,0])))
     
     # Convert the list of dictionaries to a DataFrame
