@@ -8,3 +8,10 @@ molvs
 mordred
 plotly
 scikit-learn
+stmol
+matplotlib
+scipy
+seaborn
+mordredcommunity
+streamlit-ketcher
+filelock
