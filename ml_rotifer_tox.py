@@ -1057,7 +1057,7 @@ with st.expander("SMILES editor"):
     drawer2 = st_ketcher(key="14")
     st.caption("Click on Apply to save the drawn structure as input.")  
 if on2:
-    smile_list=drawer
+    smile_list=drawer2
     ID='1'
     data = pd.DataFrame({'Name': [ID], 'Smiles_OK': [smiles_list]})
         
