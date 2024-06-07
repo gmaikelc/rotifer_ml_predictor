@@ -873,7 +873,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
           
     std_resd.append(std_residual_test)
         
-    h_results  = applicability_domain(X, df_train_normalized)
+    h_results  = applicability_domain(df_test_normalized, df_train_normalized)
     h_values.append(h_results)
     
 
