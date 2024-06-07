@@ -998,7 +998,7 @@ if uploaded_file_1 is not None:
        
 
 # Example file
-elif:
+else:
     st.info('👈🏼👈🏼👈🏼   Awaiting for CSV file to be uploaded.')
     if st.button('Press to use Example CSV Dataset with smiles'):
         data = pd.read_csv("example_file1.csv")
@@ -1051,15 +1051,15 @@ elif:
         st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
         st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         
-else:
-    on2 = st.toggle('Use drawn structure',key="15")    
-    with st.expander("SMILES editor"):
-        drawer2 = st_ketcher(key="14")
-        st.caption("Click on Apply to save the drawn structure as input.")  
-    if on2:
-        smile_list=drawer
-        ID='1'
-        data = pd.DataFrame({'Name': [ID], 'Smiles_OK': [smiles_list]})
+
+on2 = st.toggle('Use drawn structure',key="15")    
+with st.expander("SMILES editor"):
+    drawer2 = st_ketcher(key="14")
+    st.caption("Click on Apply to save the drawn structure as input.")  
+if on2:
+    smile_list=drawer
+    ID='1'
+    data = pd.DataFrame({'Name': [ID], 'Smiles_OK': [smiles_list]})
         
 
     train_data = data_train[loaded_desc]
