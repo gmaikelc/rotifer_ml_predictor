@@ -991,6 +991,7 @@ if uploaded_file_1 is not None:
         data = pd.read_csv(uploaded_file_1,) 
         train_data = data_train[loaded_desc]
         # Calculate descriptors and SMILES for the first column
+        st.write(data)
         descriptors_total_1, smiles_list_1 = calc_descriptors(data, 1)
         # Calculate descriptors and SMILES for the second column
         #descriptors_total_2, smiles_list_2 = calc_descriptors(data, 4)
