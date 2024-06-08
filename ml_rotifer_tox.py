@@ -698,7 +698,7 @@ def calc_descriptors(data, smiles_col_pos):
                 
             descriptors_total_list.append(descriptors_dict)
             st.spinner('CALCULATING DESCRIPTORS (STEP 1 OF 4)...')
-            t.markdown("Calculating descriptors for molecule: " + str(pos +1) +"/" + str(len(data.iloc[:,0])))
+            t.markdown("CALCULATING DESCRIPTORS FOR MOLECULE: " + str(pos +1) +"/" + str(len(data.iloc[:,0])))
     
     # Convert the list of dictionaries to a DataFrame
     descriptors_total = pd.DataFrame(descriptors_total_list)
@@ -847,7 +847,8 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
     
 
     descriptors_model = loaded_desc
-        
+    st.spinner('CALCULATING PREDICTIONS (STEP 1 OF 4)...')
+    t.markdown("CALCULATING PREDICTIONS...')   
     X = df_test_normalized[descriptors_model]
     predictions = loaded_model.predict(X)
     scores.append(predictions)
