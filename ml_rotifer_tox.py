@@ -875,9 +875,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
           
         
     h_final = pd.DataFrame(h_values).T
-    
-    #h_final.index = idx
-    st.write(h_final)
+    h_final.index = idx
     h_final.rename(columns={0: "Confidence"},inplace=True)
 
     std_ensemble = dataframe_std.iloc[:,0]
@@ -905,7 +903,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
     return final_file, styled_df
 
 #Calculating the William's plot limits
-def calculate_wp_plot_limits(leverage_data, x_std_max=4, x_std_min=-4):
+def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4):
     # Getting maximum std value
     if std_residual_train.max() < 4:
         x_lim_max_std = x_std_max
