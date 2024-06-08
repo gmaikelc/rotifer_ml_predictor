@@ -996,7 +996,7 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         validation_legend =Line2D([0],[0],color='orange', marker='o', markersize=10, label='Validation')
 
         # add manual symbols to auto legend
-        handles.extend([training_legend, line, validation_legend])
+        handles.extend([training_legend, validation_legend])
 
         plt.legend(handles=handles, bbox_to_anchor=(0.99, 0.34), loc='upper right',
                    fontsize=14, edgecolor='black')
