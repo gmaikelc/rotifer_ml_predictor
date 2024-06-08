@@ -987,10 +987,18 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         plt.ylim(x_lim_min_std, x_lim_max_std)
         plt.xlim(x_lim_min_lev, x_lim_max_lev)
 
-        # Custom legend
-        training_legend = mpatches.Patch( color='cornflowerblue', marker='o', markersize=10, label='Training')
-        validation_legend =mpatches.Patch(color='orange', marker='o', markersize=10, label='Validation')
-        plt.legend(handles=[training_legend, validation_legend], bbox_to_anchor=(0.99, 0.34), loc='upper right',
+
+        # access legend objects automatically created from data
+        handles, labels = plt.gca().get_legend_handles_labels()
+                      
+        # Custom legend                      
+        training_legend = Line2D([0],[0], color='cornflowerblue', marker='o', markersize=10, label='Training')
+        validation_legend =Line2D([0],[0],color='orange', marker='o', markersize=10, label='Validation')
+
+        # add manual symbols to auto legend
+        handles.extend([training_legend, line, validation_legend])
+
+        plt.legend(handles=handles, bbox_to_anchor=(0.99, 0.34), loc='upper right',
                    fontsize=14, edgecolor='black')
                       
         #plt.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
