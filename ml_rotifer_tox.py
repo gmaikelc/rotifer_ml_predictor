@@ -61,7 +61,7 @@ from PIL import Image
 import uuid
 from filelock import Timeout, FileLock
 
-#from matplotlib.lines import Line2D
+from matplotlib.lines import Line2D
 import matplotlib.patches as mpatches
 
 
