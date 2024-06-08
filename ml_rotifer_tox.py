@@ -676,7 +676,7 @@ def calc_descriptors(data, smiles_col_pos):
     t = st.empty()
 
     # Placeholder for the spinner
-    with st.spinner('CALCULATING DESCRIPTORS (STEP 1 OF 4)...'):
+    with st.spinner('CALCULATING DESCRIPTORS (STEP 1 OF 3)...'):
         # Simulate a long-running computation
         time.sleep(5)  # Sleep for 5 seconds to mimic computation
         # Loop through each molecule in the dataset
@@ -852,7 +852,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
 
     descriptors_model = loaded_desc
     # Placeholder for the spinner
-    with st.spinner('CALCULATING PREDICTIONS (STEP 2 OF 4)...'):
+    with st.spinner('CALCULATING PREDICTIONS (STEP 2 OF 3)...'):
         # Simulate a long-running computation
         time.sleep(5)  # Sleep for 5 seconds to mimic computation
      
@@ -915,46 +915,50 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
 
 #Calculating the William's plot limits
 def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4):
-    # Getting maximum std value
-    if std_residual_train.max() < 4:
-        x_lim_max_std = x_std_max
-    elif std_residual_train.max() > 4:
-        x_lim_max_std = round(std_residual_train.max()) + 1
+    
+    with st.spinner('CALCULATING APPLICABILITY DOMAIN (STEP 3 OF 3)...'):
+        # Simulate a long-running computation
+        time.sleep(5)  # Sleep for 5 seconds to mimic computation
+        # Getting maximum std value
+        if std_residual_train.max() < 4:
+            x_lim_max_std = x_std_max
+        elif std_residual_train.max() > 4:
+            x_lim_max_std = round(std_residual_train.max()) + 1
 
-    # Getting minimum std value
-    if std_residual_train.min() > -4:
-        x_lim_min_std = x_std_min
-    elif std_residual_train.min() < 4:
-        x_lim_min_std = round(std_residual_train.min()) - 1
+        # Getting minimum std value
+        if std_residual_train.min() > -4:
+            x_lim_min_std = x_std_min
+        elif std_residual_train.min() < 4:
+            x_lim_min_std = round(std_residual_train.min()) - 1
 
     
-    #st.write('x_lim_max_std:', x_lim_max_std)
-    #st.write('x_lim_min_std:', x_lim_min_std)
+        #st.write('x_lim_max_std:', x_lim_max_std)
+        #st.write('x_lim_min_std:', x_lim_min_std)
 
-    # Calculation H critical
-    n = len(leverage_train)
-    p = df_train_normalized.shape[1]
-    h_value = 3 * (p + 1) / n
-    h_critical = round(h_value, 4)
-    #st.write('Number of cases training:', n)
-    #st.write('Number of variables:', p)
-    #st.write('h_critical:', h_critical)
+        # Calculation H critical
+        n = len(leverage_train)
+        p = df_train_normalized.shape[1]
+        h_value = 3 * (p + 1) / n
+        h_critical = round(h_value, 4)
+        #st.write('Number of cases training:', n)
+        #st.write('Number of variables:', p)
+        #st.write('h_critical:', h_critical)
 
-    # Getting maximum leverage value
-    if leverage_train.max() < h_critical:
-        x_lim_max_lev = h_critical + h_critical * 0.5
-    elif leverage_train.max() > h_critical:
-        x_lim_max_lev = leverage_train.max() + (leverage_train.max()) * 0.1
+        # Getting maximum leverage value
+        if leverage_train.max() < h_critical:
+            x_lim_max_lev = h_critical + h_critical * 0.5
+        elif leverage_train.max() > h_critical:
+            x_lim_max_lev = leverage_train.max() + (leverage_train.max()) * 0.1
 
-    # Getting minimum leverage value
-    if leverage_train.min() < 0:
-        x_lim_min_lev = x_lev_min - x_lev_min * 0.05
-    elif leverage_train.min() > 0:
-        x_lim_min_lev = 0
+        # Getting minimum leverage value
+        if leverage_train.min() < 0:
+            x_lim_min_lev = x_lev_min - x_lev_min * 0.05
+        elif leverage_train.min() > 0:
+            x_lim_min_lev = 0
 
-    #st.write('x_lim_max_lev:', x_lim_max_lev)
+        #st.write('x_lim_max_lev:', x_lim_max_lev)
 
-    return x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev
+        return x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev
 
 
 def williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test,
