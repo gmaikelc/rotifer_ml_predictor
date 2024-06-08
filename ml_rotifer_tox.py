@@ -103,10 +103,10 @@ with st.expander("More information",):
 
     The tool uses the following packages [RDKIT](https://www.rdkit.org/docs/index.html), [Mordred](https://github.com/mordred-descriptor/mordred), [MOLVS](https://molvs.readthedocs.io/), [Openbabel](https://github.com/openbabel/openbabel),
     [Scikit-learn](https://scikit-learn.org/stable/)
-    **Workflow:**
+    
     """)
 
-with st.expander("Workflow"):
+with st.expander("**Workflow**"):
     image = Image.open('toc.png')
     st.image(image, caption='ML Rotifer Aquatic Toxicity workflow')
 
