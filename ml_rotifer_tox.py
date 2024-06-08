@@ -63,6 +63,7 @@ from filelock import Timeout, FileLock
 
 from matplotlib.lines import Line2D
 import matplotlib.patches as mpatches
+import time
 
 
 
@@ -676,6 +677,8 @@ def calc_descriptors(data, smiles_col_pos):
 
     # Placeholder for the spinner
     with st.spinner('CALCULATING DESCRIPTORS (STEP 1 OF 4)...'):
+        # Simulate a long-running computation
+        time.sleep(5)  # Sleep for 5 seconds to mimic computation
         # Loop through each molecule in the dataset
         for pos, row in data.iterrows():
             molecule_name = row[0]  # Assuming the first column contains the molecule names
@@ -850,6 +853,8 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
     descriptors_model = loaded_desc
     # Placeholder for the spinner
     with st.spinner('CALCULATING PREDICTIONS (STEP 2 OF 4)...'):
+        # Simulate a long-running computation
+        time.sleep(5)  # Sleep for 5 seconds to mimic computation
      
         X = df_test_normalized[descriptors_model]
         predictions = loaded_model.predict(X)
