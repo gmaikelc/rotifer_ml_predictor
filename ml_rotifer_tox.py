@@ -1011,7 +1011,7 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         plt.xlabel('Leverage', fontsize=20)
         x_axis_text = (x_lim_min_lev + h_critical) / 2
         plt.text(x_axis_text, 2.2, 'Chemical Space \nPredictions Reliable',
-                 horizontalalignment='center', fontsize=20, fontweight='bold')
+                 horizontalalignment='center', fontsize=10, fontweight='bold')
     
         if add_title and title:
             plt.title(title, fontsize=20)
@@ -1027,27 +1027,6 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         return fig
 
 
-#%% Create plot:
-
-#def final_plot(final_file):
-    
- #   confident_tg = len(final_file[(final_file['Confidence'] == "HIGH")])
-  #  medium_confident_tg = len(final_file[(final_file['Confidence'] == "MEDIUM")])
-  #  non_confident_tg = len(final_file[(final_file['Confidence'] == "LOW")])
-    
-   # keys = ["High confidence", "Medium confidence", "Low confidence",]
-   # colors = ['cornflowerblue', 'lightblue', 'red']  # Define custom colors for each slice
-   # fig = go.Figure(go.Pie(labels=keys, values=[confident_tg, medium_confident_tg, non_confident_tg], marker=dict(colors=colors)))
-    
-   # fig.update_layout(plot_bgcolor = 'rgb(256,256,256)', title_text="Global Emissions 1990-2011",
-    #                        title_font = dict(size=25, family='Calibri', color='black'),
-     #                       font =dict(size=20, family='Calibri'),
-      #                      legend_title_font = dict(size=18, family='Calibri', color='black'),
-       #                     legend_font = dict(size=15, family='Calibri', color='black'))
-    
-    #fig.update_layout(title_text='Percentage confidence')
-    
-    #return fig
 
 
 #%%
