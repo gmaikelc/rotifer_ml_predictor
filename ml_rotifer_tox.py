@@ -361,7 +361,7 @@ def check_ns_distance(descriptors):
             # Append NaN if SMILES cannot be converted to a molecule
             frequency_ns.append(float('nan'))
             continue
-        
+
         # Generate the molecular graph representation
         mol_graph = Chem.RWMol(mol)
         Chem.SanitizeMol(mol_graph)
@@ -387,6 +387,7 @@ def check_ns_distance(descriptors):
         
         # Append the result to the list
         frequency_ns.append(ns_frequency)
+         
     
     # Add the results as a new column in the DataFrame
     descriptors['F02[N-S]'] = frequency_ns
