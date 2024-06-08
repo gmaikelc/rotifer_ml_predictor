@@ -747,18 +747,6 @@ def reading_reorder(data):
     test_data = df_selected.reindex(columns=loaded_desc)
     #descriptors_total = data[loaded_desc]
 
-    # Cleaning from invalid string values
-    #Converting the columns to strings
-    #test_data['GATS7se'] = test_data['GATS7se'].astype(str)
-    #test_data['GATS4i'] = test_data['GATS4i'].astype(str)
-
-    #Replacing the invalid string with 0
-    #mapping = {'invalid value encountered in double_scalars (GATS7se)': 0.0,'invalid value encountered in double_scalars (GATS4i)': 0.0,}
-    #test_data=test_data.replace({'GATS7se': mapping, 'GATS4i': mapping})
-
-    # Converting back to numbers
-    #test_data['GATS7se']= pd.to_numeric(test_data['GATS7se'], errors='coerce')
-    #test_data['GATS4i'] = pd.to_numeric(test_data['GATS4i'], errors='coerce')
 
     return test_data, id
 
@@ -886,8 +874,9 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
       
         
     h_final = pd.DataFrame(h_values).T
-    st.write(h_final)
+    
     h_final.index = idx
+    st.write(h_final)
     h_final.rename(columns={0: "Confidence"},inplace=True)
 
     std_ensemble = dataframe_std.iloc[:,0]
