@@ -993,10 +993,10 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         handles, labels = ax.get_legend_handles_labels()
                       
         # Custom legend                      
-        training_legend =  [Line2D([0],[0], color='cornflowerblue', marker='o', markersize=10, label='Training')]
-        validation_legend = [Line2D([0],[0],color='orange', marker='o', markersize=10, label='Validation')]
+        #training_legend =  [Line2D([0],[0], color='cornflowerblue', marker='o', markersize=10, label='Training')]
+        #validation_legend = [Line2D([0],[0],color='orange', marker='o', markersize=10, label='Validation')]
         # add manual symbols to auto legend
-        handles.extend([training_legend, validation_legend])
+        #handles.extend([training_legend, validation_legend])
 
         # Custom legend                      
         #training_legend = mpatches.Patch( color='cornflowerblue', marker='o', label='Training')
