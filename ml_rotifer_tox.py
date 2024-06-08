@@ -673,69 +673,70 @@ def calc_descriptors(data, smiles_col_pos):
     descriptors_total_list = []
     smiles_list = []
     t = st.empty()
-    
-    # Loop through each molecule in the dataset
-    for pos, row in data.iterrows():
-        molecule_name = row[0]  # Assuming the first column contains the molecule names
-        molecule_smiles = row[smiles_col_pos]  # Assuming the specified column contains the SMILES
 
-        if pd.isna(molecule_smiles) or molecule_smiles.strip() == '':
-            continue  # Skip to the next row if SMILES is empty
+    # Placeholder for the spinner
+    with st.spinner('CALCULATING DESCRIPTORS (STEP 1 OF 4)...'):
+        # Loop through each molecule in the dataset
+        for pos, row in data.iterrows():
+            molecule_name = row[0]  # Assuming the first column contains the molecule names
+            molecule_smiles = row[smiles_col_pos]  # Assuming the specified column contains the SMILES
+
+            if pd.isna(molecule_smiles) or molecule_smiles.strip() == '':
+                continue  # Skip to the next row if SMILES is empty
             
-        mol = Chem.MolFromSmiles(molecule_smiles)
-        if mol is not None:
-            smiles_ionized = charges_ph(molecule_smiles, 7.4)
-            smile_checked = smile_obabel_corrector(smiles_ionized)
-            smile_final = smile_checked.rstrip()
-            smiles_list.append(smile_final)
+            mol = Chem.MolFromSmiles(molecule_smiles)
+            if mol is not None:
+                smiles_ionized = charges_ph(molecule_smiles, 7.4)
+                smile_checked = smile_obabel_corrector(smiles_ionized)
+                smile_final = smile_checked.rstrip()
+                smiles_list.append(smile_final)
                 
-            calc = Calculator(descriptors, ignore_3D=True)
-            descriptor_values = calc(mol).asdict()
+                calc = Calculator(descriptors, ignore_3D=True)
+                descriptor_values = calc(mol).asdict()
                 
-            # Create a dictionary with molecule name as key and descriptor values as values
-            descriptors_dict = {'NAME': molecule_name}
-            descriptors_dict.update(descriptor_values)
+                # Create a dictionary with molecule name as key and descriptor values as values
+                descriptors_dict = {'NAME': molecule_name}
+                descriptors_dict.update(descriptor_values)
                 
-            descriptors_total_list.append(descriptors_dict)
-            st.spinner('CALCULATING DESCRIPTORS (STEP 1 OF 4)...')
-            t.markdown("CALCULATING DESCRIPTORS FOR MOLECULE: " + str(pos +1) +"/" + str(len(data.iloc[:,0])))
+                descriptors_total_list.append(descriptors_dict)
+                #t.markdown("CALCULATING DESCRIPTORS FOR MOLECULE: " + str(pos +1) +"/" + str(len(data.iloc[:,0])))
     
-    # Convert the list of dictionaries to a DataFrame
-    descriptors_total = pd.DataFrame(descriptors_total_list)
-    descriptors_total = descriptors_total.set_index('NAME', inplace=False).copy()
-    descriptors_total = descriptors_total.reindex(sorted(descriptors_total.columns), axis=1)   
-    descriptors_total.replace([np.inf, -np.inf], np.nan, inplace=True)
-    descriptors_total["Smiles_OK"] = smiles_list
+        # Convert the list of dictionaries to a DataFrame
+        descriptors_total = pd.DataFrame(descriptors_total_list)
+        descriptors_total = descriptors_total.set_index('NAME', inplace=False).copy()
+        descriptors_total = descriptors_total.reindex(sorted(descriptors_total.columns), axis=1)   
+        descriptors_total.replace([np.inf, -np.inf], np.nan, inplace=True)
+        descriptors_total["Smiles_OK"] = smiles_list
     
-    # Perform formal charge calculation
-    descriptors_total = formal_charge_calculation(descriptors_total)
+        # Perform formal charge calculation
+        descriptors_total = formal_charge_calculation(descriptors_total)
 
-    # Perform B04[O-O] descriptor calculation
-    descriptors_total = check_oo_distance(descriptors_total)
+        # Perform B04[O-O] descriptor calculation
+        descriptors_total = check_oo_distance(descriptors_total)
 
-     # Perform nN=C-N< descriptor calculation
-    descriptors_total = count_amidine_groups(descriptors_total)
+         # Perform nN=C-N< descriptor calculation
+        descriptors_total = count_amidine_groups(descriptors_total)
 
-    #Perform B07[Cl-Cl] descriptor calculation
-    descriptors_total = check_clcl_distance(descriptors_total)
+        #Perform B07[Cl-Cl] descriptor calculation
+        descriptors_total = check_clcl_distance(descriptors_total)
 
-    #Perform T(Cl..Cl) descriptor calculation
-    descriptors_total = sum_all_cl_cl_distances(descriptors_total)
+        #Perform T(Cl..Cl) descriptor calculation
+        descriptors_total = sum_all_cl_cl_distances(descriptors_total)
 
-    #Perform nN(CO)2 descriptor calculation
-    descriptors_total = count_imide_groups(descriptors_total)
+        #Perform nN(CO)2 descriptor calculation
+        descriptors_total = count_imide_groups(descriptors_total)
 
-    #Perform B02[C-Cl] molecular descriptor calculation
-    descriptors_total = check_clc_distance(descriptors_total)
+        #Perform B02[C-Cl] molecular descriptor calculation
+        descriptors_total = check_clc_distance(descriptors_total)
 
-    #Perform C-033 molecular descriptor calculation
-    descriptors_total = count_rcx(descriptors_total)
+        #Perform C-033 molecular descriptor calculation
+        descriptors_total = count_rcx(descriptors_total)
     
-    #Perform F02[N-S] molecular descriptor calculation
-    descriptors_total = check_ns_distance(descriptors_total)
+        #Perform F02[N-S] molecular descriptor calculation
+        descriptors_total = check_ns_distance(descriptors_total)
     
 
-    return descriptors_total, smiles_list
+        return descriptors_total, smiles_list
 
 
 
@@ -847,64 +848,65 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
     
 
     descriptors_model = loaded_desc
-    st.spinner('CALCULATING PREDICTIONS (STEP 1 OF 4)...')
-    t.markdown('CALCULATING PREDICTIONS...')   
-    X = df_test_normalized[descriptors_model]
-    predictions = loaded_model.predict(X)
-    scores.append(predictions)
+     # Placeholder for the spinner
+    with st.spinner('CALCULATING PREDICTIONS (STEP 2 OF 4)...'):
+     
+        X = df_test_normalized[descriptors_model]
+        predictions = loaded_model.predict(X)
+        scores.append(predictions)
         
-    # y_true and y_pred are the actual and predicted values, respectively
+        # y_true and y_pred are the actual and predicted values, respectively
     
-    # Create y_true array with all elements set to mean value and the same length as y_pred
-    y_pred_test = predictions
-    y_test = np.full_like(y_pred_test, mean_value)
-    residuals_test = y_test -y_pred_test
+        # Create y_true array with all elements set to mean value and the same length as y_pred
+        y_pred_test = predictions
+        y_test = np.full_like(y_pred_test, mean_value)
+        residuals_test = y_test -y_pred_test
 
-    std_dev_test = np.sqrt(mean_squared_error(y_test, y_pred_test))
-    std_residual_test = (y_test - y_pred_test) / std_dev_test
-    std_residual_test = std_residual_test.ravel()
+        std_dev_test = np.sqrt(mean_squared_error(y_test, y_pred_test))
+        std_residual_test = (y_test - y_pred_test) / std_dev_test
+        std_residual_test = std_residual_test.ravel()
           
-    std_resd.append(std_residual_test)
+        std_resd.append(std_residual_test)
         
-    h_results, leverage_train, leverage_test, std_residual_train  = applicability_domain(df_test_normalized, df_train_normalized)
-    h_values.append(h_results)
+        h_results, leverage_train, leverage_test, std_residual_train  = applicability_domain(df_test_normalized, df_train_normalized)
+        h_values.append(h_results)
     
 
-    dataframe_pred = pd.DataFrame(scores).T
-    dataframe_pred.index = idx
-    dataframe_pred.rename(columns={0: "pLC50"},inplace=True)
+        dataframe_pred = pd.DataFrame(scores).T
+        dataframe_pred.index = idx
+        dataframe_pred.rename(columns={0: "pLC50"},inplace=True)
     
-    dataframe_std = pd.DataFrame(std_resd).T
-    dataframe_std.index = idx
+        dataframe_std = pd.DataFrame(std_resd).T
+        dataframe_std.index = idx
           
         
-    h_final = pd.DataFrame(h_values).T
-    h_final.index = idx
-    h_final.rename(columns={0: "Confidence"},inplace=True)
+        h_final = pd.DataFrame(h_values).T
+        h_final.index = idx
+        h_final.rename(columns={0: "Confidence"},inplace=True)
 
-    std_ensemble = dataframe_std.iloc[:,0]
-    # Create a mask using boolean indexing
-    std_ad_calc = (std_ensemble >= 3) | (std_ensemble <= -3) 
-    std_ad_calc = std_ad_calc.replace({True: 'Outside AD', False: 'Inside AD'})
+        std_ensemble = dataframe_std.iloc[:,0]
+        # Create a mask using boolean indexing
+        std_ad_calc = (std_ensemble >= 3) | (std_ensemble <= -3) 
+        std_ad_calc = std_ad_calc.replace({True: 'Outside AD', False: 'Inside AD'})
    
     
-    final_file = pd.concat([std_ad_calc,h_final,dataframe_pred], axis=1)
+        final_file = pd.concat([std_ad_calc,h_final,dataframe_pred], axis=1)
     
-    final_file.rename(columns={0: "Std_residual"},inplace=True)
+        final_file.rename(columns={0: "Std_residual"},inplace=True)
     
-    h3 = 3*((df_train_normalized.shape[1]+1)/df_train_normalized.shape[0])  ##  Mas flexible
+        h3 = 3*((df_train_normalized.shape[1]+1)/df_train_normalized.shape[0])  ##  Mas flexible
 
-    final_file.loc[(final_file["Confidence"] == True) & ((final_file["Std_residual"] == 'Inside AD' )), 'Confidence'] = 'HIGH'
-    final_file.loc[(final_file["Confidence"] == True) & ((final_file["Std_residual"] == 'Outside AD')), 'Confidence'] = 'LOW'
-    final_file.loc[(final_file["Confidence"] == False) & ((final_file["Std_residual"] == 'Outside AD')), 'Confidence'] = 'LOW'
-    final_file.loc[(final_file["Confidence"] == False) & ((final_file["Std_residual"] == 'Inside AD')), 'Confidence'] = 'MEDIUM'
+        final_file.loc[(final_file["Confidence"] == True) & ((final_file["Std_residual"] == 'Inside AD' )), 'Confidence'] = 'HIGH'
+        final_file.loc[(final_file["Confidence"] == True) & ((final_file["Std_residual"] == 'Outside AD')), 'Confidence'] = 'LOW'
+        final_file.loc[(final_file["Confidence"] == False) & ((final_file["Std_residual"] == 'Outside AD')), 'Confidence'] = 'LOW'
+        final_file.loc[(final_file["Confidence"] == False) & ((final_file["Std_residual"] == 'Inside AD')), 'Confidence'] = 'MEDIUM'
 
 
             
-    df_no_duplicates = final_file[~final_file.index.duplicated(keep='first')]
-    styled_df = df_no_duplicates.style.apply(lambda row: [f"background-color: {get_color(row['Confidence'])}" for _ in row],subset=["Confidence"], axis=1)
+        df_no_duplicates = final_file[~final_file.index.duplicated(keep='first')]
+        styled_df = df_no_duplicates.style.apply(lambda row: [f"background-color: {get_color(row['Confidence'])}" for _ in row],subset=["Confidence"], axis=1)
     
-    return final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test
+        return final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test
 
 #Calculating the William's plot limits
 def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4):
