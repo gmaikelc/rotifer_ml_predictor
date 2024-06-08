@@ -990,7 +990,7 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
 
         # access legend objects automatically created from data
         # where some data has already been plotted to ax
-        handles, labels = ax1.get_legend_handles_labels()
+        handles, labels = ax.get_legend_handles_labels()
                       
         # Custom legend                      
         training_legend =  [Line2D([0],[0], color='cornflowerblue', marker='o', markersize=10, label='Training')]
