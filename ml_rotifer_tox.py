@@ -1131,7 +1131,7 @@ if uploaded_file_1 is not None:
             st.subheader(r'pLC50 salt water')
             st.write(styled_df)
         with col2:
-            st.markdown("<h2 style='text-align: center;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
+            st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             #st.subheader("William's Plot (Applicability Domain)")
             st.plotly_chart(figure,use_container_width=True)
         st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True)
@@ -1187,7 +1187,7 @@ else:
             st.subheader(r'pLC50 salt water')
             st.write(styled_df)
         with col2:
-            st.markdown("<h2 style='text-align: center;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
+            st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             #st.subheader("William's Plot (Applicability Domain)")
             st.plotly_chart(figure,use_container_width=True)
         st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
@@ -1252,7 +1252,7 @@ if on2:
             st.subheader(r'pLC50 salt water')
             st.write(styled_df)
         with col2:
-            st.markdown("<h2 style='text-align: center;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
+            st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             #st.subheader("William's plot (Applicability Domain)")
             st.plotly_chart(figure,use_container_width=True)
         st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
