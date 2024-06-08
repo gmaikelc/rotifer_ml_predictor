@@ -984,8 +984,14 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         plt.ylim(x_lim_min_std, x_lim_max_std)
         plt.xlim(x_lim_min_lev, x_lim_max_lev)
 
-        plt.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
-            fontsize=14,edgecolor='black')
+        # Custom legend
+        training_legend = plt.Line2D([], [], color='cornflowerblue', marker='o', markersize=10, label='Training')
+        validation_legend = plt.Line2D([], [], color='orange', marker='o', markersize=10, label='Validation')
+        plt.legend(handles=[training_legend, validation_legend], bbox_to_anchor=(0.99, 0.34), loc='upper right',
+                   fontsize=14, edgecolor='black')
+                      
+        #plt.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
+         #   fontsize=14,edgecolor='black')
         plt.plot([h_critical, h_critical], [x_lim_min_std, x_lim_max_std], lw=1, ls='dashed', color='black')
         plt.plot([x_lim_min_lev, x_lim_max_lev], [3, 3], lw=1, ls='dashed', color='black')
         plt.plot([x_lim_min_lev, x_lim_max_lev], [-3, -3], lw=1, ls='dashed', color='black')
