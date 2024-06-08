@@ -999,10 +999,10 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         #handles.extend([training_legend, validation_legend])
 
         # Custom legend                      
-        training_legend = mpatches.Patch( color='cornflowerblue', marker='o', label='Training')
+        #training_legend = mpatches.Patch( color='cornflowerblue', marker='o', label='Training')
         validation_legend = mpatches.Patch(color='orange', marker='o', label='Validation')
         # handles is a list, so append manual patch
-        handles.append(training_legend)
+        #handles.append(training_legend)
         handles.append(validation_legend)              
 
        
