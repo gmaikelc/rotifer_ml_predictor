@@ -204,13 +204,13 @@ def smile_obabel_corrector(smiles_ionized):
         #    atom.UpdatePropertyCache()
             
     # checks if the nitro group is wrongly protonated in the oxygen
-    pattern2 = Chem.MolFromSmarts('[#6][O-]=[N+](=O)[O-]')
-    if mol1.HasSubstructMatch(pattern2):
+   # pattern2 = Chem.MolFromSmarts('[#6][O-]=[N+](=O)[O-]')
+    #if mol1.HasSubstructMatch(pattern2):
         # print('NO 20')
-        patt = Chem.MolFromSmiles('[O-]=[N+](=O)[O-]', sanitize = False)
-        repl = Chem.MolFromSmiles('O[N+]([O-])=O')
-        rms = AllChem.ReplaceSubstructs(mol1,patt,repl,replaceAll=True)
-        mol1 = rms[0]
+     #   patt = Chem.MolFromSmiles('[O-]=[N+](=O)[O-]', sanitize = False)
+     #   repl = Chem.MolFromSmiles('O[N+]([O-])=O')
+      #  rms = AllChem.ReplaceSubstructs(mol1,patt,repl,replaceAll=True)
+       # mol1 = rms[0]
 
     # checks if the nitro group is wrongly protonated in the oxygen
     pattern21 = Chem.MolFromSmarts('[#6]-[O-][N+](=O)=[O-]')
