@@ -178,7 +178,7 @@ def charges_ph(molecule, ph):
     return optimized
 
 def smile_obabel_corrector(smiles_ionized):
-    mol1 = Chem.MolFromSmiles(smiles_ionized, sanitize = True)
+    mol1 = Chem.MolFromSmiles(smiles_ionized, sanitize = False)
 
     smile_checked = Chem.MolToSmiles(mol1)
     return smile_checked
@@ -580,7 +580,8 @@ def calc_descriptors(data, smiles_col_pos):
             mol = Chem.MolFromSmiles(molecule_smiles)
             if mol is not None:
                 smiles_ionized = charges_ph(molecule_smiles, 7.4)
-                smile_checked = smile_obabel_corrector(smiles_ionized)
+                #smile_checked = smile_obabel_corrector(smiles_ionized)
+                smile_checked = smiles_ionized
                 smile_final = smile_checked.rstrip()
                 smiles_list.append(smile_final)
                 
