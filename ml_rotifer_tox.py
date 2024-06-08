@@ -61,6 +61,8 @@ from PIL import Image
 import uuid
 from filelock import Timeout, FileLock
 
+from matplotlib.lines import Line2D
+
 
 
 #%% PAGE CONFIG
