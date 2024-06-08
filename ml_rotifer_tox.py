@@ -84,13 +84,7 @@ def img_to_bytes(img_path):
 image = Image.open('cropped-header.png')
 st.image(image)
 
-#st.write("[![Website](https://img.shields.io/badge/website-RasulevGroup-blue)](http://www.rasulev.org)")
-#st.subheader("📌" "About Us")
-#st.markdown("The group of Prof. Rasulev is focused on development of artificial intelligence (AI)-based predictive models to design novel polymeric materials, nanomaterials and to predict their various properties, including toxicity, solubility, fouling release properties, elasticity, degradation rate, biodegradation, etc. The group applies computational chemistry, machine learning and cheminformatics methods for modeling, data analysis and development of predictive structure-property relationship models to find structural factors responsible for activity of investigated materials.")
 
-
-# Introduction
-#---------------------------------#
 
 #st.title(':computer: ml rotifer sp toxicity in water')
 #with st.expander("<span style='color: blue;'>More information</span>", expanded=True):
@@ -107,7 +101,9 @@ with st.expander("More information",):
 
     The ML Aquatic Ecotox Rotifer sp predictor is a Web App that use Machine Learning to predict the aquatic ecotoxicology risk assesment of organic compounds. 
 
-    The tool uses the following packages [RDKIT](https://www.rdkit.org/docs/index.html), [Mordred](https://github.com/mordred-descriptor/mordred), [MOLVS](https://molvs.readthedocs.io/), [Openbabel](https://github.com/openbabel/openbabel),
+    The tool uses the following packages [RDKIT](https://www.rdkit.org/docs/index.html), [Mordred](https://github.com/mordred-descriptor/mordred), 
+    
+    [MOLVS](https://molvs.readthedocs.io/), [Openbabel](https://github.com/openbabel/openbabel),
     [Scikit-learn](https://scikit-learn.org/stable/)
     **Workflow:**
     """)
