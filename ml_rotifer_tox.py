@@ -192,16 +192,16 @@ def smile_obabel_corrector(smiles_ionized):
          #   atom.SetFormalCharge(0)
           #  atom.UpdatePropertyCache()
 
-    pattern12 = Chem.MolFromSmarts('[#6]-[#8-]-[#16]')
-    if mol1.HasSubstructMatch(pattern12):
+    #pattern12 = Chem.MolFromSmarts('[#6]-[#8-]-[#16]')
+    #if mol1.HasSubstructMatch(pattern12):
         # gets the atom number for the O wrongly charged
         at_matches = mol1.GetSubstructMatches(pattern12)
         at_matches_list = [y[1] for y in at_matches]
         # changes the charged for each O atom
-        for at_idx in at_matches_list:
-            atom = mol1.GetAtomWithIdx(at_idx)
-            atom.SetFormalCharge(0)
-            atom.UpdatePropertyCache()
+     #   for at_idx in at_matches_list:
+      #      atom = mol1.GetAtomWithIdx(at_idx)
+       #     atom.SetFormalCharge(0)
+        #    atom.UpdatePropertyCache()
             
     # checks if the nitro group is wrongly protonated in the oxygen
     pattern2 = Chem.MolFromSmarts('[#6][O-]=[N+](=O)[O-]')
