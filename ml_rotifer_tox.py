@@ -955,10 +955,10 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         fig.set_size_inches(8.5, 8.5)
 
      
-        ax1 = sns.regplot(x=leverage, y=resid, ax=ax, fit_reg=False, color=plot_color,
+        ax1 = sns.regplot(x=leverage_train, y=std_residual_train, ax=ax, fit_reg=False, color=plot_color,
                       marker='o', scatter_kws={'s': 120, 'linewidths': 0.5, 'edgecolor': 'k'})
 
-        ax2=sns.regplot(x=leverage2, y=resid2,ax=ax, fit_reg=False,color='orange',
+        ax2=sns.regplot(x=leverage_test, y=std_residual_test,ax=ax, fit_reg=False,color='orange',
                 marker='o',scatter_kws={'s':120,
                                        'linewidths':0.5,
                              'edgecolor':'k',})
@@ -1115,7 +1115,8 @@ if uploaded_file_1 is not None:
         X_final2= test_data1
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
-        final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
+        final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
+        x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
         figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)   
         col1, col2 = st.columns(2)
 
@@ -1233,8 +1234,9 @@ if on2:
         X_final2= test_data1
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
-        final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
-        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)  
+        final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
+        x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
+        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)   
         col1, col2 = st.columns(2)
 
         with col1:
