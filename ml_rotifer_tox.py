@@ -809,7 +809,7 @@ def applicability_domain(x_test_normalized, x_train_normalized):
             h_results.append(True)
         else:
             h_results.append(False)         
-    return h_results, std_residual_train, leverage_test, leverage_train 
+    return h_results
 
 
 
@@ -864,7 +864,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
         
     h_results  = applicability_domain(df_test_normalized, df_train_normalized)
     h_values.append(h_results)
-    st.write(h_values)
+    
 
     dataframe_pred = pd.DataFrame(scores).T
     dataframe_pred.index = idx
