@@ -61,7 +61,8 @@ from PIL import Image
 import uuid
 from filelock import Timeout, FileLock
 
-from matplotlib.lines import Line2D
+#from matplotlib.lines import Line2D
+import matplotlib.patches as mpatches
 
 
 
@@ -987,8 +988,8 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         plt.xlim(x_lim_min_lev, x_lim_max_lev)
 
         # Custom legend
-        training_legend = Line2D([], [], color='cornflowerblue', marker='o', markersize=10, label='Training')
-        validation_legend = Line2D([], [], color='orange', marker='o', markersize=10, label='Validation')
+        training_legend = mpatches.Patch( color='cornflowerblue', marker='o', markersize=10, label='Training')
+        validation_legend =mpatches.Patch(color='orange', marker='o', markersize=10, label='Validation')
         plt.legend(handles=[training_legend, validation_legend], bbox_to_anchor=(0.99, 0.34), loc='upper right',
                    fontsize=14, edgecolor='black')
                       
