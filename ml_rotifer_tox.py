@@ -916,17 +916,18 @@ def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_s
     elif std_residual_train.min() < 4:
         x_lim_min_std = round(std_residual_train.min()) - 1
 
-    st.write('x_lim_max_std:', x_lim_max_std)
-    st.write('x_lim_min_std:', x_lim_min_std)
+    
+    #st.write('x_lim_max_std:', x_lim_max_std)
+    #st.write('x_lim_min_std:', x_lim_min_std)
 
     # Calculation H critical
     n = len(leverage_train)
     p = df_train_normalized.shape[1]
     h_value = 3 * (p + 1) / n
     h_critical = round(h_value, 4)
-    st.write('Number of cases training:', n)
-    st.write('Number of variables:', p)
-    st.write('h_critical:', h_critical)
+    #st.write('Number of cases training:', n)
+    #st.write('Number of variables:', p)
+    #st.write('h_critical:', h_critical)
 
     # Getting maximum leverage value
     if leverage_train.max() < h_critical:
@@ -940,7 +941,7 @@ def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_s
     elif leverage_train.min() > 0:
         x_lim_min_lev = 0
 
-    st.write('x_lim_max_lev:', x_lim_max_lev)
+    #st.write('x_lim_max_lev:', x_lim_max_lev)
 
     return x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev
 
@@ -983,7 +984,7 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         plt.ylim(x_lim_min_std, x_lim_max_std)
         plt.xlim(x_lim_min_lev, x_lim_max_lev)
 
-        plt.legend(['training','validation'],bbox_to_anchor=(0.99, 0.24),loc='upper right',
+        plt.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
             fontsize=14,edgecolor='black')
         plt.plot([h_critical, h_critical], [x_lim_min_std, x_lim_max_std], lw=1, ls='dashed', color='black')
         plt.plot([x_lim_min_lev, x_lim_max_lev], [3, 3], lw=1, ls='dashed', color='black')
@@ -1010,8 +1011,8 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         plt.ylabel('Std Residuals', fontsize=20)
         plt.xlabel('Leverage', fontsize=20)
         x_axis_text = (x_lim_min_lev + h_critical) / 2
-        plt.text(x_axis_text, 2.2, 'Chemical Space \nPredictions Reliable',
-                 horizontalalignment='center', fontsize=10, fontweight='bold')
+        #plt.text(x_axis_text, 2.2, 'Chemical Space \nPredictions Reliable',
+         #        horizontalalignment='center', fontsize=10, fontweight='bold')
     
         if add_title and title:
             plt.title(title, fontsize=20)
@@ -1104,7 +1105,7 @@ if uploaded_file_1 is not None:
             st.subheader(r'pLC50 salt water')
             st.write(styled_df)
         with col2:
-            st.header("Pie Chart % Confidence")
+            st.header("William's Plot")
             st.plotly_chart(figure,use_container_width=True)
         st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True)
         st.markdown(filedownload1(final_file), unsafe_allow_html=True)
@@ -1159,7 +1160,7 @@ else:
             st.subheader(r'pLC50 salt water')
             st.write(styled_df)
         with col2:
-            st.header("Pie Chart % Confidence")
+            st.header("William's Plot")
             st.plotly_chart(figure,use_container_width=True)
         st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
         st.markdown(filedownload1(final_file), unsafe_allow_html=True)
