@@ -872,6 +872,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
     
     dataframe_std = pd.DataFrame(std_resd).T
     dataframe_std.index = idx
+    st.write(dataframe_std)
       
         
     h_final = pd.DataFrame(h_values).T
