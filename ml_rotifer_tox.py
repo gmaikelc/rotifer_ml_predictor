@@ -942,7 +942,7 @@ def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_s
 
     st.write('x_lim_max_lev:', x_lim_max_lev)
 
-    return x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev
+    return x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev
 
 
 def williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test,
@@ -1116,7 +1116,7 @@ if uploaded_file_1 is not None:
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
-        x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
+        x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
         figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)   
         col1, col2 = st.columns(2)
 
@@ -1171,7 +1171,7 @@ else:
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
-        x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
+        x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
         figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)   
         col1, col2 = st.columns(2)
 
@@ -1235,7 +1235,7 @@ if on2:
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
-        x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
+        x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
         figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)   
         col1, col2 = st.columns(2)
 
