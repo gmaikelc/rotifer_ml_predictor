@@ -900,7 +900,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
     df_no_duplicates = final_file[~final_file.index.duplicated(keep='first')]
     styled_df = df_no_duplicates.style.apply(lambda row: [f"background-color: {get_color(row['Confidence'])}" for _ in row],subset=["Confidence"], axis=1)
     
-    return final_file, styled_df
+    return final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test
 
 #Calculating the William's plot limits
 def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4):
@@ -1169,7 +1169,7 @@ else:
         X_final2= test_data1
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
-        final_file, styled_df = predictions(loaded_model, loaded_desc, df_test_normalized)
+        final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
         x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
         figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)   
         col1, col2 = st.columns(2)
