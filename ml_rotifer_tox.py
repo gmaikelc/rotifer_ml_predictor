@@ -848,7 +848,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
 
     descriptors_model = loaded_desc
     st.spinner('CALCULATING PREDICTIONS (STEP 1 OF 4)...')
-    t.markdown("CALCULATING PREDICTIONS...')   
+    t.markdown('CALCULATING PREDICTIONS...')   
     X = df_test_normalized[descriptors_model]
     predictions = loaded_model.predict(X)
     scores.append(predictions)
