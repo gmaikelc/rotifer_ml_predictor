@@ -841,6 +841,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
     h_values = []
     std_resd = []
     idx = data['ID']
+    st.write(idx)
 
     descriptors_model = loaded_desc
         
