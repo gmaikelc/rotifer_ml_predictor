@@ -809,7 +809,7 @@ def applicability_domain(x_test_normalized, x_train_normalized):
             h_results.append(True)
         else:
             h_results.append(False)         
-    return h_results
+    return h_results, leverage_train, leverage_test, std_residual_train 
 
 
 
@@ -862,7 +862,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
           
     std_resd.append(std_residual_test)
         
-    h_results  = applicability_domain(df_test_normalized, df_train_normalized)
+    h_results, leverage_train, leverage_test, std_residual_train  = applicability_domain(df_test_normalized, df_train_normalized)
     h_values.append(h_results)
     
 
@@ -1063,23 +1063,7 @@ def filedownload2(df):
     href = f'<a href="data:file/csv;base64,{b64}" download="Component1 results">Download CSV File with results Component1</a>'
     return href
 
-def filedownload3(df):
-    csv = df.to_csv(index=True,header=True)
-    b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
-    href = f'<a href="data:file/csv;base64,{b64}" download="Component2 results">Download CSV File with results Component2</a>'
-    return href
 
-def filedownload4(df):
-    csv = df.to_csv(index=True,header=True)
-    b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
-    href = f'<a href="data:file/csv;base64,{b64}" download="Mixture results">Download CSV File with Mixture descriptors</a>'
-    return href
-
-def filedownload5(df):
-    csv = df.to_csv(index=True,header=True)
-    b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
-    href = f'<a href="data:file/csv;base64,{b64}" download="Mixture normalized results">Download CSV File with results Mixture descriptors</a>'
-    return href
 
 #%% RUN
 
