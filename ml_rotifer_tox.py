@@ -875,7 +875,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
         
     h_final = pd.DataFrame(h_values).T
     
-    h_final.index = idx
+    #h_final.index = idx
     st.write(h_final)
     h_final.rename(columns={0: "Confidence"},inplace=True)
 
