@@ -952,7 +952,7 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         sns.despine(left=True, right=True)
     
         fig, ax = plt.subplots()
-        fig.set_size_inches(8.5, 8.5)
+        fig.set_size_inches(4.5, 4.5)
 
      
         ax1 = sns.regplot(x=leverage_train, y=std_residual_train, ax=ax, fit_reg=False, color=plot_color,
