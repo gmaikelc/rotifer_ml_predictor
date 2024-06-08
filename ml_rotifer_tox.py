@@ -195,8 +195,8 @@ def smile_obabel_corrector(smiles_ionized):
     #pattern12 = Chem.MolFromSmarts('[#6]-[#8-]-[#16]')
     #if mol1.HasSubstructMatch(pattern12):
         # gets the atom number for the O wrongly charged
-        at_matches = mol1.GetSubstructMatches(pattern12)
-        at_matches_list = [y[1] for y in at_matches]
+      #  at_matches = mol1.GetSubstructMatches(pattern12)
+       # at_matches_list = [y[1] for y in at_matches]
         # changes the charged for each O atom
      #   for at_idx in at_matches_list:
       #      atom = mol1.GetAtomWithIdx(at_idx)
