@@ -841,7 +841,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
     h_values = []
     std_resd = []
     idx = data['ID']
-    st.write(idx)
+    
 
     descriptors_model = loaded_desc
         
@@ -864,7 +864,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
         
     h_results  = applicability_domain(df_test_normalized, df_train_normalized)
     h_values.append(h_results)
-    
+    st.write(h_values)
 
     dataframe_pred = pd.DataFrame(scores).T
     dataframe_pred.index = idx
@@ -872,8 +872,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
     
     dataframe_std = pd.DataFrame(std_resd).T
     dataframe_std.index = idx
-    st.write(dataframe_std)
-      
+          
         
     h_final = pd.DataFrame(h_values).T
     
