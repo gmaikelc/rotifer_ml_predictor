@@ -900,7 +900,7 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         #plt.legend(handles=legend_elements, loc='upper right',
          #         fontsize=14, edgecolor='black')  
 
-         plt.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
+        plt.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
             fontsize=14,edgecolor='black')
                       
         #x_axis_text = (x_lim_min_lev + h_critical) / 2
