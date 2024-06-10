@@ -891,27 +891,20 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         plt.ylim(x_lim_min_std, x_lim_max_std)
         plt.xlim(x_lim_min_lev, x_lim_max_lev)
 
-
-        # access legend objects automatically created from data
-        # where some data has already been plotted to ax
-        handles, labels = ax.get_legend_handles_labels()
-                      
-        # Custom legend                      
-        #training_legend =  [Line2D([0],[0], color='cornflowerblue', marker='o', markersize=10, label='Training')]
-        #validation_legend = [Line2D([0],[0],color='orange', marker='o', markersize=10, label='Validation')]
-        # add manual symbols to auto legend
-        #handles.extend([training_legend, validation_legend])
-
-        # Custom legend                      
-        #training_legend = mpatches.Patch( color='cornflowerblue', marker='o', label='Training')
-        #validation_legend = mpatches.Patch(color='orange', marker='o', label='Validation')
-        # handles is a list, so append manual patch
-        #handles.append(training_legend)
-        #handles.append(validation_legend)              
-
        
-        plt.legend(handles=handles, bbox_to_anchor=(0.99, 0.34), loc='upper right',
-                   fontsize=14, edgecolor='black')
+        legend_elements = [Line2D([0], [0], color='w', marker='o', label='Training',
+                          markerfacecolor='cornflowerblue', markersize=15),
+                   Line2D([0], [0], marker='^', color='w', label='Validation',
+                          markerfacecolor='orange', markersize=15),
+                   #Patch(facecolor='orange', edgecolor='r',
+                    #     label='Color Patch')
+                  ]
+
+        # Create the figure
+        ax.legend(handles=legend_elements, loc='upper_right',bbox_to_anchor=(0.99, 0.34)
+                 fontsize=14, edgecolor='black')          
+
+             
                       
         #plt.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
          #   fontsize=14,edgecolor='black')
