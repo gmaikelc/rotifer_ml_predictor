@@ -901,7 +901,7 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
                   ]
 
         # Create the figure
-        ax.legend(handles=legend_elements, loc='upper_right',bbox_to_anchor=(0.99, 0.34)
+        ax.legend(handles=legend_elements, loc='upper_right',bbox_to_anchor=(0.99, 0.34),
                  fontsize=14, edgecolor='black')          
 
              
