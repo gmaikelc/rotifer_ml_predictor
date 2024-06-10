@@ -888,6 +888,24 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
              horizontalalignment='center',
              color='black', fontsize=15, fontweight='normal')
 
+        legend_elements = [Line2D([0], [0], color='w', marker='o', label='Training',
+                          markerfacecolor='cornflowerblue', markersize=15),
+                   Line2D([0], [0], marker='^', color='w', label='Validation',
+                          markerfacecolor='orange', markersize=15)]
+                   #Patch(facecolor='orange', edgecolor='r',
+                    #     label='Color Patch')
+                  
+
+        # Create the figure
+        ax1.legend(handles=legend_elements, loc='upper right',
+                  fontsize=14, edgecolor='black')  
+                      
+        #x_axis_text = (x_lim_min_lev + h_critical) / 2
+        #plt.text(x_axis_text, 2.2, 'Chemical Space \nPredictions Reliable',
+         #        horizontalalignment='center', fontsize=10, fontweight='bold')
+
+
+                      
         plt.ylim(x_lim_min_std, x_lim_max_std)
         plt.xlim(x_lim_min_lev, x_lim_max_lev)
 
@@ -925,20 +943,7 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         plt.xlabel('Leverage', fontsize=20)
 
 
-        legend_elements = [Line2D([0], [0], color='w', marker='o', label='Training',
-                          markerfacecolor='cornflowerblue', markersize=15),
-                   Line2D([0], [0], marker='^', color='w', label='Validation',
-                          markerfacecolor='orange', markersize=15)]
-                   #Patch(facecolor='orange', edgecolor='r',
-                    #     label='Color Patch')
-                  
 
-        # Create the figure
-        ax1.legend(handles=legend_elements, loc='upper right',
-                  fontsize=14, edgecolor='black')  
-        #x_axis_text = (x_lim_min_lev + h_critical) / 2
-        #plt.text(x_axis_text, 2.2, 'Chemical Space \nPredictions Reliable',
-         #        horizontalalignment='center', fontsize=10, fontweight='bold')
     
         if add_title and title:
             plt.title(title, fontsize=20)
