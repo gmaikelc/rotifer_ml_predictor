@@ -900,7 +900,7 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         #plt.legend(handles=legend_elements, loc='upper right',
          #         fontsize=14, edgecolor='black')  
 
-        plt.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
+        ax1.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
             fontsize=14,edgecolor='black')
                       
         #x_axis_text = (x_lim_min_lev + h_critical) / 2
@@ -911,13 +911,9 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
                       
         plt.ylim(x_lim_min_std, x_lim_max_std)
         plt.xlim(x_lim_min_lev, x_lim_max_lev)
-
-       
-                
-
-             
+           
+          
                       
-       
                       
         plt.plot([h_critical, h_critical], [x_lim_min_std, x_lim_max_std], lw=1, ls='dashed', color='black')
         plt.plot([x_lim_min_lev, x_lim_max_lev], [3, 3], lw=1, ls='dashed', color='black')
