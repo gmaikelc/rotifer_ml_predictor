@@ -11,6 +11,6 @@ stmol
 matplotlib
 scipy
 seaborn
-mordredcommunity
+mordred
 streamlit-ketcher
 filelock
