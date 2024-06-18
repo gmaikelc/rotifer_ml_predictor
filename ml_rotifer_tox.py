@@ -21,6 +21,7 @@ from rdkit.Chem import AllChem
 import plotly.graph_objects as go
 import networkx as nx
 
+from numpy import product
 import matplotlib.pyplot as plt
 import seaborn as sns
 import matplotlib.patches as patches
