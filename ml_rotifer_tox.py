@@ -889,7 +889,7 @@ def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_s
            #               markerfacecolor='orange', markersize=15)]
                    #Patch(facecolor='orange', edgecolor='r',
                     #     label='Color Patch')
-                  
+              
 
         # Create the figure
         #ax1.legend(handles=legend_elements, loc='upper right',
@@ -906,10 +906,6 @@ def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_s
                       
         #plt.ylim(x_lim_min_std, x_lim_max_std)
         #plt.xlim(x_lim_min_lev, x_lim_max_lev)
-           
-          
-                      
-                      
         #plt.plot([h_critical, h_critical], [x_lim_min_std, x_lim_max_std], lw=1, ls='dashed', color='black')
         #plt.plot([x_lim_min_lev, x_lim_max_lev], [3, 3], lw=1, ls='dashed', color='black')
         #plt.plot([x_lim_min_lev, x_lim_max_lev], [-3, -3], lw=1, ls='dashed', color='black')
@@ -996,6 +992,11 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
     fig.add_shape(type='rect', x0=x_lim_min_lev, y0=x_lim_min_std, x1=h_critical, y1=-3,
                   fillcolor='lightgray', opacity=0.4, line_width=0)
     fig.add_shape(type='rect', x0=x_lim_min_lev, y0=3, x1=h_critical, y1=x_lim_max_std,
+                  fillcolor='lightgray', opacity=0.4, line_width=0)
+                      
+    fig.add_shape(type='rect', x0=h_critical, y0=x_lim_min_std, x1=x_lim_max_lev, y1=-3,
+                  fillcolor='lightgray', opacity=0.4, line_width=0)
+    fig.add_shape(type='rect', x0=h_critical, y0=3, x1=x_lim_max_lev, y1=x_lim_max_std,
                   fillcolor='lightgray', opacity=0.4, line_width=0)
 
     # Add annotations for outlier zones
