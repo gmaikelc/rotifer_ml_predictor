@@ -962,26 +962,26 @@ if uploaded_file_1 is not None:
         data = pd.read_csv(uploaded_file_1,) 
         
         train_data = data_train[loaded_desc]
-        train_data2 = data_train2[loaded_desc2]
+        #train_data2 = data_train2[loaded_desc2]
         
         # Calculate descriptors and SMILES for the first data
         descriptors_total_1, smiles_list_1 = calc_descriptors(data, 1)
         # Calculate descriptors and SMILES for the second data
-        descriptors_total_2, smiles_list_2 = calc_descriptors(data, 1)
+        #descriptors_total_2, smiles_list_2 = calc_descriptors(data, 1)
 
         
                  
         #Selecting the descriptors based on model for salt water component
         test_data1, id_list_1 =  reading_reorder(descriptors_total_1,loaded_desc)
         #Selecting the descriptors based on model for first component
-        test_data2, id_list_2 =  reading_reorder(descriptors_total_2,loaded_desc2)
+        #test_data2, id_list_2 =  reading_reorder(descriptors_total_2,loaded_desc2)
  
                          
         
         X_final2= test_data1
-        X_final4 = test_data2
+        #X_final4 = test_data2
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
-        df_train_normalized2, df_test_normalized2 = normalize_data(train_data2, X_final4)
+        #df_train_normalized2, df_test_normalized2 = normalize_data(train_data2, X_final4)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
         x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
@@ -1016,23 +1016,23 @@ else:
         data = pd.read_csv("example_file1.csv")
         
         train_data = data_train[loaded_desc]
-        train_data2 = data_train2[loaded_desc2]
+        #train_data2 = data_train2[loaded_desc2]
         
         # Calculate descriptors and SMILES for the first data
         descriptors_total_1, smiles_list_1 = calc_descriptors(data, 1)
         # Calculate descriptors and SMILES for the second data
-        descriptors_total_2, smiles_list_2 = calc_descriptors(data, 1)
+        #descriptors_total_2, smiles_list_2 = calc_descriptors(data, 1)
 
         
                  
         #Selecting the descriptors based on model for salt water component
         test_data1, id_list_1 =  reading_reorder(descriptors_total_1,loaded_desc)
         #Selecting the descriptors based on model for first component
-        test_data2, id_list_2 =  reading_reorder(descriptors_total_2,loaded_desc2)
+        #test_data2, id_list_2 =  reading_reorder(descriptors_total_2,loaded_desc2)
                           
         
         X_final2= test_data1
-        X_final4 = test_data2
+        #X_final4 = test_data2
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
