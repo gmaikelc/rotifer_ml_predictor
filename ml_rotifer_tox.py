@@ -927,14 +927,14 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
                 color='lightgray', fill=True, alpha=0.4))
 
         # Custom legend
-        #handles = [
-         #   Line2D([0], [0], marker='o', color='w', label='training', markerfacecolor='blue', 
-          #     markersize=10),
-           # Line2D([0], [0], marker='o', color='w', label='validation', markerfacecolor='orange', 
-            #   markersize=10)
+        handles = [
+            Line2D([0], [0], marker='o', color='w', label='training', markerfacecolor='blue', 
+               markersize=10),
+            Line2D([0], [0], marker='o', color='w', label='validation', markerfacecolor='orange', 
+               markersize=10)
                    #    ]
-        #ax1.legend(handles=handles, bbox_to_anchor=(0.99, 0.825), loc='lower right', fontsize=20, 
-         # borderaxespad=0.)
+        plt.legend(handles=handles, bbox_to_anchor=(0.99, 0.825), loc='lower right', fontsize=20, 
+          borderaxespad=0.)
 
         ax1.yaxis.set_ticks_position('left')
         ax1.xaxis.set_ticks_position('bottom')
