@@ -883,17 +883,17 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
              horizontalalignment='center',
              color='black', fontsize=15, fontweight='normal')
 
-        #legend_elements = [Line2D([0], [0], color='w', marker='o', label='Training',
-         #                 markerfacecolor='cornflowerblue', markersize=15),
-          #         Line2D([0], [0], marker='^', color='w', label='Validation',
-           #               markerfacecolor='orange', markersize=15)]
-                   #Patch(facecolor='orange', edgecolor='r',
-                    #     label='Color Patch')
+        legend_elements = [Line2D([0], [0], color='w', marker='o', label='Training',
+                          markerfacecolor='cornflowerblue', markersize=15),
+                   Line2D([0], [0], marker='^', color='w', label='Validation',
+                          markerfacecolor='orange', markersize=15)]
+                   Patch(facecolor='orange', edgecolor='r',
+                         label='Color Patch')
                   
 
         # Create the figure
-        #plt.legend(handles=legend_elements, loc='upper right',
-         #         fontsize=14, edgecolor='black')  
+        ax1.legend(handles=legend_elements, loc='upper right',
+                  fontsize=14, edgecolor='black')  
 
         #ax1.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
          #   fontsize=14,edgecolor='black')
@@ -927,16 +927,14 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
                 color='lightgray', fill=True, alpha=0.4))
 
         # Custom legend
-        handles = [
-            Line2D([0], [0], marker='o', color='w', label='training', markerfacecolor='blue', 
-               markersize=10),
-            #Line2D([0], [0], marker='s', color='w', label='23c derivatives', markerfacecolor='green', 
-             #  markersize=10),
-            Line2D([0], [0], marker='o', color='w', label='validation', markerfacecolor='orange', 
-               markersize=10)
-        ]
-        ax1.legend(handles=handles, bbox_to_anchor=(0.99, 0.825), loc='lower right', fontsize=20, 
-          borderaxespad=0.)
+        #handles = [
+         #   Line2D([0], [0], marker='o', color='w', label='training', markerfacecolor='blue', 
+          #     markersize=10),
+           # Line2D([0], [0], marker='o', color='w', label='validation', markerfacecolor='orange', 
+            #   markersize=10)
+                       ]
+        #ax1.legend(handles=handles, bbox_to_anchor=(0.99, 0.825), loc='lower right', fontsize=20, 
+         # borderaxespad=0.)
 
         ax1.yaxis.set_ticks_position('left')
         ax1.xaxis.set_ticks_position('bottom')
