@@ -932,7 +932,7 @@ def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_s
           #     markersize=10),
            # Line2D([0], [0], marker='o', color='w', label='validation', markerfacecolor='orange', 
             #   markersize=10)
-                       ]
+                #       ]
         #plt.legend(handles=handles, bbox_to_anchor=(0.99, 0.825), loc='lower right', fontsize=20, 
          # borderaxespad=0.)
 
