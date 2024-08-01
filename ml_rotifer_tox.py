@@ -22,6 +22,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import seaborn as sns
 import matplotlib.patches as patches
+from matplotlib.lines import Line2D
 
 #Import Libraries
 import math 
@@ -894,8 +895,8 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         #plt.legend(handles=legend_elements, loc='upper right',
          #         fontsize=14, edgecolor='black')  
 
-        ax1.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
-            fontsize=14,edgecolor='black')
+        #ax1.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
+         #   fontsize=14,edgecolor='black')
                       
         #x_axis_text = (x_lim_min_lev + h_critical) / 2
         #plt.text(x_axis_text, 2.2, 'Chemical Space \nPredictions Reliable',
@@ -924,6 +925,18 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
                 xy=(x_lim_min_lev, 3),  # point of origin.
                 width=3, height=x_lim_max_std - 3, linewidth=1,
                 color='lightgray', fill=True, alpha=0.4))
+
+        # Custom legend
+        handles = [
+            Line2D([0], [0], marker='o', color='w', label='training', markerfacecolor='blue', 
+               markersize=10),
+            #Line2D([0], [0], marker='s', color='w', label='23c derivatives', markerfacecolor='green', 
+             #  markersize=10),
+            Line2D([0], [0], marker='o', color='w', label='validation', markerfacecolor='orange', 
+               markersize=10)
+        ]
+        ax1.legend(handles=handles, bbox_to_anchor=(0.99, 0.825), loc='lower right', fontsize=20, 
+          borderaxespad=0.)
 
         ax1.yaxis.set_ticks_position('left')
         ax1.xaxis.set_ticks_position('bottom')
