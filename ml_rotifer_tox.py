@@ -932,7 +932,7 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
           #     markersize=10),
            # Line2D([0], [0], marker='o', color='w', label='validation', markerfacecolor='orange', 
             #   markersize=10)
-                       ]
+                   #    ]
         #ax1.legend(handles=handles, bbox_to_anchor=(0.99, 0.825), loc='lower right', fontsize=20, 
          # borderaxespad=0.)
 
