@@ -1041,38 +1041,24 @@ else:
     st.info('👈🏼👈🏼👈🏼   Awaiting for CSV file to be uploaded.')
     if st.button('Press to use Example CSV Dataset with smiles'):
         data = pd.read_csv("example_file1.csv")
+        
         train_data = data_train[loaded_desc]
         # Calculate descriptors and SMILES for the first column
         descriptors_total_1, smiles_list_1 = calc_descriptors(data, 1)
         # Calculate descriptors and SMILES for the second column
-        #descriptors_total_2, smiles_list_2 = calc_descriptors(data, 4)
+        #descriptors_total_2, smiles_list_2 = calc_descriptors2(data, 1)
 
         
-        # Calculate descriptors and SMILES for the first column with progress bar
-        #descriptors_total_1, smiles_list_1 = calc_descriptors_with_progress(data, 3, "Component1")
-        # Calculate descriptors and SMILES for the second column with progress bar
-        #descriptors_total_2, smiles_list_2 = calc_descriptors_with_progress(data, 4, "Component2")
-
-        #joint_dummy = descriptors_total_1[['Formal_charge']]
-        # Left join
-        #descriptors_total_2n = joint_dummy.join(descriptors_total_2, how='left', lsuffix='_df1', rsuffix='_df2')
-        #drop the first column
-        #descriptor_total_2na = descriptors_total_2n.iloc[:,1:]
-        # Fill NaN values with 0
-        #descriptors_total_2m = descriptor_total_2na.fillna(0)
-                
+                 
         #Selecting the descriptors based on model for salt water component
         test_data1, id_list_1 =  reading_reorder(descriptors_total_1)
         #Selecting the descriptors based on model for first component
-        #test_data2, id_list_1 =  reading_reorder(descriptors_total_2m)
+        #test_data2, id_list_1 =  reading_reorder2(descriptors_total_2)
  
-        #st.markdown(filedownload2(test_data1), unsafe_allow_html=True)
-        #st.markdown(filedownload3(test_data2), unsafe_allow_html=True)
+                         
         
-
-                
-        #X_final1, id = all_correct_model(test_data_mix,loaded_desc, id_list)
         X_final2= test_data1
+        #X_final4 = test_data2
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
@@ -1081,13 +1067,19 @@ else:
         col1, col2 = st.columns(2)
 
         with col1:
-            st.header("Predictions",divider='blue')
-            st.subheader(r'pLC50 salt water')
+            st.header("Salt Water",divider='blue')
+            st.subheader(r'Predictions')
             st.write(styled_df)
-        with col2:
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
-            #st.subheader("William's Plot (Applicability Domain)")
             st.plotly_chart(figure,use_container_width=True)
+        with col2:
+            st.header("Fresh Water",divider='blue')
+            st.subheader(r'Predictions')
+            st.write(styled_df)
+            st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
+            st.plotly_chart(figure,use_container_width=True)
+            #st.subheader("William's plot (Applicability Domain)")
+            
         st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
         st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         
