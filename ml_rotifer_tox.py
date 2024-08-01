@@ -887,8 +887,8 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
                           markerfacecolor='cornflowerblue', markersize=15),
                    Line2D([0], [0], marker='^', color='w', label='Validation',
                           markerfacecolor='orange', markersize=15)]
-                   Patch(facecolor='orange', edgecolor='r',
-                         label='Color Patch')
+                   #Patch(facecolor='orange', edgecolor='r',
+                    #     label='Color Patch')
                   
 
         # Create the figure
