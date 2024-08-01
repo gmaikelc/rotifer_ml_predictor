@@ -986,14 +986,15 @@ if uploaded_file_1 is not None:
             st.write(styled_df)
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             st.plotly_chart(figure,use_container_width=True)
+            st.markdown(":point_down: **Here you can download the results for Salt Water model**", unsafe_allow_html=True,)
+            st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         with col2:
             st.header("Fresh Water",divider='blue')
             st.subheader(r'Predictions')
             st.write(styled_df)
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             st.plotly_chart(figure,use_container_width=True)
-            #st.subheader("William's plot (Applicability Domain)")
-            st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
+            st.markdown(":point_down: **Here you can download the results for Fresh Water model**", unsafe_allow_html=True,)
             st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         
         #st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
@@ -1034,7 +1035,7 @@ else:
             st.write(styled_df)
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             st.plotly_chart(figure,use_container_width=True)
-            st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
+            st.markdown(":point_down: **Here you can download the results for Salt Water model**", unsafe_allow_html=True,)
             st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         with col2:
             st.header("Fresh Water",divider='blue')
@@ -1043,10 +1044,10 @@ else:
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             st.plotly_chart(figure,use_container_width=True)
             #st.subheader("William's plot (Applicability Domain)")
-            st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
+            st.markdown(":point_down: **Here you can download the results for Fresh Water model**", unsafe_allow_html=True,)
             st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         
-       # st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
+       # st.markdown(":point_down: **Here you can download the results for Fresh Water Model**", unsafe_allow_html=True,)
        # st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         
 
@@ -1094,16 +1095,18 @@ if on2:
             st.write(styled_df)
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             st.plotly_chart(figure,use_container_width=True)
+            st.markdown(":point_down: **Here you can download the results for Salt Water model**", unsafe_allow_html=True,)
+            st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         with col2:
             st.header("Fresh Water",divider='blue')
             st.subheader(r'Predictions')
             st.write(styled_df)
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             st.plotly_chart(figure,use_container_width=True)
-            #st.subheader("William's plot (Applicability Domain)")
+            st.markdown(":point_down: **Here you can download the results for Fresh Water Model**", unsafe_allow_html=True,)
+            st.markdown(filedownload1(final_file), unsafe_allow_html=True)
             
-        st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
-        st.markdown(filedownload1(final_file), unsafe_allow_html=True)
+        
 
 #Footer edit
 
