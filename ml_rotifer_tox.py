@@ -848,112 +848,6 @@ def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_s
         return x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev
 
 
-#def williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test,
- #                 plot_color='cornflowerblue', show_plot=True, save_plot=False, filename=None, add_title=False, title=None):
-  #      sns.set(color_codes=True)
-   #     sns.set_style('white')
-    #    sns.despine(left=True, right=True)
-    #
-     #   fig, ax = plt.subplots()
-      #  fig.set_size_inches(4.5, 4.5)
-
-     
-       # ax1 = sns.regplot(x=leverage_train, y=std_residual_train, ax=ax, fit_reg=False, color=plot_color,
-        #              marker='o', scatter_kws={'s': 120, 'linewidths': 0.5, 'edgecolor': 'k'})
-
-        #ax2=sns.regplot(x=leverage_test, y=std_residual_test,ax=ax, fit_reg=False,color='orange',
-         #       marker='o',scatter_kws={'s':120,
-          #                             'linewidths':0.5,
-           #                  'edgecolor':'k',})
-
-        #ax1.text(h_critical, x_lim_min_std + 0.45, f'h*={h_critical}', verticalalignment='top', horizontalalignment='right',
-         #    color='black', fontsize=15, fontweight='normal')
-
-        #ax1.text((h_critical + x_lim_min_lev) / 2, -3.50, 'Outlier zone', verticalalignment='center',
-         #    horizontalalignment='center',
-          #   color='black', fontsize=15, fontweight='normal')
-        #ax1.text((h_critical + x_lim_min_lev) / 2, 3.50, 'Outlier zone', verticalalignment='center',
-         #    horizontalalignment='center',
-          #   color='black', fontsize=15, fontweight='normal')
-
-        #ax1.text((h_critical + x_lim_max_lev) / 2, -3.50, 'Outlier zone', verticalalignment='center',
-         #    horizontalalignment='center',
-          #   color='black', fontsize=15, fontweight='normal')
-        #ax1.text((h_critical + x_lim_max_lev) / 2, 3.50, 'Outlier zone', verticalalignment='center',
-         #    horizontalalignment='center',
-          #   color='black', fontsize=15, fontweight='normal')
-
-        #legend_elements = [Line2D([0], [0], color='w', marker='o', label='Training',
-         #                 markerfacecolor='cornflowerblue', markersize=15),
-          #         Line2D([0], [0], marker='^', color='w', label='Validation',
-           #               markerfacecolor='orange', markersize=15)]
-                   #Patch(facecolor='orange', edgecolor='r',
-                    #     label='Color Patch')
-              
-
-        # Create the figure
-        #ax1.legend(handles=legend_elements, loc='upper right',
-         #         fontsize=14, edgecolor='black')  
-
-        #ax1.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
-         #   fontsize=14,edgecolor='black')
-                      
-        #x_axis_text = (x_lim_min_lev + h_critical) / 2
-        #plt.text(x_axis_text, 2.2, 'Chemical Space \nPredictions Reliable',
-         #        horizontalalignment='center', fontsize=10, fontweight='bold')
-
-
-                      
-        #plt.ylim(x_lim_min_std, x_lim_max_std)
-        #plt.xlim(x_lim_min_lev, x_lim_max_lev)
-        #plt.plot([h_critical, h_critical], [x_lim_min_std, x_lim_max_std], lw=1, ls='dashed', color='black')
-        #plt.plot([x_lim_min_lev, x_lim_max_lev], [3, 3], lw=1, ls='dashed', color='black')
-        #plt.plot([x_lim_min_lev, x_lim_max_lev], [-3, -3], lw=1, ls='dashed', color='black')
-
-       # ax1.add_patch(
-        #    patches.Rectangle(
-         #       xy=(x_lim_min_lev, x_lim_min_std),  # point of origin.
-          #      width=7, height=abs(x_lim_min_std) - 3, linewidth=1,
-           #     color='lightgray', fill=True, alpha=0.4))
-
-        #ax1.add_patch(
-         #       patches.Rectangle(
-          #      xy=(x_lim_min_lev, 3),  # point of origin.
-           #     width=3, height=x_lim_max_std - 3, linewidth=1,
-            #    color='lightgray', fill=True, alpha=0.4))
-
-        # Custom legend
-        #handles = [
-         #   Line2D([0], [0], marker='o', color='w', label='training', markerfacecolor='blue', 
-          #     markersize=10),
-           # Line2D([0], [0], marker='o', color='w', label='validation', markerfacecolor='orange', 
-            #   markersize=10)
-                #       ]
-        #plt.legend(handles=handles, bbox_to_anchor=(0.99, 0.825), loc='lower right', fontsize=20, 
-         # borderaxespad=0.)
-
-        #ax1.yaxis.set_ticks_position('left')
-        #ax1.xaxis.set_ticks_position('bottom')
-
-        #plt.yticks(fontsize=15)
-        #plt.xticks(fontsize=15)
-
-        #plt.ylabel('Std Residuals', fontsize=20)
-        #plt.xlabel('Leverage', fontsize=20)
-
-       #if add_title and title:
-        #    plt.title(title, fontsize=20)
-
-        #plt.tight_layout()
-
-        #if save_plot and filename:
-         #   plt.savefig(filename, dpi=600, transparent=True)
-    
-        #if show_plot:
-         #   plt.show()
-
-        #return fig
-
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -1030,9 +924,6 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
 
     return fig
 
-#williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test,
- #             plot_color='cornflowerblue', show_plot=True, save_plot=False, filename=None, add_title=True, title="Williams Plot")
-
 
 
 #%%
@@ -1102,9 +993,11 @@ if uploaded_file_1 is not None:
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             st.plotly_chart(figure,use_container_width=True)
             #st.subheader("William's plot (Applicability Domain)")
-            
-        st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
-        st.markdown(filedownload1(final_file), unsafe_allow_html=True)
+            st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
+            st.markdown(filedownload1(final_file), unsafe_allow_html=True)
+        
+        #st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
+        #st.markdown(filedownload1(final_file), unsafe_allow_html=True)
        
 
 # Example file
