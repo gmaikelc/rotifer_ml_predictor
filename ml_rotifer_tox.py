@@ -630,7 +630,7 @@ def calc_descriptors(data, smiles_col_pos):
 
 
 
-def reading_reorder(data):
+def reading_reorder(data, loaded_desc):
         
     #Select the specified columns from the DataFrame
     df_selected = data[loaded_desc]
@@ -945,10 +945,15 @@ def filedownload2(df):
 
 data_train = pd.read_csv("data/" + "data_126c_15var_pLC50_train_sw.csv")
 mean_value = data_train['pLC50_sw'].mean()
-
-
 loaded_model = pickle.load(open("models/" + "ml_model_rotifer_sw.pickle", 'rb'))
 loaded_desc = pickle.load(open("models/" + "ml_descriptor_rotifer_sw.pickle", 'rb'))
+
+data_train2 = pd.read_csv("data/" + "data_126c_15var_pLC50_train_fw.csv")
+mean_value2 = data_train2['pLC50_fw'].mean()
+loaded_model2 = pickle.load(open("models/" + "ml_model_rotifer_fw.pickle", 'rb'))
+loaded_desc2 = pickle.load(open("models/" + "ml_descriptor_rotifer_fw.pickle", 'rb'))
+
+
 
 #Uploaded file calculation
 if uploaded_file_1 is not None:
@@ -957,23 +962,26 @@ if uploaded_file_1 is not None:
         data = pd.read_csv(uploaded_file_1,) 
         
         train_data = data_train[loaded_desc]
-        # Calculate descriptors and SMILES for the first column
+        train_data2 = data_train2[loaded_desc2]
+        
+        # Calculate descriptors and SMILES for the first data
         descriptors_total_1, smiles_list_1 = calc_descriptors(data, 1)
-        # Calculate descriptors and SMILES for the second column
-        #descriptors_total_2, smiles_list_2 = calc_descriptors2(data, 1)
+        # Calculate descriptors and SMILES for the second data
+        descriptors_total_2, smiles_list_2 = calc_descriptors(data, 1)
 
         
                  
         #Selecting the descriptors based on model for salt water component
-        test_data1, id_list_1 =  reading_reorder(descriptors_total_1)
+        test_data1, id_list_1 =  reading_reorder(descriptors_total_1,loaded_desc)
         #Selecting the descriptors based on model for first component
-        #test_data2, id_list_1 =  reading_reorder2(descriptors_total_2)
+        test_data2, id_list_2 =  reading_reorder(descriptors_total_2,loaded_desc2)
  
                          
         
         X_final2= test_data1
-        #X_final4 = test_data2
+        X_final4 = test_data2
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
+        df_train_normalized2, df_test_normalized2 = normalize_data(train_data2, X_final4)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
         x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
