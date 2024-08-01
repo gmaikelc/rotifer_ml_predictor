@@ -883,17 +883,17 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
              horizontalalignment='center',
              color='black', fontsize=15, fontweight='normal')
 
-        legend_elements = [Line2D([0], [0], color='w', marker='o', label='Training',
-                          markerfacecolor='cornflowerblue', markersize=15),
-                   Line2D([0], [0], marker='^', color='w', label='Validation',
-                          markerfacecolor='orange', markersize=15)]
+        #legend_elements = [Line2D([0], [0], color='w', marker='o', label='Training',
+         #                 markerfacecolor='cornflowerblue', markersize=15),
+          #         Line2D([0], [0], marker='^', color='w', label='Validation',
+           #               markerfacecolor='orange', markersize=15)]
                    #Patch(facecolor='orange', edgecolor='r',
                     #     label='Color Patch')
                   
 
         # Create the figure
-        ax1.legend(handles=legend_elements, loc='upper right',
-                  fontsize=14, edgecolor='black')  
+        #ax1.legend(handles=legend_elements, loc='upper right',
+         #         fontsize=14, edgecolor='black')  
 
         #ax1.legend(['training','validation'],bbox_to_anchor=(0.99, 0.34),loc='upper right',
          #   fontsize=14,edgecolor='black')
