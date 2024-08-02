@@ -1121,7 +1121,78 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
 
     return fig
 
+#GRAPH 2     
+def williams_plot2(leverage_train2, leverage_test2, std_residual_train2, std_residual_test2,
+                  plot_color='cornflowerblue', show_plot=True, save_plot=False, filename=None, add_title=False, title=None):
+    fig2 = go.Figure()
 
+    # Add training data points
+    fig2.add_trace(go.Scatter(
+        x=leverage_train2,
+        y=std_residual_train2,
+        mode='markers',
+        marker=dict(color='cornflowerblue', size=10, line=dict(width=1, color='black')),
+        name='Training'
+    ))
+
+    # Add test data points
+    fig2.add_trace(go.Scatter(
+        x=leverage_test2,
+        y=std_residual_test2,
+        mode='markers',
+        marker=dict(color='orange', size=10, line=dict(width=1, color='black')),
+        name='Validation'
+    ))
+
+    # Add horizontal and vertical dashed lines
+    fig2.add_shape(type='line', x0=h_critical2, y0=x_lim_min_std2, x1=h_critical2, y1=x_lim_max_std2,
+                  line=dict(color='black', dash='dash'))
+    fig2.add_shape(type='line', x0=x_lim_min_lev2, y0=3, x1=x_lim_max_lev2, y1=3,
+                  line=dict(color='black', dash='dash'))
+    fig2.add_shape(type='line', x0=x_lim_min_lev2, y0=-3, x1=x_lim_max_lev2, y1=-3,
+                  line=dict(color='black', dash='dash'))
+
+    # Add rectangles for outlier zones
+    fig2.add_shape(type='rect', x0=x_lim_min_lev2, y0=x_lim_min_std2, x1=h_critical2, y1=-3,
+                  fillcolor='lightgray', opacity=0.4, line_width=0)
+    fig2.add_shape(type='rect', x0=x_lim_min_lev2, y0=3, x1=h_critical2, y1=x_lim_max_std2,
+                  fillcolor='lightgray', opacity=0.4, line_width=0)
+                      
+    fig2.add_shape(type='rect', x0=h_critical2, y0=x_lim_min_std2, x1=x_lim_max_lev2, y1=-3,
+                  fillcolor='lightgray', opacity=0.4, line_width=0)
+    fig2.add_shape(type='rect', x0=h_critical2, y0=3, x1=x_lim_max_lev2, y1=x_lim_max_std2,
+                  fillcolor='lightgray', opacity=0.4, line_width=0)
+
+    # Add annotations for outlier zones
+    fig2.add_annotation(x=(h_critical2 + x_lim_min_lev2) / 2, y=-3.5, text='Outlier zone', showarrow=False,
+                       font=dict(size=15))
+    fig2.add_annotation(x=(h_critical2 + x_lim_min_lev2) / 2, y=3.5, text='Outlier zone', showarrow=False,
+                       font=dict(size=15))
+    fig2.add_annotation(x=(h_critical2 + x_lim_max_lev2) / 2, y=-3.5, text='Outlier zone', showarrow=False,
+                       font=dict(size=15))
+    fig2.add_annotation(x=(h_critical2 + x_lim_max_lev2) / 2, y=3.5, text='Outlier zone', showarrow=False,
+                       font=dict(size=15))
+
+    # Update layout
+    fig2.update_layout(
+        width=600,
+        height=600,
+        xaxis=dict(title='Leverage', range=[x_lim_min_lev2, x_lim_max_lev2], tickfont=dict(size=15)),
+        yaxis=dict(title='Std Residuals', range=[x_lim_min_std2, x_lim_max_std2], tickfont=dict(size=15)),
+        legend=dict(x=0.99, y=0.825, xanchor='right', yanchor='top', font=dict(size=20)),
+        showlegend=True
+    )
+
+    if add_title and title:
+        fig2.update_layout(title=dict(text=title, font=dict(size=20)))
+
+    if save_plot and filename:
+        fig2.write_image(filename)
+
+    if show_plot:
+        fig2.show()
+
+    return fig2
 
 #%%
 def filedownload1(df):
@@ -1181,14 +1252,19 @@ if uploaded_file_1 is not None:
         
         X_final2= test_data1
         X_final4 = test_data2
+        
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
         df_train_normalized2, df_test_normalized2 = normalize_data2(train_data2, X_final4)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
+        
         final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
-        #final_file2, styled_df2,leverage_train2,std_residual_train2, leverage_test2, std_residual_test2= predictions2(loaded_model2, loaded_desc2, df_test_normalized2)
+        final_file2, styled_df2,leverage_train2,std_residual_train2, leverage_test2, std_residual_test2= predictions2(loaded_model2, loaded_desc2, df_test_normalized2)
         
         x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
-        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)   
+        x_lim_max_std2, x_lim_min_std2, h_critical2, x_lim_max_lev2, x_lim_min_lev2 = calculate_wp_plot_limits2(leverage_train2,std_residual_train2, x_std_max=4, x_std_min=-4)
+        
+        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)
+        figure2  = williams_plot2(leverage_train2, leverage_test2, std_residual_train2, std_residual_test2)   
         col1, col2 = st.columns(2)
 
         with col1:
@@ -1202,11 +1278,11 @@ if uploaded_file_1 is not None:
         with col2:
             st.header("Fresh Water",divider='blue')
             st.subheader(r'Predictions')
-            st.write(styled_df)
+            st.write(styled_df2)
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
-            st.plotly_chart(figure,use_container_width=True)
+            st.plotly_chart(figure2,use_container_width=True)
             st.markdown(":point_down: **Here you can download the results for Fresh Water model**", unsafe_allow_html=True,)
-            st.markdown(filedownload1(final_file), unsafe_allow_html=True)
+            st.markdown(filedownload1(final_file2), unsafe_allow_html=True)
         
         #st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
         #st.markdown(filedownload1(final_file), unsafe_allow_html=True)
