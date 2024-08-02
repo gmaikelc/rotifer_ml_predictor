@@ -1017,7 +1017,7 @@ def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_s
 
 
 #Calculating the William's plot limits GRAPH 2
-def calculate_wp_plot_limits2(leverage_train2,std_residual_train2, x_std_max=4, x_std_min=-4):
+def calculate_wp_plot_limits2(leverage_train2,std_residual_train2, x_std_max2=4, x_std_min2=-4):
     
     with st.spinner('CALCULATING APPLICABILITY DOMAIN (STEP 3 OF 3)...'):
         # Simulate a long-running computation
