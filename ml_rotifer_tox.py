@@ -802,6 +802,25 @@ def get_color(confidence):
         confidence ==  "LOW"
         return 'red'
 
+def get_color2(confidence2):
+    """
+    Assigns a color based on the confidence value.
+
+    Args:
+        confidence (float): The confidence value.
+
+    Returns:
+        str: The color in hexadecimal format (e.g., '#RRGGBB').
+    """
+    # Define your color logic here based on confidence
+    if confidence2 == "HIGH" or confidence2 == "Inside AD":
+        return 'green'
+    elif confidence2 == "MEDIUM":
+        return 'yellow'
+    else:
+        confidence2 ==  "LOW"
+        return 'red'
+
 
 #%% Predictions        
 
@@ -941,8 +960,8 @@ def predictions2(loaded_model2, loaded_desc2, df_test_normalized2):
 
 
             
-        df_no_duplicate2 = final_file2[~final_file2.index.duplicated(keep='first')]
-        styled_df2 = df_no_duplicates2.style.apply(lambda row: [f"background-color: {get_color(row['Confidence'])}" for _ in row],subset=["Confidence"], axis=1)
+        df_no_duplicates2 = final_file2[~final_file2.index.duplicated(keep='first')]
+        styled_df2 = df_no_duplicates2.style.apply(lambda row: [f"background-color: {get_color2(row['Confidence'])}" for _ in row],subset=["Confidence"], axis=1)
     
         return final_file2, styled_df2,leverage_train2,std_residual_train2, leverage_test2, std_residual_test2
 
