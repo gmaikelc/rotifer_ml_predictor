@@ -553,6 +553,57 @@ def sum_all_cl_cl_distances(descriptors):
     return descriptors
 
 
+#%% B02[N-O] descriptor calculation
+
+def check_2no_distance(descriptors):
+    # Initialize a list to store the results
+    smiles_list = descriptors["Smiles_OK"]
+    distance2NO = []
+    
+    # Iterate over the SMILES in the specified column of the DataFrame
+    for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+            distance2NO.append(float('nan'))
+            continue
+        
+        # Generate the molecular graph representation
+        mol_graph = Chem.RWMol(mol)
+        Chem.SanitizeMol(mol_graph)
+        mol_graph = Chem.RemoveHs(mol_graph)
+        mol_graph = Chem.GetAdjacencyMatrix(mol_graph)
+        G = nx.Graph(mol_graph)
+        
+        # Initialize the presence/absence flag
+        presence_flag = 0
+        
+        # Find all pairs of carbon and chloride atoms in the molecule
+        nitrogen_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'N']
+        oxygen_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'O']
+        
+        # Check for paths of length 2 between carbon and chloride atoms
+        for nitrogen in nitrogen_atoms:
+            for oxygen in oxygen_atoms:
+                if nitrogen != oxygen:
+                    # Use networkx shortest_path_length to check the shortest path length
+                    shortest_path_length = nx.shortest_path_length(G, source=nitrogen, target=oxygen)
+                    if shortest_path_length == 2:
+                        presence_flag = 1
+                        break
+            if presence_flag == 1:
+                break
+        
+        # Append the result to the list
+        distance2NO.append(presence_flag)
+    
+    # Add the results as a new column in the DataFrame
+    descriptors['B02[N-O]'] = distance2NO
+    
+    return descriptors
+
+
 #%% Calculating molecular descriptors
 ### ----------------------- ###
 
@@ -604,7 +655,7 @@ def calc_descriptors(data, smiles_col_pos):
         # Perform B04[O-O] descriptor calculation
         descriptors_total = check_oo_distance(descriptors_total)
 
-         # Perform nN=C-N< descriptor calculation
+        # Perform nN=C-N< descriptor calculation
         descriptors_total = count_amidine_groups(descriptors_total)
 
         #Perform B07[Cl-Cl] descriptor calculation
@@ -624,7 +675,9 @@ def calc_descriptors(data, smiles_col_pos):
     
         #Perform F02[N-S] molecular descriptor calculation
         descriptors_total = check_ns_distance(descriptors_total)
-    
+        
+        #Perform B02[N-O] molecular descriptor calculation
+        descriptors_total =  check_2no_distance(descriptors_total)
 
         return descriptors_total, smiles_list
 
