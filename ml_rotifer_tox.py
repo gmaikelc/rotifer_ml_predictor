@@ -1140,7 +1140,7 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         y=std_residual_test,
         mode='markers',
         marker=dict(color='orange', size=10, line=dict(width=1, color='black')),
-        name='Validation'
+        name='Prediction'
     ))
 
     # Add horizontal and vertical dashed lines
@@ -1213,7 +1213,7 @@ def williams_plot2(leverage_train2, leverage_test2, std_residual_train2, std_res
         y=std_residual_test2,
         mode='markers',
         marker=dict(color='orange', size=10, line=dict(width=1, color='black')),
-        name='Validation'
+        name='Prediction'
     ))
 
     # Add horizontal and vertical dashed lines
