@@ -738,6 +738,49 @@ def applicability_domain(x_test_normalized, x_train_normalized):
     return h_results, leverage_train, leverage_test, std_residual_train 
 
 
+#%% Determining Applicability Domain (AD) 2
+
+def applicability_domain2(x_test_normalized2, x_train_normalized2):
+    y_train2=data_train2['pLC50_sw']
+    X_train2 = x_train_normalized2.values
+    X_test2 = x_test_normalized2.values
+    # Calculate leverage and standard deviation for the training set
+    hat_matrix_train2 = X_train2 @ np.linalg.inv(X_train2.T @ X_train2) @ X_train2.T
+    leverage_train2 = np.diagonal(hat_matrix_train2)
+    leverage_train2=leverage_train2.ravel()
+    
+    # Calculate leverage and standard deviation for the test set
+    hat_matrix_test2 = X_test2 @ np2.linalg.inv(X_train2.T @ X_train2) @ X_test2.T
+    leverage_test2 = np.diagonal(hat_matrix_test2)
+    leverage_test2=leverage_test2.ravel()
+
+    from sklearn.linear_model import LinearRegression
+    from sklearn.metrics import mean_squared_error
+
+    # Train a linear regression model
+    lr2 = LinearRegression()
+    lr2.fit(df_train_normalized2, y_train2)
+    y_pred_train2 = lr2.predict(df_train_normalized2)
+    
+    std_dev_train2 = np.sqrt(mean_squared_error(y_train2, y_pred_train2))
+    std_residual_train2 = (y_train2 - y_pred_train2) / std_dev_train2
+    std_residual_train2 = std_residual_train2.ravel()
+    
+    # threshold for the applicability domain
+    
+    h3_2 = 3*((x_train_normalized2.shape[1]+1)/x_train_normalized2.shape[0])  
+    
+    diagonal_compare2 = list(leverage_test2)
+    h_results2 =[]
+    for valor2 in diagonal_compare2:
+        if valor2 < h3_2:
+            h_results2.append(True)
+        else:
+            h_results2.append(False)         
+    return h_results2, leverage_train2, leverage_test2, std_residual_train2 
+
+
+
 
  # Function to assign colors based on confidence values
 def get_color(confidence):
