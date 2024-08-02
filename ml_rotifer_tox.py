@@ -1280,7 +1280,7 @@ if uploaded_file_1 is not None:
         final_file2, styled_df2,leverage_train2,std_residual_train2, leverage_test2, std_residual_test2= predictions2(loaded_model2, loaded_desc2, df_test_normalized2)
         
         x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
-        x_lim_max_std2, x_lim_min_std2, h_critical2, x_lim_max_lev2, x_lim_min_lev2 = calculate_wp_plot_limits2(leverage_train2,std_residual_train2, x_std_max=4, x_std_min=-4)
+        x_lim_max_std2, x_lim_min_std2, h_critical2, x_lim_max_lev2, x_lim_min_lev2 = calculate_wp_plot_limits2(leverage_train2,std_residual_train2, x_std_max2=4, x_std_min2=-4)
         
         figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)
         figure2  = williams_plot2(leverage_train2, leverage_test2, std_residual_train2, std_residual_test2)   
