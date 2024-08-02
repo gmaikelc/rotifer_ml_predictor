@@ -914,7 +914,7 @@ def predictions2(loaded_model2, loaded_desc2, df_test_normalized2):
         dataframe_pred2.index = idx
         dataframe_pred2.rename(columns={0: "pLC50"},inplace=True)
     
-        dataframe_std2 = pd.DataFrame(std_resd).T
+        dataframe_std2 = pd.DataFrame(std_resd2).T
         dataframe_std2.index = idx
           
         
