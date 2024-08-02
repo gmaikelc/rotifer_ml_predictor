@@ -976,7 +976,7 @@ loaded_desc2 = pickle.load(open("models/" + "ml_descriptor_rotifer_sw.pickle", '
 
 #Uploaded file calculation
 if uploaded_file_1 is not None:
-    run = st.button("RUN")
+    run = st.button("RUN the Model")
     if run == True:
         data = pd.read_csv(uploaded_file_1,) 
         
