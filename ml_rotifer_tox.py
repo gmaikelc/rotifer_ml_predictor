@@ -950,8 +950,10 @@ loaded_desc = pickle.load(open("models/" + "ml_descriptor_rotifer_sw.pickle", 'r
 
 data_train2 = pd.read_csv("data/" + "data_126c_15var_pLC50_train_fw.csv")
 mean_value2 = data_train2['pLC50_fw'].mean()
-loaded_model2 = pickle.load(open("models/" + "ml_model_rotifer_fw.pickle", 'rb'))
-loaded_desc2 = pickle.load(open("models/" + "ml_descriptor_rotifer_fw.pickle", 'rb'))
+loaded_model2 = pickle.load(open("models/" + "ml_model_rotifer_sw.pickle", 'rb'))
+loaded_desc2 = pickle.load(open("models/" + "ml_descriptor_rotifer_sw.pickle", 'rb'))
+#loaded_model2 = pickle.load(open("models/" + "ml_model_rotifer_fw.pickle", 'rb'))
+#loaded_desc2 = pickle.load(open("models/" + "ml_descriptor_rotifer_fw.pickle", 'rb'))
 
 
 
@@ -974,7 +976,7 @@ if uploaded_file_1 is not None:
         #Selecting the descriptors based on model for salt water component
         test_data1, id_list_1 =  reading_reorder(descriptors_total_1,loaded_desc)
         #Selecting the descriptors based on model for first component
-        #test_data2, id_list_2 =  reading_reorder(descriptors_total_2,loaded_desc2)
+        test_data2, id_list_2 =  reading_reorder(descriptors_total_2,loaded_desc2)
  
                          
         
