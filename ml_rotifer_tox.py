@@ -941,7 +941,7 @@ def predictions2(loaded_model2, loaded_desc2, df_test_normalized2):
 
 
             
-        df_no_duplicate2s = final_file2[~final_file2.index.duplicated(keep='first')]
+        df_no_duplicate2 = final_file2[~final_file2.index.duplicated(keep='first')]
         styled_df2 = df_no_duplicates2.style.apply(lambda row: [f"background-color: {get_color(row['Confidence'])}" for _ in row],subset=["Confidence"], axis=1)
     
         return final_file2, styled_df2,leverage_train2,std_residual_train2, leverage_test2, std_residual_test2
