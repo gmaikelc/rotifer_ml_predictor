@@ -750,7 +750,7 @@ def applicability_domain2(x_test_normalized2, x_train_normalized2):
     leverage_train2=leverage_train2.ravel()
     
     # Calculate leverage and standard deviation for the test set
-    hat_matrix_test2 = X_test2 @ np2.linalg.inv(X_train2.T @ X_train2) @ X_test2.T
+    hat_matrix_test2 = X_test2 @ np.linalg.inv(X_train2.T @ X_train2) @ X_test2.T
     leverage_test2 = np.diagonal(hat_matrix_test2)
     leverage_test2=leverage_test2.ravel()
 
