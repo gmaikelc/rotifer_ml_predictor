@@ -644,6 +644,21 @@ def reading_reorder(data, loaded_desc):
 
     return test_data, id
 
+def reading_reorder2(data, loaded_desc2):
+        
+    #Select the specified columns from the DataFrame
+    df_selected2 = data[loaded_desc2]
+    df_id2 = data.reset_index()
+    df_id2.rename(columns={'index': 'NAME'}, inplace=True)
+    id2 = df_id2['NAME'] 
+    # Order the DataFrame by the specified list of columns
+    test_data2 = df_selected2.reindex(columns=loaded_desc)
+    #descriptors_total = data[loaded_desc]
+
+    return test_data2, id2
+
+
+
 
 #%% normalizing data
 ### ----------------------- ###
@@ -976,7 +991,7 @@ if uploaded_file_1 is not None:
         #Selecting the descriptors based on model for salt water component
         test_data1, id_list_1 =  reading_reorder(descriptors_total_1,loaded_desc)
         #Selecting the descriptors based on model for first component
-        test_data2, id_list_2 =  reading_reorder(descriptors_total_2,loaded_desc2)
+        test_data2, id_list_2 =  reading_reorder2(descriptors_total_2,loaded_desc2)
  
                          
         
