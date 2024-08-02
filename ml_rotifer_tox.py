@@ -875,6 +875,79 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
     
         return final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test
 
+
+def predictions2(loaded_model2, loaded_desc2, df_test_normalized2):
+    scores2 = []
+    h_values2 = []
+    std_resd2 = []
+    idx = data['ID']
+    
+
+    descriptors_model2 = loaded_desc2
+    # Placeholder for the spinner
+    with st.spinner('CALCULATING PREDICTIONS (STEP 2 OF 3)...'):
+        # Simulate a long-running computation
+        time.sleep(5)  # Sleep for 5 seconds to mimic computation
+     
+        X2 = df_test_normalized2[descriptors_model2]
+        predictions2 = loaded_model2.predict(X2)
+        scores2.append(predictions2)
+        
+        # y_true and y_pred are the actual and predicted values, respectively
+    
+        # Create y_true array with all elements set to mean value and the same length as y_pred
+        y_pred_test2 = predictions2
+        y_test2 = np.full_like(y_pred_test2, mean_value2)
+        residuals_test2 = y_test2 -y_pred_test2
+
+        std_dev_test2 = np.sqrt(mean_squared_error(y_test2, y_pred_test2))
+        std_residual_test2 = (y_test2 - y_pred_test2) / std_dev_test2
+        std_residual_test2 = std_residual_test2.ravel()
+          
+        std_resd2.append(std_residual_test2)
+        
+        h_results2, leverage_train2, leverage_test2, std_residual_train2  = applicability_domain2(df_test_normalized2, df_train_normalized2)
+        h_values2.append(h_results2)
+    
+
+        dataframe_pred2 = pd.DataFrame(scores2).T
+        dataframe_pred2.index = idx
+        dataframe_pred2.rename(columns={0: "pLC50"},inplace=True)
+    
+        dataframe_std2 = pd.DataFrame(std_resd).T
+        dataframe_std2.index = idx
+          
+        
+        h_final2 = pd.DataFrame(h_values2).T
+        h_final2.index = idx
+        h_final2.rename(columns={0: "Confidence"},inplace=True)
+
+        std_ensemble2 = dataframe_std2.iloc[:,0]
+        # Create a mask using boolean indexing
+        std_ad_calc2 = (std_ensemble2 >= 3) | (std_ensemble2 <= -3) 
+        std_ad_calc2 = std_ad_calc2.replace({True: 'Outside AD', False: 'Inside AD'})
+   
+    
+        final_file2 = pd.concat([std_ad_calc2,h_final2,dataframe_pred2], axis=1)
+    
+        final_file2.rename(columns={0: "Std_residual"},inplace=True)
+    
+        h3_2 = 3*((df_train_normalized2.shape[1]+1)/df_train_normalized2.shape[0])  ##  Mas flexible
+
+        final_file2.loc[(final_file2["Confidence"] == True) & ((final_file2["Std_residual"] == 'Inside AD' )), 'Confidence'] = 'HIGH'
+        final_file2.loc[(final_file2["Confidence"] == True) & ((final_file2["Std_residual"] == 'Outside AD')), 'Confidence'] = 'LOW'
+        final_file2.loc[(final_file2["Confidence"] == False) & ((final_file["Std_residual"] == 'Outside AD')), 'Confidence'] = 'LOW'
+        final_file2.loc[(final_file2["Confidence"] == False) & ((final_file["Std_residual"] == 'Inside AD')), 'Confidence'] = 'MEDIUM'
+
+
+            
+        df_no_duplicate2s = final_file2[~final_file2.index.duplicated(keep='first')]
+        styled_df2 = df_no_duplicates2.style.apply(lambda row: [f"background-color: {get_color(row['Confidence'])}" for _ in row],subset=["Confidence"], axis=1)
+    
+        return final_file2, styled_df2,leverage_train2,std_residual_train2, leverage_test2, std_residual_test2
+
+
+
 #Calculating the William's plot limits
 def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4):
     
@@ -921,6 +994,55 @@ def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_s
         #st.write('x_lim_max_lev:', x_lim_max_lev)
 
         return x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev
+
+
+
+#Calculating the William's plot limits GRAPH 2
+def calculate_wp_plot_limits2(leverage_train2,std_residual_train2, x_std_max=4, x_std_min=-4):
+    
+    with st.spinner('CALCULATING APPLICABILITY DOMAIN (STEP 3 OF 3)...'):
+        # Simulate a long-running computation
+        time.sleep(5)  # Sleep for 5 seconds to mimic computation
+        # Getting maximum std value
+        if std_residual_train2.max() < 4:
+            x_lim_max_std2 = x_std_max2
+        elif std_residual_train2.max() > 4:
+            x_lim_max_std2 = round(std_residual_train2.max()) + 1
+
+        # Getting minimum std value
+        if std_residual_train2.min() > -4:
+            x_lim_min_std2 = x_std_min2
+        elif std_residual_train2.min() < 4:
+            x_lim_min_std2 = round(std_residual_train2.min()) - 1
+
+    
+        #st.write('x_lim_max_std:', x_lim_max_std2)
+        #st.write('x_lim_min_std:', x_lim_min_std2)
+
+        # Calculation H critical
+        n2 = len(leverage_train2)
+        p2 = df_train_normalized2.shape[1]
+        h_value2 = 3 * (p2 + 1) / n2
+        h_critical2 = round(h_value2, 4)
+        #st.write('Number of cases training:', n)
+        #st.write('Number of variables:', p)
+        #st.write('h_critical:', h_critical)
+
+        # Getting maximum leverage value
+        if leverage_train2.max() < h_critical2:
+            x_lim_max_lev2 = h_critical2 + h_critical2 * 0.5
+        elif leverage_train2.max() > h_critical2:
+            x_lim_max_lev2 = leverage_train2.max() + (leverage_train2.max()) * 0.1
+
+        # Getting minimum leverage value
+        if leverage_train2.min() < 0:
+            x_lim_min_lev2 = x_lev_min2 - x_lev_min2 * 0.05
+        elif leverage_train2.min() > 0:
+            x_lim_min_lev2 = 0
+
+        #st.write('x_lim_max_lev:', x_lim_max_lev2)
+
+        return x_lim_max_std2, x_lim_min_std2, h_critical2, x_lim_max_lev2, x_lim_min_lev2
 
 
 import pandas as pd
@@ -1063,6 +1185,8 @@ if uploaded_file_1 is not None:
         df_train_normalized2, df_test_normalized2 = normalize_data2(train_data2, X_final4)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
+        #final_file2, styled_df2,leverage_train2,std_residual_train2, leverage_test2, std_residual_test2= predictions2(loaded_model2, loaded_desc2, df_test_normalized2)
+        
         x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
         figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)   
         col1, col2 = st.columns(2)
