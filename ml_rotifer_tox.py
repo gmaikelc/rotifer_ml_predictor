@@ -660,7 +660,7 @@ def reading_reorder2(data, loaded_desc2):
 
 
 
-#%% normalizing data
+#%% normalizing data1
 ### ----------------------- ###
 
 def normalize_data(train_data, test_data):
@@ -676,6 +676,23 @@ def normalize_data(train_data, test_data):
     df_test_normalized = pd.DataFrame(np_test_scaled, columns=saved_cols)
 
     return df_train_normalized, df_test_normalized
+
+#%% normalizing data2
+### ----------------------- ###
+
+def normalize_data2(train_data2, test_data2):
+    # Normalize the training data
+    df_train2 = pd.DataFrame(train_data2)
+    saved_cols2 = df_train2.columns
+    min_max_scaler2 = preprocessing.MinMaxScaler().fit(df_train2)
+    np_train_scaled2 = min_max_scaler2.transform(df_train2)
+    df_train_normalized2 = pd.DataFrame(np_train_scaled2, columns=saved_cols2)
+
+    # Normalize the test data using the scaler fitted on training data
+    np_test_scaled2 = min_max_scaler2.transform(test_data2)
+    df_test_normalized2 = pd.DataFrame(np_test_scaled2, columns=saved_cols2)
+
+    return df_train_normalized2, df_test_normalized2
 
 
 #%% Determining Applicability Domain (AD)
@@ -998,9 +1015,9 @@ if uploaded_file_1 is not None:
                          
         
         X_final2= test_data1
-        #X_final4 = test_data2
+        X_final4 = test_data2
         df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
-        #df_train_normalized2, df_test_normalized2 = normalize_data(train_data2, X_final4)
+        df_train_normalized2, df_test_normalized2 = normalize_data2(train_data2, X_final4)
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
         x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
