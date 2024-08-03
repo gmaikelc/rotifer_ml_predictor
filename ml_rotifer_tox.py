@@ -756,6 +756,59 @@ def check_9cs_distance(descriptors):
     return descriptors
 
 
+
+#%% B09[C-S] descriptor calculation
+
+def check_7cc_distance(descriptors):   
+    # Initialize a list to store the results
+    smiles_list = descriptors["Smiles_OK"]
+    distance7CC = []
+    
+    # Iterate over the SMILES in the specified column of the DataFrame
+    for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+            distance7CC.append(float('nan'))
+            continue
+        
+        # Generate the molecular graph representation
+        mol_graph = Chem.RWMol(mol)
+        Chem.SanitizeMol(mol_graph)
+        mol_graph = Chem.RemoveHs(mol_graph)
+        mol_graph = Chem.GetAdjacencyMatrix(mol_graph)
+        G = nx.Graph(mol_graph)
+        
+        # Initialize the presence/absence flag
+        presence_flag = 0
+        
+        # Find all pairs of carbon and chloride atoms in the molecule
+        carbon_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'C']
+        #sulphur_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'S']
+        
+        # Check for paths of length 2 between carbon and chloride atoms
+        for carbon in carbon_atoms:
+            for carbon2 in carbon_atoms:
+                if carbon != carbon2:
+                    # Use networkx shortest_path_length to check the shortest path length
+                    shortest_path_length = nx.shortest_path_length(G, source=carbon, target=carbon2)
+                    if shortest_path_length == 7:
+                        presence_flag = 1
+                        break
+            if presence_flag == 1:
+                break
+        
+        # Append the result to the list
+        distance7CC.append(presence_flag)
+    
+    # Add the results as a new column in the DataFrame
+    descriptors['B07[C-C]'] = distance7CC
+    
+    return descriptors
+
+
+
 #%% Calculating molecular descriptors
 ### ----------------------- ###
 
@@ -839,6 +892,9 @@ def calc_descriptors(data, smiles_col_pos):
 
          #Perform B09[C-S] molecular descriptor calculation
         descriptors_total = check_9cs_distance(descriptors_total)
+
+        #Perform B07[C-C] molecular descriptor calculation
+        descriptors_total = check_7cc_distance(descriptors_total)
 
         return descriptors_total, smiles_list
 
