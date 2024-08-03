@@ -603,6 +603,55 @@ def check_2no_distance(descriptors):
     
     return descriptors
 
+#%% B02[O-Cl] descriptor calculation
+
+def check_4ocl_distance(descriptors):
+    # Initialize a list to store the results
+    smiles_list = descriptors["Smiles_OK"]
+    distance4OCl = []
+    
+    # Iterate over the SMILES in the specified column of the DataFrame
+    for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+            distance4OCl.append(float('nan'))
+            continue
+        
+        # Generate the molecular graph representation
+        mol_graph = Chem.RWMol(mol)
+        Chem.SanitizeMol(mol_graph)
+        mol_graph = Chem.RemoveHs(mol_graph)
+        mol_graph = Chem.GetAdjacencyMatrix(mol_graph)
+        G = nx.Graph(mol_graph)
+        
+        # Initialize the presence/absence flag
+        presence_flag = 0
+        
+        # Find all pairs of carbon and chloride atoms in the molecule
+        chloride_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'Cl']
+        oxygen_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'O']
+        
+        # Check for paths of length 2 between carbon and chloride atoms
+        for oxygen in oxygen_atoms:
+            for chloride in chloride_atoms:
+                if oxygen != chloride:
+                    # Use networkx shortest_path_length to check the shortest path length
+                    shortest_path_length = nx.shortest_path_length(G, source=oxygen, target=chloride)
+                    if shortest_path_length == 4:
+                        presence_flag = 1
+                        break
+            if presence_flag == 1:
+                break
+        
+        # Append the result to the list
+        distance4OCl.append(presence_flag)
+    
+    # Add the results as a new column in the DataFrame
+    descriptors['B04[O-Cl]'] = distance4OCl
+    
+    return descriptors
 
 #%% Calculating molecular descriptors
 ### ----------------------- ###
@@ -678,6 +727,9 @@ def calc_descriptors(data, smiles_col_pos):
         
         #Perform B02[N-O] molecular descriptor calculation
         descriptors_total =  check_2no_distance(descriptors_total)
+        
+        #Perform B04[O-Cl] molecular descriptor calculation
+        descriptors_total = check_4ocl_distance(descriptors_total)
 
         return descriptors_total, smiles_list
 
