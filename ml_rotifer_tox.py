@@ -806,6 +806,53 @@ def check_7cc_distance(descriptors):
     descriptors['B07[C-C]'] = distance7CC
     
     return descriptors
+    
+
+#%% F09[C-N] descriptor calculation
+def check_7cn_distance(descriptors):
+    # Initialize a list to store the results
+    smiles_list = descriptors["Smiles_OK"]
+    frequency_7cn = []
+    
+    # Iterate over the SMILES in the specified column of the DataFrame
+    for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+            frequency_7cn.append(float('nan'))
+            continue
+
+        # Generate the molecular graph representation
+        mol_graph = Chem.RWMol(mol)
+        Chem.SanitizeMol(mol_graph)
+        mol_graph = Chem.RemoveHs(mol_graph)
+        mol_graph = Chem.GetAdjacencyMatrix(mol_graph)
+        G = nx.Graph(mol_graph)
+        
+        # Initialize the frequency counter
+        cn7_frequency = 0
+        
+        # Find all pairs of nitrogen and sulfur atoms in the molecule
+        nitrogen_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'N']
+        carbon_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'C']
+        
+        # Check for paths of length 2 between nitrogen and sulfur atoms
+        for carbon in carbon_atoms:
+            for nitrogen in nitrogen_atoms:
+                if carbon != nitrogen:
+                    # Use networkx shortest_path_length to check the shortest path length
+                    shortest_path_length = nx.shortest_path_length(G, source=carbon, target=nitrogen)
+                    if shortest_path_length == 9:
+                        cn7_frequency += 1
+        
+        # Append the result to the list
+        frequency_7cn.append(cn7_frequency)
+             
+    # Add the results as a new column in the DataFrame
+    descriptors['F09[C-N]'] = frequency_7cn
+    
+    return descriptors
 
 
 
@@ -895,6 +942,9 @@ def calc_descriptors(data, smiles_col_pos):
 
         #Perform B07[C-C] molecular descriptor calculation
         descriptors_total = check_7cc_distance(descriptors_total)
+
+        #Perform F09[C-N] descriptor calculation
+        descriptors_total = check_7cn_distance(descriptors_total)
 
         return descriptors_total, smiles_list
 
