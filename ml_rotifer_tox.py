@@ -1037,7 +1037,7 @@ def reading_reorder2(data, loaded_desc2):
     df_id2.rename(columns={'index': 'NAME'}, inplace=True)
     id2 = df_id2['NAME'] 
     # Order the DataFrame by the specified list of columns
-    test_data2 = df_selected2.reindex(columns=loaded_desc)
+    test_data2 = df_selected2.reindex(columns=loaded_desc2)
     #descriptors_total = data[loaded_desc]
 
     return test_data2, id2
