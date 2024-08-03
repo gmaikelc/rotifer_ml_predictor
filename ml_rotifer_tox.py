@@ -854,6 +854,68 @@ def check_7cn_distance(descriptors):
     
     return descriptors
 
+import pandas as pd
+from rdkit import Chem
+
+def count_alpha_hydrogens(mol):
+    """
+    Calculate the number of hydrogen atoms attached to alpha carbons in a molecule.
+    
+    Args:
+    mol (RDKit Mol): The input molecule.
+    
+    Returns:
+    int: The number of hydrogen atoms attached to alpha carbons.
+    """
+    # Add explicit hydrogens
+    mol = Chem.AddHs(mol)
+
+    alpha_h_count = 0
+
+    # Iterate over all atoms in the molecule
+    for atom in mol.GetAtoms():
+        if atom.GetAtomicNum() == 6:  # Check if the atom is a carbon
+            # Check if any neighbor is an electronegative atom (O, N, F, Cl, Br, I)
+            is_alpha = False
+            for neighbor in atom.GetNeighbors():
+                if neighbor.GetAtomicNum() in [7, 8, 9, 17, 35, 53]:
+                    is_alpha = True
+                    break
+
+            if is_alpha:
+                # Count the number of hydrogens attached to this alpha carbon
+                for neighbor in atom.GetNeighbors():
+                    if neighbor.GetAtomicNum() == 1:
+                        alpha_h_count += 1
+
+    return alpha_h_count
+
+
+#%% H-051 descriptor calculation
+def calculate_h051(descriptors):
+    # Initialize a list to store the results
+    smiles_list = descriptors["Smiles_OK"]
+    h051_counts = []
+
+    # Iterate over the SMILES in the specified column of the DataFrame
+    for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+            h051_counts.append(float('nan'))
+            continue
+
+        # Calculate the H-051 descriptor
+        h051_count = count_alpha_hydrogens(mol)
+        h051_counts.append(h051_count)
+
+    # Add the results as a new column in the DataFrame
+    descriptors['H-051'] = h051_counts
+
+    return descriptors
+
+
 
 
 #%% Calculating molecular descriptors
@@ -945,6 +1007,9 @@ def calc_descriptors(data, smiles_col_pos):
 
         #Perform F09[C-N] descriptor calculation
         descriptors_total = check_7cn_distance(descriptors_total)
+
+        #Perform H-051 descriptor calculation
+        descriptors_total = calculate_h051(descriptors_total)
 
         return descriptors_total, smiles_list
 
