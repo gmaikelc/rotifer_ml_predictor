@@ -1620,14 +1620,14 @@ mean_value = data_train['pLC50_sw'].mean()
 loaded_model = pickle.load(open("models/" + "ml_model_rotifer_sw.pickle", 'rb'))
 loaded_desc = pickle.load(open("models/" + "ml_descriptor_rotifer_sw.pickle", 'rb'))
 
-data_train2 = pd.read_csv("data/" + "data_126c_15var_pLC50_train_sw.csv")
-mean_value2 = data_train2['pLC50_sw'].mean()
-loaded_model2 = pickle.load(open("models/" + "ml_model_rotifer_sw.pickle", 'rb'))
-loaded_desc2 = pickle.load(open("models/" + "ml_descriptor_rotifer_sw.pickle", 'rb'))
-#data_train2 = pd.read_csv("data/" + "data_126c_15var_pLC50_train_fw.csv")
-#mean_value2 = data_train2['pLC50_fw'].mean()
-#loaded_model2 = pickle.load(open("models/" + "ml_model_rotifer_fw.pickle", 'rb'))
-#loaded_desc2 = pickle.load(open("models/" + "ml_descriptor_rotifer_fw.pickle", 'rb'))
+#data_train2 = pd.read_csv("data/" + "data_126c_15var_pLC50_train_sw.csv")
+#mean_value2 = data_train2['pLC50_sw'].mean()
+#loaded_model2 = pickle.load(open("models/" + "ml_model_rotifer_sw.pickle", 'rb'))
+#loaded_desc2 = pickle.load(open("models/" + "ml_descriptor_rotifer_sw.pickle", 'rb'))
+data_train2 = pd.read_csv("data/" + "data_126c_15var_pLC50_train_fw.csv")
+mean_value2 = data_train2['pLC50_fw'].mean()
+loaded_model2 = pickle.load(open("models/" + "ml_model_rotifer_fw.pickle", 'rb'))
+loaded_desc2 = pickle.load(open("models/" + "ml_descriptor_rotifer_fw.pickle", 'rb'))
 
 
 
