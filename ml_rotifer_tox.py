@@ -656,7 +656,7 @@ def check_4ocl_distance(descriptors):
 
 #%% B08[C-O] descriptor calculation
 
-def check_8co_distance(descriptors):
+def check_8co_distance(descriptors):   
     # Initialize a list to store the results
     smiles_list = descriptors["Smiles_OK"]
     distance8CO = []
@@ -700,7 +700,7 @@ def check_8co_distance(descriptors):
         distance8CO.append(presence_flag)
     
     # Add the results as a new column in the DataFrame
-    descriptors['B04[O-Cl]'] = distance8CO
+    descriptors['B08[C-O]'] = distance8CO
     
     return descriptors
 
