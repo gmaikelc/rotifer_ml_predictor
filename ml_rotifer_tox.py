@@ -738,7 +738,7 @@ def check_9cs_distance(descriptors):
         # Check for paths of length 2 between carbon and chloride atoms
         for carbon in carbon_atoms:
             for sulphur in sulphur_atoms:
-                if carbon != oxygen:
+                if carbon != sulphur:
                     # Use networkx shortest_path_length to check the shortest path length
                     shortest_path_length = nx.shortest_path_length(G, source=carbon, target=sulphur)
                     if shortest_path_length == 9:
