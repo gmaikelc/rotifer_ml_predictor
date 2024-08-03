@@ -1126,7 +1126,7 @@ def applicability_domain(x_test_normalized, x_train_normalized):
 #%% Determining Applicability Domain (AD) 2
 
 def applicability_domain2(x_test_normalized2, x_train_normalized2):
-    y_train2=data_train2['pLC50_sw']
+    y_train2=data_train2['pLC50_fw']
     X_train2 = x_train_normalized2.values
     X_test2 = x_test_normalized2.values
     # Calculate leverage and standard deviation for the training set
