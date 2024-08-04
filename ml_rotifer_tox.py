@@ -929,7 +929,7 @@ def calc_descriptors(data, smiles_col_pos):
     # Placeholder for the spinner
     with st.spinner('CALCULATING DESCRIPTORS (STEP 1 OF 3)...'):
         # Simulate a long-running computation
-        time.sleep(5)  # Sleep for 5 seconds to mimic computation
+        time.sleep(1)  # Sleep for 5 seconds to mimic computation
         # Loop through each molecule in the dataset
         for pos, row in data.iterrows():
             molecule_name = row[0]  # Assuming the first column contains the molecule names
@@ -1220,7 +1220,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
     # Placeholder for the spinner
     with st.spinner('CALCULATING PREDICTIONS (STEP 2 OF 3)...'):
         # Simulate a long-running computation
-        time.sleep(5)  # Sleep for 5 seconds to mimic computation
+        time.sleep(1)  # Sleep for 5 seconds to mimic computation
      
         X = df_test_normalized[descriptors_model]
         predictions = loaded_model.predict(X)
@@ -1291,7 +1291,7 @@ def predictions2(loaded_model2, loaded_desc2, df_test_normalized2):
     # Placeholder for the spinner
     with st.spinner('CALCULATING PREDICTIONS (STEP 2 OF 3)...'):
         # Simulate a long-running computation
-        time.sleep(5)  # Sleep for 5 seconds to mimic computation
+        time.sleep(1)  # Sleep for 5 seconds to mimic computation
      
         X2 = df_test_normalized2[descriptors_model2]
         predictions2 = loaded_model2.predict(X2)
@@ -1357,7 +1357,7 @@ def calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_s
     
     with st.spinner('CALCULATING APPLICABILITY DOMAIN (STEP 3 OF 3)...'):
         # Simulate a long-running computation
-        time.sleep(5)  # Sleep for 5 seconds to mimic computation
+        time.sleep(1)  # Sleep for 5 seconds to mimic computation
         # Getting maximum std value
         if std_residual_train.max() < 4:
             x_lim_max_std = x_std_max
@@ -1406,7 +1406,7 @@ def calculate_wp_plot_limits2(leverage_train2,std_residual_train2, x_std_max2=4,
     
     with st.spinner('CALCULATING APPLICABILITY DOMAIN (STEP 3 OF 3)...'):
         # Simulate a long-running computation
-        time.sleep(5)  # Sleep for 5 seconds to mimic computation
+        time.sleep(1)  # Sleep for 5 seconds to mimic computation
         # Getting maximum std value
         if std_residual_train2.max() < 4:
             x_lim_max_std2 = x_std_max2
