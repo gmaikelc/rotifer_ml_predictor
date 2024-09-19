@@ -295,6 +295,10 @@ def check_clcl_distance(descriptors):
     
     return descriptors
 
+
+from rdkit import Chem
+import networkx as nx
+
 def check_clc_distance(descriptors):
     # Initialize a list to store the results
     smiles_list = descriptors["Smiles_OK"]
@@ -313,8 +317,8 @@ def check_clc_distance(descriptors):
         mol_graph = Chem.RWMol(mol)
         Chem.SanitizeMol(mol_graph)
         mol_graph = Chem.RemoveHs(mol_graph)
-        mol_graph = Chem.GetAdjacencyMatrix(mol_graph)
-        G = nx.Graph(mol_graph)
+        adj_matrix = Chem.GetAdjacencyMatrix(mol_graph)
+        G = nx.Graph(adj_matrix)
         
         # Initialize the presence/absence flag
         presence_flag = 0
@@ -327,7 +331,7 @@ def check_clc_distance(descriptors):
         for carbon in carbon_atoms:
             for chloride in chloride_atoms:
                 if carbon != chloride:
-                     try:
+                    try:
                         # Use networkx shortest_path_length to check the shortest path length
                         shortest_path_length = nx.shortest_path_length(G, source=carbon, target=chloride)
                         if shortest_path_length == 2:
@@ -335,12 +339,7 @@ def check_clc_distance(descriptors):
                             break
                     except nx.NetworkXNoPath:
                         # No path between carbon and chloride atoms, so skip
-                            pass
-                    # Use networkx shortest_path_length to check the shortest path length
-                    #shortest_path_length = nx.shortest_path_length(G, source=carbon, target=chloride)
-                    #if shortest_path_length == 2:
-                     #   presence_flag = 1
-                      #  break
+                        pass
             if presence_flag == 1:
                 break
         
@@ -351,6 +350,64 @@ def check_clc_distance(descriptors):
     descriptors['B02[C-Cl]'] = distance2
     
     return descriptors
+
+
+#def check_clc_distance(descriptors):
+    # Initialize a list to store the results
+ #   smiles_list = descriptors["Smiles_OK"]
+  #  distance2 = []
+    
+    # Iterate over the SMILES in the specified column of the DataFrame
+   # for smiles in smiles_list:
+        # Convert SMILES to RDKit Mol object
+    #    mol = Chem.MolFromSmiles(smiles)
+     #   if mol is None:
+            # Append NaN if SMILES cannot be converted to a molecule
+      #      distance2.append(float('nan'))
+       #     continue
+        
+        # Generate the molecular graph representation
+        #mol_graph = Chem.RWMol(mol)
+        #Chem.SanitizeMol(mol_graph)
+        #mol_graph = Chem.RemoveHs(mol_graph)
+        #mol_graph = Chem.GetAdjacencyMatrix(mol_graph)
+        #G = nx.Graph(mol_graph)
+        
+        # Initialize the presence/absence flag
+        #presence_flag = 0
+        
+        # Find all pairs of carbon and chloride atoms in the molecule
+        #carbon_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'C']
+        #chloride_atoms = [atom.GetIdx() for atom in mol.GetAtoms() if atom.GetSymbol() == 'Cl']
+        
+        # Check for paths of length 2 between carbon and chloride atoms
+        #for carbon in carbon_atoms:
+         #   for chloride in chloride_atoms:
+          #      if carbon != chloride:
+           #          try:
+            #            # Use networkx shortest_path_length to check the shortest path length
+             #           shortest_path_length = nx.shortest_path_length(G, source=carbon, target=chloride)
+              #          if shortest_path_length == 2:
+               #             presence_flag = 1
+                #            break
+                 #   except nx.NetworkXNoPath:
+                        # No path between carbon and chloride atoms, so skip
+                  #          pass
+                    # Use networkx shortest_path_length to check the shortest path length
+                    #shortest_path_length = nx.shortest_path_length(G, source=carbon, target=chloride)
+                    #if shortest_path_length == 2:
+                     #   presence_flag = 1
+                      #  break
+            #if presence_flag == 1:
+             #   break
+        
+        # Append the result to the list
+   #     distance2.append(presence_flag)
+    
+    # Add the results as a new column in the DataFrame
+    #descriptors['B02[C-Cl]'] = distance2
+    
+    #return descriptors
 
 def check_ns_distance(descriptors):
     # Initialize a list to store the results
