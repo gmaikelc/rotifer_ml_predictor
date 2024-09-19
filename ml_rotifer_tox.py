@@ -1672,41 +1672,51 @@ if uploaded_file_1 is not None:
         #Selecting the descriptors based on model for first component
         test_data2, id_list_2 =  reading_reorder2(descriptors_total_2,loaded_desc2)
  
-                         
+        # Save DataFrame as CSV
+        csv = test_data1.to_csv(index=False)
+
+        # Provide a download button in Streamlit
+        st.download_button(
+            label="Download CSV",
+            data=csv,
+            file_name='my_dataframe.csv',
+            mime='text/csv'
+        )                                  
         
-        X_final2= test_data1
-        X_final4 = test_data2
+        #X_final2= test_data1
+        #X_final4 = test_data2
         
-        df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
-        df_train_normalized2, df_test_normalized2 = normalize_data2(train_data2, X_final4)
+        #df_train_normalized, df_test_normalized = normalize_data(train_data, X_final2)
+        #df_train_normalized2, df_test_normalized2 = normalize_data2(train_data2, X_final4)
+        
         #st.markdown(filedownload5(df_test_normalized), unsafe_allow_html=True)
         
-        final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
-        final_file2, styled_df2,leverage_train2,std_residual_train2, leverage_test2, std_residual_test2= predictions2(loaded_model2, loaded_desc2, df_test_normalized2)
+        #final_file, styled_df,leverage_train,std_residual_train, leverage_test, std_residual_test= predictions(loaded_model, loaded_desc, df_test_normalized)
+        #final_file2, styled_df2,leverage_train2,std_residual_train2, leverage_test2, std_residual_test2= predictions2(loaded_model2, loaded_desc2, df_test_normalized2)
         
-        x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
-        x_lim_max_std2, x_lim_min_std2, h_critical2, x_lim_max_lev2, x_lim_min_lev2 = calculate_wp_plot_limits2(leverage_train2,std_residual_train2, x_std_max2=4, x_std_min2=-4)
+        #x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
+        #x_lim_max_std2, x_lim_min_std2, h_critical2, x_lim_max_lev2, x_lim_min_lev2 = calculate_wp_plot_limits2(leverage_train2,std_residual_train2, x_std_max2=4, x_std_min2=-4)
         
-        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)
-        figure2  = williams_plot2(leverage_train2, leverage_test2, std_residual_train2, std_residual_test2)   
-        col1, col2 = st.columns(2)
+        #figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)
+        #figure2  = williams_plot2(leverage_train2, leverage_test2, std_residual_train2, std_residual_test2)   
+        #col1, col2 = st.columns(2)
 
-        with col1:
-            st.header("Salt Water",divider='blue')
-            st.subheader(r'Predictions')
-            st.write(styled_df)
-            st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
-            st.plotly_chart(figure,use_container_width=True)
-            st.markdown(":point_down: **Here you can download the results for Salt Water model**", unsafe_allow_html=True,)
-            st.markdown(filedownload1(final_file), unsafe_allow_html=True)
-        with col2:
-            st.header("Fresh Water",divider='blue')
-            st.subheader(r'Predictions')
-            st.write(styled_df2)
-            st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
-            st.plotly_chart(figure2,use_container_width=True)
-            st.markdown(":point_down: **Here you can download the results for Fresh Water model**", unsafe_allow_html=True,)
-            st.markdown(filedownload1(final_file2), unsafe_allow_html=True)
+        #with col1:
+         #   st.header("Salt Water",divider='blue')
+          #  st.subheader(r'Predictions')
+          #  st.write(styled_df)
+          #  st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
+          #  st.plotly_chart(figure,use_container_width=True)
+          #  st.markdown(":point_down: **Here you can download the results for Salt Water model**", unsafe_allow_html=True,)
+          #  st.markdown(filedownload1(final_file), unsafe_allow_html=True)
+        #with col2:
+         #   st.header("Fresh Water",divider='blue')
+          #  st.subheader(r'Predictions')
+           # st.write(styled_df2)
+          #  st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
+           # st.plotly_chart(figure2,use_container_width=True)
+           # st.markdown(":point_down: **Here you can download the results for Fresh Water model**", unsafe_allow_html=True,)
+           # st.markdown(filedownload1(final_file2), unsafe_allow_html=True)
         
         #st.markdown(":point_down: **Here you can download the results**", unsafe_allow_html=True,)
         #st.markdown(filedownload1(final_file), unsafe_allow_html=True)
@@ -1733,7 +1743,7 @@ else:
         #Selecting the descriptors based on model for first component
         test_data2, id_list_2 =  reading_reorder2(descriptors_total_2,loaded_desc2)
  
-                         
+
         
         X_final2= test_data1
         X_final4 = test_data2
