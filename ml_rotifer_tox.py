@@ -163,9 +163,9 @@ def charges_ph(molecule, ph):
     obConversion.ReadString(mol, molecule)
     
     # Add H, correct pH and add H again, it's the only way it works
-    mol.AddHydrogens()
-    mol.CorrectForPH(7.4)
-    mol.AddHydrogens()
+    #mol.AddHydrogens()
+    #mol.CorrectForPH(7.4)
+    #mol.AddHydrogens()
     
     # transforms the OBMOl objecto to string (SMILES)
     optimized = obConversion.WriteString(mol)
