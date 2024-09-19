@@ -1473,7 +1473,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-def williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test,
+def williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test,id_list_1,
                   plot_color='cornflowerblue', show_plot=True, save_plot=False, filename=None, add_title=False, title=None):
     fig = go.Figure()
 
@@ -1492,7 +1492,9 @@ def williams_plot(leverage_train, leverage_test, std_residual_train, std_residua
         y=std_residual_test,
         mode='markers',
         marker=dict(color='orange', size=10, line=dict(width=1, color='black')),
-        name='Prediction'
+        name='Prediction',
+        text = id_list_1, # Add compounds IDs for hover
+        hoverinfo = 'text' #Show only the text when hovering
     ))
 
     # Add horizontal and vertical dashed lines
@@ -1697,7 +1699,7 @@ if uploaded_file_1 is not None:
         x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
         x_lim_max_std2, x_lim_min_std2, h_critical2, x_lim_max_lev2, x_lim_min_lev2 = calculate_wp_plot_limits2(leverage_train2,std_residual_train2, x_std_max2=4, x_std_min2=-4)
         
-        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)
+        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test,id_list_1)
         figure2  = williams_plot2(leverage_train2, leverage_test2, std_residual_train2, std_residual_test2)   
         col1, col2 = st.columns(2)
 
@@ -1756,7 +1758,7 @@ else:
         x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
         x_lim_max_std2, x_lim_min_std2, h_critical2, x_lim_max_lev2, x_lim_min_lev2 = calculate_wp_plot_limits2(leverage_train2,std_residual_train2, x_std_max2=4, x_std_min2=-4)
         
-        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)
+        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test,id_list_1)
         figure2  = williams_plot2(leverage_train2, leverage_test2, std_residual_train2, std_residual_test2)   
         col1, col2 = st.columns(2)
 
@@ -1823,7 +1825,7 @@ if on2:
         x_lim_max_std, x_lim_min_std, h_critical, x_lim_max_lev, x_lim_min_lev = calculate_wp_plot_limits(leverage_train,std_residual_train, x_std_max=4, x_std_min=-4)
         x_lim_max_std2, x_lim_min_std2, h_critical2, x_lim_max_lev2, x_lim_min_lev2 = calculate_wp_plot_limits2(leverage_train2,std_residual_train2, x_std_max2=4, x_std_min2=-4)
         
-        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test)
+        figure  = williams_plot(leverage_train, leverage_test, std_residual_train, std_residual_test,id_list_1)
         figure2  = williams_plot2(leverage_train2, leverage_test2, std_residual_train2, std_residual_test2)   
         col1, col2 = st.columns(2)
 
