@@ -327,11 +327,20 @@ def check_clc_distance(descriptors):
         for carbon in carbon_atoms:
             for chloride in chloride_atoms:
                 if carbon != chloride:
+                     try:
+                        # Use networkx shortest_path_length to check the shortest path length
+                        shortest_path_length = nx.shortest_path_length(G, source=carbon, target=chloride)
+                        if shortest_path_length == 2:
+                            presence_flag = 1
+                            break
+                    except nx.NetworkXNoPath:
+                        # No path between carbon and chloride atoms, so skip
+                        pass
                     # Use networkx shortest_path_length to check the shortest path length
-                    shortest_path_length = nx.shortest_path_length(G, source=carbon, target=chloride)
-                    if shortest_path_length == 2:
-                        presence_flag = 1
-                        break
+                    #shortest_path_length = nx.shortest_path_length(G, source=carbon, target=chloride)
+                    #if shortest_path_length == 2:
+                     #   presence_flag = 1
+                      #  break
             if presence_flag == 1:
                 break
         
