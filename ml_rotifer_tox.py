@@ -1040,6 +1040,8 @@ def reading_reorder(data, loaded_desc):
     id = df_id['NAME'] 
     # Order the DataFrame by the specified list of columns
     test_data = df_selected.reindex(columns=loaded_desc)
+    # Fill missing values with 0
+    test_data = test_data.fillna(0)
     #descriptors_total = data[loaded_desc]
 
 
@@ -1055,6 +1057,8 @@ def reading_reorder2(data, loaded_desc2):
     # Order the DataFrame by the specified list of columns
     test_data2 = df_selected2.reindex(columns=loaded_desc2)
     #descriptors_total = data[loaded_desc]
+    # Fill missing values with 0
+    test_data2 = test_data2.fillna(0)
 
     return test_data2, id2
 
