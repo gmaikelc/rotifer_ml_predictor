@@ -1,4 +1,4 @@
-# Transfer Learning Models for Predicting the Aquatic Ecotoxicology Risk Assesment
+# Active Learning  Read-Across Models for Predicting the Aquatic Ecotoxicology Risk Assesment
 
 Author: Gerardo M Casanola-Martin & Karel Dieguez-Santana
 
