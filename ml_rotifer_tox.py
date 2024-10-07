@@ -110,7 +110,7 @@ with st.expander("**Workflow**"):
 # Sidebar - Collects user input features into dataframe
 st.sidebar.header('Upload your CSV file')
 st.sidebar.markdown("""
-[Example CSV input file](https://raw.githubusercontent.com/gmaikelc/rotifer_ml_predictor/main/example_file1.csv) 
+[Example CSV input file](https://raw.githubusercontent.com/gmaikelc/rotifer_ml_predictor/main/virtual_smi_example.csv) 
 """)
 
 uploaded_file_1 = st.sidebar.file_uploader("Upload a CSV file with SMILES and fractions", type=["csv"])
