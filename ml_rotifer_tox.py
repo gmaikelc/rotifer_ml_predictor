@@ -1626,13 +1626,13 @@ def williams_plot2(leverage_train2, leverage_test2, std_residual_train2, std_res
 def filedownload1(df):
     csv = df.to_csv(index=True,header=True)
     b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
-    href = f'<a href="data:file/csv;base64,{b64}" download="ml_toxicity_rotifer_pLC50_results.csv">Download CSV File with results</a>'
+    href = f'<a href="data:file/csv;base64,{b64}" download="ml_toxicity_rotifer_pLC50_results_saltwater.csv">Download CSV File with results</a>'
     return href
 
 def filedownload2(df):
     csv = df.to_csv(index=True,header=True)
     b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
-    href = f'<a href="data:file/csv;base64,{b64}" download="Component1 results">Download CSV File with results Component1</a>'
+    href = f'<a href="data:file/csv;base64,{b64}" download="ml_toxicity_rotifer_pLC50_results_freshwater.csv">Download CSV File with results</a>'
     return href
 
 
@@ -1720,7 +1720,7 @@ if uploaded_file_1 is not None:
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             st.plotly_chart(figure2,use_container_width=True)
             st.markdown(":point_down: **Here you can download the results for Fresh Water model**", unsafe_allow_html=True,)
-            st.markdown(filedownload1(final_file2), unsafe_allow_html=True)
+            st.markdown(filedownload2(final_file2), unsafe_allow_html=True)
         
        
 
@@ -1779,7 +1779,7 @@ else:
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             st.plotly_chart(figure2,use_container_width=True)
             st.markdown(":point_down: **Here you can download the results for Fresh Water model**", unsafe_allow_html=True,)
-            st.markdown(filedownload1(final_file2), unsafe_allow_html=True)
+            st.markdown(filedownload2(final_file2), unsafe_allow_html=True)
 
 
 
@@ -1846,7 +1846,7 @@ if on2:
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
             st.plotly_chart(figure2,use_container_width=True)
             st.markdown(":point_down: **Here you can download the results for Fresh Water model**", unsafe_allow_html=True,)
-            st.markdown(filedownload1(final_file2), unsafe_allow_html=True)
+            st.markdown(filedownload2(final_file2), unsafe_allow_html=True)
 
            
         
