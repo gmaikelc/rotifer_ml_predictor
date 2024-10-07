@@ -1728,7 +1728,7 @@ if uploaded_file_1 is not None:
 else:
     st.info('👈🏼👈🏼👈🏼   Awaiting for CSV file to be uploaded.')
     if st.button('Press to use Example CSV Dataset with smiles'):
-        data = pd.read_csv("example_file1.csv")
+        data = pd.read_csv("virtual_smi_example.csv")
         
         train_data = data_train[loaded_desc]
         train_data2 = data_train2[loaded_desc2]
