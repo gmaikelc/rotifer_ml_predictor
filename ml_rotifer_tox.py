@@ -1706,7 +1706,8 @@ if uploaded_file_1 is not None:
         col1, col2 = st.columns(2)
 
         with col1:
-            st.header("Salt Water",divider='blue')
+            st.header("Salt Water")
+            st.markdown("<hr style='border: 1px solid blue;'>", unsafe_allow_html=True)
             st.subheader(r'Predictions')
             st.write(styled_df)
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
@@ -1714,7 +1715,8 @@ if uploaded_file_1 is not None:
             st.markdown(":point_down: **Here you can download the results for Salt Water model**", unsafe_allow_html=True,)
             st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         with col2:
-            st.header("Fresh Water",divider='blue')
+            st.header("Fresh Water")
+            st.markdown("<hr style='border: 1px solid blue;'>", unsafe_allow_html=True)
             st.subheader(r'Predictions')
             st.write(styled_df2)
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
@@ -1765,7 +1767,8 @@ else:
         col1, col2 = st.columns(2)
 
         with col1:
-            st.header("Salt Water",divider='blue')
+            st.header("Salt Water")
+            st.markdown("<hr style='border: 1px solid blue;'>", unsafe_allow_html=True)
             st.subheader(r'Predictions')
             st.write(styled_df)
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
@@ -1773,7 +1776,8 @@ else:
             st.markdown(":point_down: **Here you can download the results for Salt Water model**", unsafe_allow_html=True,)
             st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         with col2:
-            st.header("Fresh Water",divider='blue')
+            st.header("Fresh Water")
+            st.markdown("<hr style='border: 1px solid blue;'>", unsafe_allow_html=True)
             st.subheader(r'Predictions')
             st.write(styled_df2)
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
@@ -1832,7 +1836,8 @@ if on2:
         col1, col2 = st.columns(2)
 
         with col1:
-            st.header("Salt Water",divider='blue')
+            st.header("Salt Water")
+            st.markdown("<hr style='border: 1px solid blue;'>", unsafe_allow_html=True)
             st.subheader(r'Predictions')
             st.write(styled_df)
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
@@ -1840,7 +1845,8 @@ if on2:
             st.markdown(":point_down: **Here you can download the results for Salt Water model**", unsafe_allow_html=True,)
             st.markdown(filedownload1(final_file), unsafe_allow_html=True)
         with col2:
-            st.header("Fresh Water",divider='blue')
+            st.header("Fresh Water")
+            st.markdown("<hr style='border: 1px solid blue;'>", unsafe_allow_html=True)
             st.subheader(r'Predictions')
             st.write(styled_df2)
             st.markdown("<h2 style='text-align: center; font-size: 30px;'>William's Plot (Applicability Domain)</h2>", unsafe_allow_html=True)
