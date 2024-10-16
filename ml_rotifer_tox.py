@@ -1785,7 +1785,7 @@ else:
 
         
 
-on2 = st.toggle('Use drawn structure',key="13")
+on2 = st.checkbox('Use drawn structure', key="13")
 with st.expander("SMILES editor"):
     drawer = st_ketcher(key="12")
     st.caption("Click on Apply to save the drawn structure as input.")
