@@ -3,7 +3,8 @@ stmol
 pandas
 Pillow
 matplotlib
-streamlit
+streamlit>=1.23,<2
+altair>=5,<6
 openbabel-wheel
 scipy
 scikit-learn
