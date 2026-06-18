@@ -1358,7 +1358,8 @@ def predictions2(loaded_model2, loaded_desc2, df_test_normalized2):
         final_file2.rename(columns={0: "Std_residual"},inplace=True)
     
         h3_2 = 3*((df_train_normalized2.shape[1]+1)/df_train_normalized2.shape[0])  ##  Mas flexible
-
+        
+        final_file2["Confidence"] = final_file2["Confidence"].astype("object")
         final_file2.loc[(final_file2["Confidence"] == True) & ((final_file2["Std_residual"] == 'Inside AD' )), 'Confidence'] = 'HIGH'
         final_file2.loc[(final_file2["Confidence"] == True) & ((final_file2["Std_residual"] == 'Outside AD')), 'Confidence'] = 'LOW'
         final_file2.loc[(final_file2["Confidence"] == False) & ((final_file["Std_residual"] == 'Outside AD')), 'Confidence'] = 'LOW'
