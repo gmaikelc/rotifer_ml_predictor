@@ -1255,7 +1255,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
 
         std_dev_test = np.sqrt(mean_squared_error(y_test, y_pred_test))
         std_residual_test = (y_test - y_pred_test) / std_dev_test
-        std_residual_test = std_residual_test.ravel()
+        std_residual_test = std_residual_test.to_numpy().ravel()
           
         std_resd.append(std_residual_test)
         
