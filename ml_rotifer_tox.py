@@ -1127,7 +1127,7 @@ def applicability_domain(x_test_normalized, x_train_normalized):
     
     std_dev_train = np.sqrt(mean_squared_error(y_train, y_pred_train))
     std_residual_train = (y_train - y_pred_train) / std_dev_train
-    std_residual_train = std_residual_train.ravel()
+    std_residual_train = std_residual_train.to_numpy().ravel()
     
     # threshold for the applicability domain
     
