@@ -1109,7 +1109,7 @@ def applicability_domain(x_test_normalized, x_train_normalized):
     # Calculate leverage and standard deviation for the training set
     hat_matrix_train = X_train @ np.linalg.inv(X_train.T @ X_train) @ X_train.T
     leverage_train = np.diagonal(hat_matrix_train)
-    leverage_train=leverage_train.to_numpy().ravel()
+    leverage_train=npasarray(leverage_train).ravel()
     
     # Calculate leverage and standard deviation for the test set
     hat_matrix_test = X_test @ np.linalg.inv(X_train.T @ X_train) @ X_test.T
@@ -1127,7 +1127,7 @@ def applicability_domain(x_test_normalized, x_train_normalized):
     
     std_dev_train = np.sqrt(mean_squared_error(y_train, y_pred_train))
     std_residual_train = (y_train - y_pred_train) / std_dev_train
-    std_residual_train = std_residual_train.to_numpy().ravel()
+    std_residual_train = npasarray(std_residual_train).ravel()
     
     # threshold for the applicability domain
     
@@ -1152,7 +1152,7 @@ def applicability_domain2(x_test_normalized2, x_train_normalized2):
     # Calculate leverage and standard deviation for the training set
     hat_matrix_train2 = X_train2 @ np.linalg.inv(X_train2.T @ X_train2) @ X_train2.T
     leverage_train2 = np.diagonal(hat_matrix_train2)
-    leverage_train2=leverage_train2.ravel()
+    leverage_train2=npasarray(leverage_train2).ravel()
     
     # Calculate leverage and standard deviation for the test set
     hat_matrix_test2 = X_test2 @ np.linalg.inv(X_train2.T @ X_train2) @ X_test2.T
@@ -1169,7 +1169,7 @@ def applicability_domain2(x_test_normalized2, x_train_normalized2):
     
     std_dev_train2 = np.sqrt(mean_squared_error(y_train2, y_pred_train2))
     std_residual_train2 = (y_train2 - y_pred_train2) / std_dev_train2
-    std_residual_train2 = std_residual_train2.ravel()
+    std_residual_train2 = npasarray(std_residual_train2).ravel()
     
     # threshold for the applicability domain
     
@@ -1255,7 +1255,7 @@ def predictions(loaded_model, loaded_desc, df_test_normalized):
 
         std_dev_test = np.sqrt(mean_squared_error(y_test, y_pred_test))
         std_residual_test = (y_test - y_pred_test) / std_dev_test
-        std_residual_test = std_residual_test.to_numpy().ravel()
+        std_residual_test = np.asarray(std_residual_test).ravel()
           
         std_resd.append(std_residual_test)
         
