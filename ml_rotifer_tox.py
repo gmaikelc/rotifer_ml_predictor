@@ -1109,12 +1109,12 @@ def applicability_domain(x_test_normalized, x_train_normalized):
     # Calculate leverage and standard deviation for the training set
     hat_matrix_train = X_train @ np.linalg.inv(X_train.T @ X_train) @ X_train.T
     leverage_train = np.diagonal(hat_matrix_train)
-    leverage_train=leverage_train.ravel()
+    leverage_train=leverage_train.to_numpy().ravel()
     
     # Calculate leverage and standard deviation for the test set
     hat_matrix_test = X_test @ np.linalg.inv(X_train.T @ X_train) @ X_test.T
     leverage_test = np.diagonal(hat_matrix_test)
-    leverage_test=leverage_test.ravel()
+    leverage_test=leverage_test.to_numpy().ravel()
 
 
     from sklearn.linear_model import LinearRegression
