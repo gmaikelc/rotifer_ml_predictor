@@ -948,7 +948,7 @@ def calc_descriptors(data, smiles_col_pos):
         time.sleep(1)  # Sleep for 5 seconds to mimic computation
         # Loop through each molecule in the dataset
         for pos, row in data.iterrows():
-            molecule_name = row[0]  # Assuming the first column contains the molecule names
+            molecule_name = row.iloc[0]  # Assuming the first column contains the molecule names
             molecule_smiles = row[smiles_col_pos]  # Assuming the specified column contains the SMILES
 
             if pd.isna(molecule_smiles) or molecule_smiles.strip() == '':
